@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.DS_Store
+*.tmp
+spike/sweep/
+out/
+
+# local only: scratch scripts and preview config
+spike/
+.claude/
+
+# packaging output
+build/
+dist/
+*.egg-info/

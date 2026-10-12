@@ -1,0 +1,4 @@
+{
+  "require": {"enable_support": "0"},
+  "forbid_features": ["Support"]
+}

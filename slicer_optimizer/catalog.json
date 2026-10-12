@@ -1,0 +1,268 @@
+{
+ "goals": {
+  "time_s": {
+   "label": "Print time",
+   "unit": "s",
+   "better": "lower",
+   "source": "slicer",
+   "want": "Faster"
+  },
+  "grams": {
+   "label": "Weight",
+   "unit": "g",
+   "better": "lower",
+   "source": "slicer",
+   "want": "Lighter"
+  },
+  "cost": {
+   "label": "Filament cost",
+   "unit": "",
+   "better": "lower",
+   "source": "slicer",
+   "want": "Cheaper"
+  },
+  "stiffness": {
+   "label": "Stiffness (flat-part proxy)",
+   "unit": "%",
+   "better": "higher",
+   "source": "proxy",
+   "explain": "Bending stiffness of the printed material per layer, relative to a solid part of the same height. Beam theory with perfect layer bonding: compare variants of one flat part, not different parts.",
+   "want": "Stronger"
+  },
+  "near_cap_s": {
+   "label": "Time at the flow cap",
+   "unit": "s",
+   "better": "lower",
+   "source": "toolpaths",
+   "explain": "Printing time at 95% or more of the filament's max volumetric speed. Less is more headroom against under-extrusion.",
+   "want": "More flow headroom"
+  }
+ },
+ "knobs": [
+  {
+   "key": "bridge_speed",
+   "label": "Bridge speed",
+   "scope": "object",
+   "values": [
+    "50",
+    "75",
+    "100"
+   ],
+   "goals": [
+    "time_s"
+   ],
+   "explain": "Speed of bridges over air or sparse infill. Faster bridges can sag; check a test print.",
+   "needs": "Bridge"
+  },
+  {
+   "key": "top_shell_layers",
+   "label": "Top shell layers",
+   "scope": "object",
+   "values": [
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "with": {
+    "top_shell_thickness": "0"
+   },
+   "goals": [
+    "time_s",
+    "grams",
+    "stiffness",
+    "cost"
+   ],
+   "explain": "Solid layers under the top surface. Fewer is faster and lighter; too few can show infill through the top.",
+   "note": "Bambu keeps at least top_shell_thickness (1 mm by default), so it is set to 0 whenever this changes.",
+   "needs": "Top surface"
+  },
+  {
+   "key": "bottom_shell_layers",
+   "label": "Bottom shell layers",
+   "scope": "object",
+   "values": [
+    "2",
+    "3",
+    "4"
+   ],
+   "with": {
+    "bottom_shell_thickness": "0"
+   },
+   "goals": [
+    "time_s",
+    "grams",
+    "stiffness",
+    "cost"
+   ],
+   "explain": "Solid layers above the bed-side surface.",
+   "note": "bottom_shell_thickness is set to 0 whenever this changes, for the same reason as the top shells.",
+   "needs": "Bottom surface"
+  },
+  {
+   "key": "sparse_infill_density",
+   "label": "Infill density",
+   "scope": "object",
+   "values": [
+    "5%",
+    "10%",
+    "15%",
+    "20%",
+    "25%"
+   ],
+   "goals": [
+    "time_s",
+    "grams",
+    "stiffness",
+    "cost"
+   ],
+   "explain": "How much plastic fills the inside.",
+   "needs": "Sparse infill"
+  },
+  {
+   "key": "sparse_infill_pattern",
+   "label": "Infill pattern",
+   "scope": "object",
+   "values": [
+    "grid",
+    "gyroid",
+    "cubic"
+   ],
+   "goals": [
+    "time_s",
+    "stiffness"
+   ],
+   "explain": "Shape of the inside fill. Gyroid has no crossings on one layer; grid crosses itself.",
+   "needs": "Sparse infill"
+  },
+  {
+   "key": "wall_loops",
+   "label": "Wall loops",
+   "scope": "object",
+   "values": [
+    "2",
+    "3",
+    "4"
+   ],
+   "goals": [
+    "time_s",
+    "grams",
+    "stiffness",
+    "cost"
+   ],
+   "explain": "Perimeters around every outline."
+  },
+  {
+   "key": "overhang_3_4_speed",
+   "label": "Speed on 50–75% overhangs",
+   "scope": "object",
+   "values": [
+    "30",
+    "40",
+    "50"
+   ],
+   "goals": [
+    "time_s"
+   ],
+   "explain": "Thin bridged features, such as fine grid bars, often print at this speed. Faster can droop; check a test print.",
+   "needs": "Overhang wall"
+  },
+  {
+   "key": "overhang_4_4_speed",
+   "label": "Speed on 75–100% overhangs",
+   "scope": "object",
+   "values": [
+    "10",
+    "20",
+    "30"
+   ],
+   "goals": [
+    "time_s"
+   ],
+   "explain": "Nearly unsupported overhangs.",
+   "needs": "Overhang wall"
+  },
+  {
+   "key": "outer_wall_speed",
+   "label": "Outer wall speed",
+   "scope": "object",
+   "values": [
+    "150",
+    "200",
+    "250"
+   ],
+   "goals": [
+    "time_s",
+    "near_cap_s"
+   ],
+   "explain": "The visible surface. Slower usually looks better.",
+   "needs": "Outer wall"
+  },
+  {
+   "key": "internal_solid_infill_speed",
+   "label": "Solid infill speed",
+   "scope": "object",
+   "values": [
+    "200",
+    "250",
+    "300"
+   ],
+   "goals": [
+    "time_s",
+    "near_cap_s"
+   ],
+   "explain": "Often capped by the filament's flow; check the Flow view.",
+   "needs": "Internal solid infill"
+  },
+  {
+   "key": "sparse_infill_speed",
+   "label": "Sparse infill speed",
+   "scope": "object",
+   "values": [
+    "200",
+    "270",
+    "350"
+   ],
+   "goals": [
+    "time_s",
+    "near_cap_s"
+   ],
+   "explain": "Often capped by the filament's flow; check the Flow view.",
+   "needs": "Sparse infill"
+  },
+  {
+   "key": "layer_height",
+   "label": "Layer height",
+   "scope": "object",
+   "values": [
+    "0.16",
+    "0.2",
+    "0.24",
+    "0.28"
+   ],
+   "goals": [
+    "time_s",
+    "stiffness"
+   ],
+   "explain": "Thicker layers print faster and show more steps on slopes and fillets.",
+   "off_by_default": "Changes how slopes and curves look; turn it on if that's fine for this part."
+  },
+  {
+   "key": "filament_max_volumetric_speed",
+   "label": "Filament flow cap",
+   "scope": "print-wide",
+   "values": [
+    "16",
+    "18",
+    "21"
+   ],
+   "goals": [
+    "time_s",
+    "near_cap_s"
+   ],
+   "explain": "The most plastic per second the slicer will ask for. Raise it only after a flow calibration: above the hotend's real limit it under-extrudes.",
+   "needs": "@flow_cap",
+   "off_by_default": "Raise the flow cap only after a flow calibration of this filament."
+  }
+ ]
+}

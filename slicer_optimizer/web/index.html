@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slicer optimizer</title>
+<link rel="icon" href="/web/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/web/app.css">
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+               "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }
+</script>
+</head>
+<body>
+<header class="top">
+  <div class="project">
+    <a class="crumb" href="/">All projects</a>
+    <h1 id="project-name">Loading project</h1>
+    <p id="project-meta" class="muted"></p>
+  </div>
+  <nav id="plates" class="plates" aria-label="Plates"></nav>
+  <div class="top-actions"><button type="button" class="ghost" id="quit">Quit</button></div>
+</header>
+<div id="banner" class="banner" role="status" hidden></div>
+
+<div class="shell">
+  <aside class="side">
+    <section aria-labelledby="runs-title">
+      <div class="side-head">
+        <h2 id="runs-title">Runs</h2>
+        <p class="muted small">A is shown on the left, B on the right</p>
+      </div>
+      <ol id="runs" class="runs"></ol>
+      <p id="runs-older" class="muted small runs-older" hidden></p>
+    </section>
+
+    <section class="try" aria-labelledby="try-title">
+      <h2 id="try-title">Try a change</h2>
+      <form id="try-form" autocomplete="off">
+        <div id="try-rows"></div>
+        <button type="button" id="try-add" class="link">Add another setting</button>
+        <label class="field">
+          <span>Apply to</span>
+          <select id="try-scope">
+            <option value="plate">The objects on this plate</option>
+            <option value="print-wide">Every plate (print-wide)</option>
+          </select>
+        </label>
+        <button type="submit" class="primary" id="try-submit">Slice this change</button>
+        <p id="try-error" class="error" role="alert"></p>
+      </form>
+      <datalist id="key-list"></datalist>
+    </section>
+  </aside>
+
+  <main class="main">
+    <nav class="tabs" role="tablist" aria-label="Views">
+      <button role="tab" data-tab="layers" aria-selected="true">Layers</button>
+      <button role="tab" data-tab="time">Time per layer</button>
+      <button role="tab" data-tab="flow">Flow</button>
+      <button role="tab" data-tab="features">Where the time goes</button>
+    </nav>
+
+    <div id="summary" class="summary"></div>
+
+    <section id="tab-layers" class="tab" role="tabpanel">
+      <div class="toolbar">
+        <label class="slider">
+          <span>Layer</span>
+          <input type="range" id="layer" min="0" max="0" value="0">
+          <output id="layer-out"></output>
+        </label>
+        <label class="field inline">
+          <span>Color by</span>
+          <select id="color-mode">
+            <option value="feature">Feature</option>
+            <option value="speed">Speed</option>
+            <option value="flow">Flow</option>
+            <option value="width">Line width</option>
+          </select>
+        </label>
+        <label class="check"><input type="checkbox" id="show-travel" aria-label="Show travel moves"> Travel moves</label>
+        <label class="check"><input type="checkbox" id="show-seams" aria-label="Show seams"> Seams</label>
+        <label class="check"><input type="checkbox" id="overlay" aria-label="Overlay A and B"> Overlay A and B</label>
+        <button type="button" id="first-layer" class="ghost">First layer by speed</button>
+        <button type="button" id="fit" class="ghost">Fit plate</button>
+      </div>
+      <div id="canvases" class="canvases">
+        <figure class="pane"><canvas id="canvas-a"></canvas><figcaption id="cap-a"></figcaption></figure>
+        <figure class="pane" id="pane-b"><canvas id="canvas-b"></canvas><figcaption id="cap-b"></figcaption></figure>
+      </div>
+      <div id="tooltip" class="tooltip" hidden></div>
+      <div id="legend" class="legend"></div>
+    </section>
+
+    <section id="tab-time" class="tab" role="tabpanel" hidden>
+      <p class="muted">Seconds per layer from the time model (it matches Bambu Studio's estimate). Click a bar to open that layer.</p>
+      <div id="time-chart" class="chart"></div>
+      <div id="time-slowest"></div>
+    </section>
+
+    <section id="tab-flow" class="tab" role="tabpanel" hidden>
+      <p class="muted">Commanded flow per layer against the filament's max volumetric speed. Time spent near the cap can't get faster by raising speeds.</p>
+      <div id="flow-chart" class="chart"></div>
+      <div id="flow-notes"></div>
+    </section>
+
+    <section id="tab-features" class="tab" role="tabpanel" hidden>
+      <div id="feature-chart" class="chart"></div>
+      <h3>Time model check</h3>
+      <p class="muted">Bambu Studio's own numbers next to this tool's estimate for the same G-code.</p>
+      <div id="feature-check"></div>
+    </section>
+  </main>
+</div>
+<script type="module" src="/web/app.js"></script>
+<script type="module" src="/web/optimize.js"></script>
+<script type="module" src="/web/designer.js"></script>
+<script type="module" src="/web/section.js"></script>
+<script type="module" src="/web/view3d.js"></script>
+<script type="module" src="/web/prints.js"></script>
+</body>
+</html>

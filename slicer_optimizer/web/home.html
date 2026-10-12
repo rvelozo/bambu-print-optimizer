@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slicer optimizer</title>
+<link rel="icon" href="/web/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/web/app.css">
+</head>
+<body>
+<header class="top home-top">
+  <div class="project">
+    <h1>Slicer optimizer</h1>
+    <p id="app-meta" class="muted">Measures Bambu Studio settings by slicing them.</p>
+  </div>
+  <div class="top-actions"><button type="button" class="ghost" id="quit">Quit</button></div>
+</header>
+
+<main class="home">
+  <section class="open-panel" aria-labelledby="open-title">
+    <h2 id="open-title">Open a project</h2>
+    <div class="open-row">
+      <button type="button" class="primary" id="pick">Choose a .3mf file</button>
+      <form id="path-form" class="path-form" autocomplete="off">
+        <label class="field"><span>Or paste its path</span>
+          <input type="text" id="path" placeholder="~/Downloads/part.3mf" spellcheck="false"></label>
+        <button type="submit" class="ghost">Open</button>
+      </form>
+    </div>
+    <p class="muted small">Any project saved by Bambu Studio works. The app slices copies of it and never writes to your file. You can also drop a .3mf on this page; the app then works on a copy of it.</p>
+    <p id="open-error" class="error" role="alert"></p>
+  </section>
+
+  <section aria-labelledby="recent-title">
+    <h2 id="recent-title">Recent projects</h2>
+    <ul id="recent" class="recent"></ul>
+  </section>
+</main>
+<script type="module" src="/web/home.js"></script>
+</body>
+</html>

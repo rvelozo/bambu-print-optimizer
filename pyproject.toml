@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bambu-print-optimizer"
+version = "0.1.0"
+description = "Optimize Bambu Studio projects for speed, weight, strength or cost, and see how each setting changes your part, with numbers from real slices."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "AGPL-3.0-only"
+license-files = ["LICENSE"]
+keywords = ["3d-printing", "bambu-studio", "slicer", "optimization", "g-code"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: MacOS",
+    "Topic :: Multimedia :: Graphics :: 3D Modeling",
+]
+dependencies = []
+
+[project.scripts]
+slicer-opt = "slicer_optimizer.cli:main"
+
+[tool.setuptools]
+packages = ["slicer_optimizer"]
+
+[tool.setuptools.package-data]
+slicer_optimizer = ["catalog.json", "web/*"]

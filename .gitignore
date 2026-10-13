@@ -5,7 +5,9 @@ __pycache__/
 spike/sweep/
 out/
 
-# local only: scratch scripts and preview config
+# local only: personal notes and paths, scratch scripts, editor and preview config
+.env.local
+CLAUDE.local.md
 spike/
 .claude/
 

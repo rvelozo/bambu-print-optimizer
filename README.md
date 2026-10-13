@@ -173,7 +173,9 @@ python3 -m unittest discover -s tests -t .
 
 Integration tests slice a reference project and compare against numbers
 measured with Bambu Studio 02.08.04.57; they run when `SLICER_OPT_V7` points at
-it and skip otherwise. `SLICER_OPT_SLOW=1` adds the slow plates.
+it and skip otherwise. `SLICER_OPT_SLOW=1` adds the slow plates. Paths like
+these can go in a git-ignored `.env.local` at the repository root, one
+`NAME=value` per line.
 
 ## License
 

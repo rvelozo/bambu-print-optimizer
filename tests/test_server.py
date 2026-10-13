@@ -143,7 +143,7 @@ class ServerApi(unittest.TestCase):
                 self.assertEqual(saved.name, "lid variant.3mf")
                 self.assertEqual(hashlib.sha256(saved.read_bytes()).hexdigest(), run["sha"])
                 self.assertEqual(asked["start_dir"], V7.parent)
-                self.assertEqual(asked["name"], "gaveta_painel_v7 - bridge_speed=100.3mf")
+                self.assertEqual(asked["name"], "gaveta_painel_v7 - Bridge 100.3mf")
                 again = self.post(f"{self.api}/runs/{run['id']}/save", {"dialog": True})  # replace: the dialog asked
                 self.assertEqual(again["saved"], res["saved"])
                 self.server.choose_save_path = lambda start_dir, name: None

@@ -1,0 +1,3908 @@
+{
+ "bambu_studio": "02.08.04.57",
+ "source": "BambuStudio src/slic3r/GUI/Tab.cpp (TabPrint::build) and src/libslic3r/PrintConfig.cpp",
+ "pages": [
+  {
+   "title": "Quality",
+   "groups": [
+    {
+     "title": "Layer height",
+     "options": [
+      {
+       "key": "layer_height"
+      },
+      {
+       "key": "initial_layer_print_height"
+      },
+      {
+       "key": "enable_mixed_color_sublayer"
+      }
+     ]
+    },
+    {
+     "title": "Line width",
+     "options": [
+      {
+       "key": "line_width"
+      },
+      {
+       "key": "initial_layer_line_width"
+      },
+      {
+       "key": "initial_layer_infill_line_width"
+      },
+      {
+       "key": "outer_wall_line_width"
+      },
+      {
+       "key": "inner_wall_line_width"
+      },
+      {
+       "key": "top_surface_line_width"
+      },
+      {
+       "key": "sparse_infill_line_width"
+      },
+      {
+       "key": "internal_solid_infill_line_width"
+      },
+      {
+       "key": "support_line_width"
+      }
+     ]
+    },
+    {
+     "title": "Seam",
+     "options": [
+      {
+       "key": "seam_position"
+      },
+      {
+       "key": "seam_placement_away_from_overhangs"
+      },
+      {
+       "key": "seam_gap"
+      },
+      {
+       "key": "seam_slope_conditional"
+      },
+      {
+       "key": "scarf_angle_threshold"
+      },
+      {
+       "key": "seam_slope_entire_loop"
+      },
+      {
+       "key": "seam_slope_steps"
+      },
+      {
+       "key": "seam_slope_inner_walls"
+      },
+      {
+       "key": "override_filament_scarf_seam_setting"
+      },
+      {
+       "key": "seam_slope_type"
+      },
+      {
+       "key": "seam_slope_start_height"
+      },
+      {
+       "key": "seam_slope_gap"
+      },
+      {
+       "key": "seam_slope_min_length"
+      },
+      {
+       "key": "wipe_speed"
+      },
+      {
+       "key": "role_base_wipe_speed"
+      }
+     ]
+    },
+    {
+     "title": "Precision",
+     "options": [
+      {
+       "key": "slice_closing_radius"
+      },
+      {
+       "key": "resolution"
+      },
+      {
+       "key": "enable_arc_fitting"
+      },
+      {
+       "key": "xy_hole_compensation"
+      },
+      {
+       "key": "xy_contour_compensation"
+      },
+      {
+       "key": "enable_circle_compensation"
+      },
+      {
+       "key": "circle_compensation_manual_offset"
+      },
+      {
+       "key": "elefant_foot_compensation"
+      },
+      {
+       "key": "precise_outer_wall"
+      },
+      {
+       "key": "precise_z_height"
+      }
+     ]
+    },
+    {
+     "title": "Ironing",
+     "options": [
+      {
+       "key": "ironing_type"
+      },
+      {
+       "key": "ironing_pattern"
+      },
+      {
+       "key": "ironing_speed"
+      },
+      {
+       "key": "ironing_flow"
+      },
+      {
+       "key": "ironing_spacing"
+      },
+      {
+       "key": "ironing_inset"
+      },
+      {
+       "key": "ironing_direction"
+      }
+     ]
+    },
+    {
+     "title": "Wall generator",
+     "options": [
+      {
+       "key": "wall_generator"
+      },
+      {
+       "key": "wall_transition_angle"
+      },
+      {
+       "key": "wall_transition_filter_deviation"
+      },
+      {
+       "key": "wall_transition_length"
+      },
+      {
+       "key": "wall_distribution_count"
+      },
+      {
+       "key": "min_bead_width"
+      },
+      {
+       "key": "min_feature_size"
+      }
+     ]
+    },
+    {
+     "title": "Advanced",
+     "options": [
+      {
+       "key": "wall_sequence"
+      },
+      {
+       "key": "is_infill_first"
+      },
+      {
+       "key": "bridge_flow"
+      },
+      {
+       "key": "thick_bridges"
+      },
+      {
+       "key": "counterbore_hole_bridging"
+      },
+      {
+       "key": "print_flow_ratio"
+      },
+      {
+       "key": "top_solid_infill_flow_ratio"
+      },
+      {
+       "key": "initial_layer_flow_ratio"
+      },
+      {
+       "key": "top_one_wall_type"
+      },
+      {
+       "key": "top_area_threshold"
+      },
+      {
+       "key": "only_one_wall_first_layer"
+      },
+      {
+       "key": "detect_overhang_wall"
+      },
+      {
+       "key": "smooth_speed_discontinuity_area"
+      },
+      {
+       "key": "smooth_coefficient"
+      },
+      {
+       "key": "reduce_crossing_wall"
+      },
+      {
+       "key": "max_travel_detour_distance"
+      },
+      {
+       "key": "avoid_crossing_wall_includes_support"
+      },
+      {
+       "key": "z_direction_outwall_speed_continuous"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Strength",
+   "groups": [
+    {
+     "title": "Walls",
+     "options": [
+      {
+       "key": "wall_loops"
+      },
+      {
+       "key": "alternate_extra_wall"
+      },
+      {
+       "key": "embedding_wall_into_infill"
+      },
+      {
+       "key": "detect_thin_wall"
+      }
+     ]
+    },
+    {
+     "title": "Top/bottom shells",
+     "options": [
+      {
+       "key": "interface_shells"
+      },
+      {
+       "key": "top_surface_pattern"
+      },
+      {
+       "key": "top_surface_density"
+      },
+      {
+       "key": "top_shell_layers"
+      },
+      {
+       "key": "top_shell_thickness"
+      },
+      {
+       "key": "top_color_penetration_layers"
+      },
+      {
+       "key": "bottom_surface_pattern"
+      },
+      {
+       "key": "bottom_surface_density"
+      },
+      {
+       "key": "bottom_shell_layers"
+      },
+      {
+       "key": "bottom_shell_thickness"
+      },
+      {
+       "key": "bottom_color_penetration_layers"
+      },
+      {
+       "key": "infill_instead_top_bottom_surfaces"
+      },
+      {
+       "key": "internal_solid_infill_pattern"
+      }
+     ]
+    },
+    {
+     "title": "Sparse infill",
+     "options": [
+      {
+       "key": "sparse_infill_density"
+      },
+      {
+       "key": "fill_multiline"
+      },
+      {
+       "key": "sparse_infill_pattern"
+      },
+      {
+       "key": "conformal_infill"
+      },
+      {
+       "key": "conformal_stagger"
+      },
+      {
+       "key": "conformal_link_keep_layers"
+      },
+      {
+       "key": "conformal_link_flip_layers"
+      },
+      {
+       "key": "conformal_pole"
+      },
+      {
+       "key": "conformal_ray_count"
+      },
+      {
+       "key": "conformal_hub_radius"
+      },
+      {
+       "key": "locked_skin_infill_pattern"
+      },
+      {
+       "key": "skin_infill_density"
+      },
+      {
+       "key": "locked_skeleton_infill_pattern"
+      },
+      {
+       "key": "skeleton_infill_density"
+      },
+      {
+       "key": "infill_lock_depth"
+      },
+      {
+       "key": "skin_infill_depth"
+      },
+      {
+       "key": "skin_infill_line_width"
+      },
+      {
+       "key": "skeleton_infill_line_width"
+      },
+      {
+       "key": "symmetric_infill_y_axis"
+      },
+      {
+       "key": "infill_shift_step"
+      },
+      {
+       "key": "sparse_infill_lattice_angle_1"
+      },
+      {
+       "key": "sparse_infill_lattice_angle_2"
+      },
+      {
+       "key": "infill_rotate_step"
+      },
+      {
+       "key": "sparse_infill_anchor"
+      },
+      {
+       "key": "sparse_infill_anchor_max"
+      },
+      {
+       "key": "filter_out_gap_fill"
+      }
+     ]
+    },
+    {
+     "title": "Advanced",
+     "options": [
+      {
+       "key": "infill_wall_overlap"
+      },
+      {
+       "key": "monotonic_travel_into_wall"
+      },
+      {
+       "key": "infill_direction"
+      },
+      {
+       "key": "bridge_angle"
+      },
+      {
+       "key": "minimum_sparse_infill_area"
+      },
+      {
+       "key": "infill_combination"
+      },
+      {
+       "key": "detect_narrow_internal_solid_infill"
+      },
+      {
+       "key": "sub_top_surface_pattern"
+      },
+      {
+       "key": "ensure_vertical_shell_thickness"
+      },
+      {
+       "key": "detect_floating_vertical_shell"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Speed",
+   "groups": [
+    {
+     "title": "Initial layer speed",
+     "options": [
+      {
+       "key": "initial_layer_speed"
+      },
+      {
+       "key": "initial_layer_infill_speed"
+      }
+     ]
+    },
+    {
+     "title": "Other layers speed",
+     "options": [
+      {
+       "key": "outer_wall_speed"
+      },
+      {
+       "key": "inner_wall_speed"
+      },
+      {
+       "key": "small_perimeter_speed"
+      },
+      {
+       "key": "small_perimeter_threshold"
+      },
+      {
+       "key": "sparse_infill_speed"
+      },
+      {
+       "key": "internal_solid_infill_speed"
+      },
+      {
+       "key": "vertical_shell_speed"
+      },
+      {
+       "key": "top_surface_speed"
+      },
+      {
+       "key": "enable_overhang_speed"
+      },
+      {
+       "key": "overhang_1_4_speed",
+       "line": "Overhang speed"
+      },
+      {
+       "key": "overhang_2_4_speed",
+       "line": "Overhang speed"
+      },
+      {
+       "key": "overhang_3_4_speed",
+       "line": "Overhang speed"
+      },
+      {
+       "key": "overhang_4_4_speed",
+       "line": "Overhang speed"
+      },
+      {
+       "key": "overhang_totally_speed",
+       "line": "Overhang speed"
+      },
+      {
+       "key": "enable_height_slowdown"
+      },
+      {
+       "key": "slowdown_start_height"
+      },
+      {
+       "key": "slowdown_start_speed"
+      },
+      {
+       "key": "slowdown_start_acc"
+      },
+      {
+       "key": "slowdown_end_height"
+      },
+      {
+       "key": "slowdown_end_speed"
+      },
+      {
+       "key": "slowdown_end_acc"
+      },
+      {
+       "key": "bridge_speed"
+      },
+      {
+       "key": "gap_infill_speed"
+      },
+      {
+       "key": "support_speed"
+      },
+      {
+       "key": "support_interface_speed"
+      }
+     ]
+    },
+    {
+     "title": "Travel speed",
+     "options": [
+      {
+       "key": "travel_speed"
+      }
+     ]
+    },
+    {
+     "title": "Acceleration",
+     "options": [
+      {
+       "key": "default_acceleration"
+      },
+      {
+       "key": "travel_acceleration"
+      },
+      {
+       "key": "travel_short_distance_acceleration"
+      },
+      {
+       "key": "initial_layer_travel_acceleration"
+      },
+      {
+       "key": "initial_layer_acceleration"
+      },
+      {
+       "key": "outer_wall_acceleration"
+      },
+      {
+       "key": "inner_wall_acceleration"
+      },
+      {
+       "key": "top_surface_acceleration"
+      },
+      {
+       "key": "sparse_infill_acceleration"
+      },
+      {
+       "key": "accel_to_decel_enable"
+      },
+      {
+       "key": "accel_to_decel_factor"
+      }
+     ]
+    },
+    {
+     "title": "Jerk(XY)",
+     "options": [
+      {
+       "key": "default_jerk"
+      },
+      {
+       "key": "outer_wall_jerk"
+      },
+      {
+       "key": "inner_wall_jerk"
+      },
+      {
+       "key": "infill_jerk"
+      },
+      {
+       "key": "top_surface_jerk"
+      },
+      {
+       "key": "initial_layer_jerk"
+      },
+      {
+       "key": "travel_jerk"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Support",
+   "groups": [
+    {
+     "title": "Support",
+     "options": [
+      {
+       "key": "enable_support"
+      },
+      {
+       "key": "support_type"
+      },
+      {
+       "key": "support_style"
+      },
+      {
+       "key": "support_threshold_angle"
+      },
+      {
+       "key": "support_on_build_plate_only"
+      },
+      {
+       "key": "support_critical_regions_only"
+      },
+      {
+       "key": "support_remove_small_overhang"
+      }
+     ]
+    },
+    {
+     "title": "Raft",
+     "options": [
+      {
+       "key": "raft_layers"
+      },
+      {
+       "key": "raft_contact_distance"
+      }
+     ]
+    },
+    {
+     "title": "Support filament",
+     "options": [
+      {
+       "key": "support_filament"
+      },
+      {
+       "key": "support_interface_filament"
+      },
+      {
+       "key": "support_interface_not_for_body"
+      }
+     ]
+    },
+    {
+     "title": "Support ironing",
+     "options": [
+      {
+       "key": "enable_support_ironing"
+      },
+      {
+       "key": "support_ironing_pattern"
+      },
+      {
+       "key": "support_ironing_speed"
+      },
+      {
+       "key": "support_ironing_flow"
+      },
+      {
+       "key": "support_ironing_spacing"
+      },
+      {
+       "key": "support_ironing_inset"
+      },
+      {
+       "key": "support_ironing_direction"
+      }
+     ]
+    },
+    {
+     "title": "Advanced",
+     "options": [
+      {
+       "key": "raft_first_layer_density"
+      },
+      {
+       "key": "raft_first_layer_expansion"
+      },
+      {
+       "key": "tree_support_wall_count"
+      },
+      {
+       "key": "support_top_z_distance"
+      },
+      {
+       "key": "support_bottom_z_distance"
+      },
+      {
+       "key": "support_base_pattern"
+      },
+      {
+       "key": "support_base_pattern_spacing"
+      },
+      {
+       "key": "support_angle"
+      },
+      {
+       "key": "support_interface_top_layers"
+      },
+      {
+       "key": "support_interface_bottom_layers"
+      },
+      {
+       "key": "support_interface_pattern"
+      },
+      {
+       "key": "support_interface_spacing"
+      },
+      {
+       "key": "support_bottom_interface_spacing"
+      },
+      {
+       "key": "support_expansion"
+      },
+      {
+       "key": "support_object_xy_distance"
+      },
+      {
+       "key": "top_z_overrides_xy_distance"
+      },
+      {
+       "key": "support_object_first_layer_gap"
+      },
+      {
+       "key": "bridge_no_support"
+      },
+      {
+       "key": "max_bridge_length"
+      },
+      {
+       "key": "independent_support_layer_height"
+      }
+     ]
+    },
+    {
+     "title": "Tree Support",
+     "options": [
+      {
+       "key": "tree_support_branch_distance"
+      },
+      {
+       "key": "tree_support_branch_diameter"
+      },
+      {
+       "key": "tree_support_branch_angle"
+      },
+      {
+       "key": "tree_support_branch_diameter_angle"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Others",
+   "groups": [
+    {
+     "title": "Bed adhension",
+     "options": [
+      {
+       "key": "skirt_loops"
+      },
+      {
+       "key": "skirt_height"
+      },
+      {
+       "key": "skirt_distance"
+      },
+      {
+       "key": "brim_type"
+      },
+      {
+       "key": "brim_width"
+      },
+      {
+       "key": "brim_object_gap"
+      }
+     ]
+    },
+    {
+     "title": "Prime tower",
+     "options": [
+      {
+       "key": "enable_prime_tower"
+      },
+      {
+       "key": "prime_tower_skip_points"
+      },
+      {
+       "key": "prime_tower_enable_framework"
+      },
+      {
+       "key": "prime_tower_width"
+      },
+      {
+       "key": "prime_tower_max_speed"
+      },
+      {
+       "key": "prime_tower_brim_width"
+      },
+      {
+       "key": "prime_tower_infill_gap"
+      },
+      {
+       "key": "prime_tower_rib_wall"
+      },
+      {
+       "key": "prime_tower_extra_rib_length"
+      },
+      {
+       "key": "prime_tower_rib_width"
+      },
+      {
+       "key": "prime_tower_fillet_wall"
+      },
+      {
+       "key": "enable_tower_interface_features"
+      },
+      {
+       "key": "wipe_tower_no_sparse_layers"
+      }
+     ]
+    },
+    {
+     "title": "Flush options",
+     "options": [
+      {
+       "key": "flush_into_infill"
+      },
+      {
+       "key": "flush_into_objects"
+      },
+      {
+       "key": "flush_into_support"
+      }
+     ]
+    },
+    {
+     "title": "Special mode",
+     "options": [
+      {
+       "key": "slicing_mode"
+      },
+      {
+       "key": "print_sequence"
+      },
+      {
+       "key": "spiral_mode"
+      },
+      {
+       "key": "spiral_mode_smooth"
+      },
+      {
+       "key": "spiral_mode_max_xy_smoothing"
+      },
+      {
+       "key": "timelapse_type"
+      },
+      {
+       "key": "fuzzy_skin"
+      },
+      {
+       "key": "fuzzy_skin_mode"
+      },
+      {
+       "key": "fuzzy_skin_noise_type"
+      },
+      {
+       "key": "fuzzy_skin_point_distance"
+      },
+      {
+       "key": "fuzzy_skin_thickness"
+      },
+      {
+       "key": "fuzzy_skin_scale"
+      },
+      {
+       "key": "fuzzy_skin_octaves"
+      },
+      {
+       "key": "fuzzy_skin_persistence"
+      },
+      {
+       "key": "fuzzy_skin_first_layer"
+      }
+     ]
+    },
+    {
+     "title": "Advanced",
+     "options": [
+      {
+       "key": "enable_wrapping_detection"
+      },
+      {
+       "key": "enable_order_independent_overlap_carving"
+      },
+      {
+       "key": "interlocking_beam"
+      },
+      {
+       "key": "mmu_segmented_region_interlocking_depth"
+      },
+      {
+       "key": "interlocking_beam_width"
+      },
+      {
+       "key": "interlocking_orientation"
+      },
+      {
+       "key": "interlocking_beam_layer_count"
+      },
+      {
+       "key": "interlocking_depth"
+      },
+      {
+       "key": "interlocking_boundary_avoidance"
+      },
+      {
+       "key": "sparse_infill_filament"
+      },
+      {
+       "key": "solid_infill_filament"
+      },
+      {
+       "key": "wall_filament"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "settings": {
+  "accel_to_decel_enable": {
+   "type": "coBool",
+   "label": "Enable accel_to_decel",
+   "tooltip": "Klipper's max_accel_to_decel will be adjusted automatically",
+   "mode": "advanced"
+  },
+  "accel_to_decel_factor": {
+   "type": "coPercent",
+   "label": "accel_to_decel",
+   "tooltip": "Klipper's max_accel_to_decel will be adjusted to this percent of acceleration",
+   "sidetext": "%",
+   "mode": "advanced",
+   "min": 1.0,
+   "max": 100.0
+  },
+  "alternate_extra_wall": {
+   "type": "coBool",
+   "label": "Alternate extra wall",
+   "tooltip": "Add an extra wall on alternating layers to improve layer bonding and part strength without the full cost of a permanent extra wall.",
+   "category": "Strength",
+   "mode": "advanced"
+  },
+  "avoid_crossing_wall_includes_support": {
+   "type": "coBool",
+   "label": "Avoid crossing wall - Includes support",
+   "tooltip": "Including support while avoiding crossing wall.",
+   "category": "Quality",
+   "mode": "advanced"
+  },
+  "bottom_color_penetration_layers": {
+   "type": "coInt",
+   "label": "Bottom paint penetration layers",
+   "tooltip": "This is the number of layers of bottom paint penetration.",
+   "category": "Strength",
+   "min": 1.0
+  },
+  "bottom_shell_layers": {
+   "type": "coInt",
+   "label": "Bottom shell layers",
+   "full_label": "Bottom shell layers",
+   "tooltip": "This is the number of solid layers of bottom shell, including the bottom surface layer. When the thickness calculated by this value is thinner than bottom shell thickness, the bottom shell layers will be increased",
+   "category": "Strength",
+   "min": 0.0
+  },
+  "bottom_shell_thickness": {
+   "type": "coFloat",
+   "label": "Bottom shell thickness",
+   "full_label": "Bottom shell thickness",
+   "tooltip": "The number of bottom solid layers is increased when slicing if the thickness calculated by bottom shells layers is thinner than this value. This can avoid having too thin shell when layer height is small. 0 means that this setting is disabled and thickness of bottom shell is absolutely determained by bottom shell layers",
+   "sidetext": "mm",
+   "category": "Strength",
+   "min": 0.0
+  },
+  "bottom_surface_density": {
+   "type": "coPercent",
+   "label": "Bottom surface density",
+   "tooltip": "Density of bottom surface infill, 100% means a fully solid filled top layer.Lower values create a textured bottom surface, Intended for aesthetic or functional purposes, not to fix issues such as over-extrusion.WARNING: Lowering this value may negatively affect bed adhesion.",
+   "sidetext": "%",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 10.0,
+   "max": 100.0
+  },
+  "bottom_surface_pattern": {
+   "type": "coEnum",
+   "label": "Bottom surface pattern",
+   "tooltip": "Line pattern of bottom surface infill, not bridge infill",
+   "category": "Strength",
+   "choices": [
+    [
+     "concentric",
+     "Concentric"
+    ],
+    [
+     "zig-zag",
+     "Rectilinear"
+    ],
+    [
+     "monotonic",
+     "Monotonic"
+    ],
+    [
+     "monotonicline",
+     "Monotonic line"
+    ],
+    [
+     "globalmonotonicline",
+     "Global monotonic line"
+    ],
+    [
+     "alignedrectilinear",
+     "Aligned Rectilinear"
+    ],
+    [
+     "hilbertcurve",
+     "Hilbert Curve"
+    ],
+    [
+     "archimedeanchords",
+     "Archimedean Chords"
+    ],
+    [
+     "octagramspiral",
+     "Octagram Spiral"
+    ]
+   ]
+  },
+  "bridge_angle": {
+   "type": "coFloat",
+   "label": "Bridge direction",
+   "tooltip": "Bridging angle override. If left to zero, the bridging angle will be calculated automatically. Otherwise the provided angle will be used for external bridges. Use 180°for zero angle.",
+   "sidetext": "°",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "bridge_flow": {
+   "type": "coFloat",
+   "label": "Bridge flow",
+   "tooltip": "Decrease this value slightly(for example 0.9) to reduce the amount of material for bridge, to improve sag",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 2.0
+  },
+  "bridge_no_support": {
+   "type": "coBool",
+   "label": "Don't support bridges",
+   "tooltip": "Don't support the whole bridge area which makes support very large. Bridge usually can be printing directly without support if not very long",
+   "category": "Support",
+   "mode": "advanced"
+  },
+  "bridge_speed": {
+   "type": "coFloats",
+   "label": "Bridge",
+   "tooltip": "Speed of bridge and completely overhang wall",
+   "sidetext": "mm/s",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "brim_object_gap": {
+   "type": "coFloat",
+   "label": "Brim-object gap",
+   "tooltip": "A gap between innermost brim line and object can make brim be removed more easily",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 2.0
+  },
+  "brim_type": {
+   "type": "coEnum",
+   "label": "Brim type",
+   "tooltip": "This controls the generation of the brim at outer and/or inner side of models. Auto means the brim width is analysed and calculated automatically.",
+   "category": "Support",
+   "mode": "simple",
+   "choices": [
+    [
+     "auto_brim",
+     "Auto"
+    ],
+    [
+     "brim_ears",
+     "Painted"
+    ],
+    [
+     "outer_only",
+     "Outer brim only"
+    ],
+    [
+     "inner_only",
+     "Inner brim only"
+    ],
+    [
+     "outer_and_inner",
+     "Outer and inner brim"
+    ],
+    [
+     "no_brim",
+     "No-brim"
+    ]
+   ]
+  },
+  "brim_width": {
+   "type": "coFloat",
+   "label": "Brim width",
+   "tooltip": "Distance from model to the outermost brim line",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "simple",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "circle_compensation_manual_offset": {
+   "type": "coFloat",
+   "label": "User Customized Offset",
+   "tooltip": "If you want to have tighter or looser assemble, you can set this value. When it is positive, it indicates tightening, otherwise, it indicates loosening",
+   "sidetext": "mm",
+   "mode": "advanced"
+  },
+  "conformal_hub_radius": {
+   "type": "coFloat",
+   "label": "Center region radius",
+   "tooltip": "Radius of the center region that uses ordinary rectilinear infill; outside this circle the infill stays radial. 0 chooses the radius automatically. A positive value is in millimeters.",
+   "sidetext": "mm",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 200.0
+  },
+  "conformal_infill": {
+   "type": "coBool",
+   "label": "Conformal infill",
+   "tooltip": "Make sparse infill follow each layer's outline instead of using one set of parallel lines. On elongated or curved shapes, lines radiate from a center. Applies to Zig Zag, Cross Zag, Rectilinear, Aligned Rectilinear, and Locked Zag skin.",
+   "category": "Strength",
+   "mode": "advanced"
+  },
+  "conformal_link_flip_layers": {
+   "type": "coInt",
+   "label": "Reverse layers",
+   "full_label": "Conformal reverse layers",
+   "tooltip": "Number of consecutive layers that reverse the zigzag (start from the opposite rim). 0 disables reversing. Forward 1 and Reverse 1 reverses every other layer.",
+   "sidetext": "layers",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 1000.0
+  },
+  "conformal_link_keep_layers": {
+   "type": "coInt",
+   "label": "Forward layers",
+   "full_label": "Conformal forward layers",
+   "tooltip": "Number of consecutive layers that keep the forward zigzag. Together with Reverse layers this repeats: N forward, then M reversed. 0 means reverse from the first layer.",
+   "sidetext": "layers",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 1000.0
+  },
+  "conformal_pole": {
+   "type": "coEnum",
+   "label": "Radial center",
+   "tooltip": "Where the radial center comes from. Each layer picks a center on that slice. Axis fits one 3D line through those centers. Smooth curve fits a curve so the center does not jump between layers.",
+   "category": "Strength",
+   "mode": "advanced",
+   "choices": [
+    [
+     "layer",
+     "Each layer"
+    ],
+    [
+     "axis",
+     "Axis"
+    ],
+    [
+     "bezier",
+     "Smooth curve"
+    ]
+   ]
+  },
+  "conformal_ray_count": {
+   "type": "coInt",
+   "label": "Radial line count",
+   "tooltip": "How many radial lines around the center. 0 uses the count from sparse infill density. A positive value is the radial line count, rounded up to an even number of at least 4.",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 1000.0
+  },
+  "conformal_stagger": {
+   "type": "coEnum",
+   "label": "Layer stagger",
+   "tooltip": "How neighboring layers are offset. Off stacks the same layout. Alternate keeps the same line directions but connects each line to the neighboring one on the opposite side, which improves interlayer bonding.",
+   "category": "Strength",
+   "mode": "advanced",
+   "choices": [
+    [
+     "none",
+     "Off"
+    ],
+    [
+     "alternate",
+     "Alternate"
+    ]
+   ]
+  },
+  "counterbore_hole_bridging": {
+   "type": "coEnum",
+   "label": "Bridge counterbore holes",
+   "tooltip": "This option creates bridges for counterbore holes, allowing them to be printed without support. Available modes include:\n1. None: No bridge is created\n2. Partially Bridged: Only a part of the unsupported area will be bridged\n3. Sacrificial Layer: A full sacrificial bridge layer is created",
+   "category": "Quality",
+   "mode": "advanced",
+   "choices": [
+    [
+     "none",
+     "None"
+    ],
+    [
+     "partiallybridge",
+     "Partially bridged"
+    ],
+    [
+     "sacrificiallayer",
+     "Sacrificial layer"
+    ]
+   ]
+  },
+  "default_acceleration": {
+   "type": "coFloats",
+   "label": "Normal printing",
+   "tooltip": "The default acceleration of both normal printing and travel except initial layer",
+   "sidetext": "mm/s²",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "default_jerk": {
+   "type": "coFloat",
+   "label": "Default",
+   "tooltip": "Default jerk",
+   "sidetext": "mm/s",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "detect_floating_vertical_shell": {
+   "type": "coBool",
+   "label": "Detect floating vertical shells",
+   "tooltip": "Detect overhang paths in vertical shells and slow them by bridge speed.",
+   "mode": "advanced"
+  },
+  "detect_narrow_internal_solid_infill": {
+   "type": "coBool",
+   "label": "Detect narrow internal solid infill",
+   "tooltip": "This option will auto detect narrow internal solid infill area. If enabled, concentric pattern will be used for the area to speed printing up. Otherwise, rectilinear pattern is used defaultly.",
+   "category": "Strength",
+   "mode": "advanced"
+  },
+  "detect_overhang_wall": {
+   "type": "coBool",
+   "label": "Detect overhang wall",
+   "tooltip": "Detect the overhang percentage relative to line width and use different speed to print. For 100 percent overhang, bridge speed is used.",
+   "category": "Quality",
+   "mode": "develop"
+  },
+  "detect_thin_wall": {
+   "type": "coBool",
+   "label": "Detect thin wall",
+   "tooltip": "Detect thin wall which can't contain two line width. And use single line to print. Maybe printed not very well, because it's not closed loop",
+   "category": "Strength",
+   "mode": "advanced"
+  },
+  "elefant_foot_compensation": {
+   "type": "coFloat",
+   "label": "Elephant foot compensation",
+   "tooltip": "Shrink the initial layer on build plate to compensate for elephant foot effect",
+   "sidetext": "mm",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "embedding_wall_into_infill": {
+   "type": "coBool",
+   "label": "Embedding the wall into the infill",
+   "tooltip": "Embedding the wall into parts where the wall loops are absent ensures that the wall connects seamlessly to the infill.",
+   "category": "Strength",
+   "mode": "advanced"
+  },
+  "enable_arc_fitting": {
+   "type": "coBool",
+   "label": "Arc fitting",
+   "tooltip": "Enable this to get a G-code file which has G2 and G3 moves. And the fitting tolerance is the same as resolution",
+   "mode": "advanced"
+  },
+  "enable_circle_compensation": {
+   "type": "coBool",
+   "label": "Auto circle contour-hole compensation",
+   "tooltip": "Expirment feature to compensate the circle holes and circle contour. This feature is used to improve the accuracy of the circle holes and contour within the diameter below 50mm. Only support PLA Basic, PLA CF, PET CF, PETG CF and PETG HF.",
+   "mode": "advanced"
+  },
+  "enable_height_slowdown": {
+   "type": "coBools",
+   "label": "Slow down by height",
+   "tooltip": "Enable this option to slow printing down by height",
+   "category": "Speed",
+   "mode": "advanced"
+  },
+  "enable_mixed_color_sublayer": {
+   "type": "coBool",
+   "label": "Mixed color sublayer",
+   "tooltip": "Enable mixed color sublayer splitting. When enabled, layers containing mixed color filaments will be split into sub-layers to achieve color mixing effects.",
+   "category": "Quality",
+   "mode": "simple"
+  },
+  "enable_order_independent_overlap_carving": {
+   "type": "coBool",
+   "label": "Order-independent overlap carving",
+   "tooltip": "When enabled, overlapping model parts are carved by bounding-box size so smaller embedded parts are not removed by larger parts due to volume order.",
+   "mode": "develop"
+  },
+  "enable_overhang_speed": {
+   "type": "coBools",
+   "label": "Slow down for overhang",
+   "tooltip": "Enable this option to slow printing down for different overhang degree",
+   "category": "Speed",
+   "mode": "advanced"
+  },
+  "enable_prime_tower": {
+   "type": "coBool",
+   "label": "Enable",
+   "tooltip": "The wiping tower can be used to clean up the residue on the nozzle and stabilize the chamber pressure inside the nozzle, in order to avoid appearance defects when printing objects.",
+   "mode": "simple"
+  },
+  "enable_support": {
+   "type": "coBool",
+   "label": "Enable support",
+   "tooltip": "Enable support generation.",
+   "category": "Support"
+  },
+  "enable_support_ironing": {
+   "type": "coBool",
+   "label": "Enable ironing support interface",
+   "tooltip": "Ironing is using small flow to print on same height of surface again to make flat surface more smooth. This setting controls whether support interface or raft interface will be ironned.Support ironing could only works on solid interface,that is, support_interface_spacing was zero and support_interface_pattern was't grid",
+   "category": "Support",
+   "mode": "develop"
+  },
+  "enable_tower_interface_features": {
+   "type": "coBool",
+   "label": "Enable tower interface features",
+   "tooltip": "When enabled, use dedicated temperature, pre-extrusion and purge settings for prime tower interface layers (where different materials meet), to improve multi-material tool change quality.",
+   "mode": "develop"
+  },
+  "enable_wrapping_detection": {
+   "type": "coBool",
+   "label": "Enable clumping detection",
+   "tooltip": "Enable clumping detection",
+   "mode": "advanced"
+  },
+  "ensure_vertical_shell_thickness": {
+   "type": "coEnum",
+   "label": "Ensure vertical shell thickness",
+   "tooltip": "Add solid infill near sloping surfaces to guarantee the vertical shell thickness (top+bottom solid layers)",
+   "category": "Strength",
+   "mode": "advanced",
+   "choices": [
+    [
+     "disabled",
+     "Disabled"
+    ],
+    [
+     "partial",
+     "Partial"
+    ],
+    [
+     "enabled",
+     "Enabled"
+    ]
+   ]
+  },
+  "fill_multiline": {
+   "type": "coInt",
+   "label": "Fill multiline",
+   "tooltip": "Using multiple lines for the infill pattern, if supported by infill pattern.",
+   "category": "Strength",
+   "min": 1.0,
+   "max": 5.0
+  },
+  "filter_out_gap_fill": {
+   "type": "coFloat",
+   "label": "Filter out tiny gaps",
+   "tooltip": "Filter out gaps smaller than the threshold specified. Gaps smaller than this threshold will be ignored",
+   "sidetext": "mm",
+   "mode": "develop"
+  },
+  "flush_into_infill": {
+   "type": "coBool",
+   "label": "Flush into objects' infill",
+   "tooltip": "Purging after filament change will be done inside objects' infills. This may lower the amount of waste and decrease the print time. If the walls are printed with transparent filament, the mixed color infill will be seen outside. It will not take effect, unless the prime tower is enabled.",
+   "category": "Flush options"
+  },
+  "flush_into_objects": {
+   "type": "coBool",
+   "label": "Flush into this object",
+   "tooltip": "This object will be used to purge the nozzle after a filament change to save filament and decrease the print time. Colours of the objects will be mixed as a result. It will not take effect, unless the prime tower is enabled.",
+   "category": "Flush options"
+  },
+  "flush_into_support": {
+   "type": "coBool",
+   "label": "Flush into objects' support",
+   "tooltip": "Purging after filament change will be done inside objects' support. This may lower the amount of waste and decrease the print time. It will not take effect, unless the prime tower is enabled.",
+   "category": "Flush options"
+  },
+  "fuzzy_skin": {
+   "type": "coEnum",
+   "label": "Fuzzy Skin",
+   "tooltip": "Randomly jitter while printing the wall, so that the surface has a rough look. This setting controls the fuzzy position",
+   "category": "Others",
+   "mode": "simple",
+   "choices": [
+    [
+     "none",
+     "None(allow paint)"
+    ],
+    [
+     "external",
+     "Contour"
+    ],
+    [
+     "all",
+     "Contour and hole"
+    ],
+    [
+     "allwalls",
+     "All walls"
+    ],
+    [
+     "disabled_fuzzy",
+     "Disabled"
+    ]
+   ]
+  },
+  "fuzzy_skin_first_layer": {
+   "type": "coBool",
+   "label": "Apply fuzzy skin to first layer",
+   "tooltip": "Whether to apply fuzzy skin on the first layer.",
+   "category": "Others",
+   "mode": "simple"
+  },
+  "fuzzy_skin_mode": {
+   "type": "coEnum",
+   "label": "Fuzzy skin generator mode",
+   "tooltip": "Displacement: Pattern is formed by shifting the nozzle sideways from the original path.\nExtrusion: Pattern is formed by varying the amount of extruded plastic (nozzle path stays straight).\nCombined: Displacement + Extrusion. Similar look to Displacement but fills gaps between perimeters.\nNote: Extrusion and Combined only work when fuzzy skin thickness is not greater than the printed line width.",
+   "category": "Others",
+   "mode": "simple",
+   "choices": [
+    [
+     "displacement",
+     "Displacement"
+    ],
+    [
+     "extrusion",
+     "Extrusion"
+    ],
+    [
+     "combined",
+     "Combined"
+    ]
+   ]
+  },
+  "fuzzy_skin_noise_type": {
+   "type": "coEnum",
+   "label": "Fuzzy skin noise type",
+   "tooltip": "Noise type to use for fuzzy skin generation:\nClassic: Classic uniform random noise.\nPerlin: Perlin noise, which gives a more consistent texture.\nBillow: Similar to perlin noise, but clumpier.\nRidged Multifractal: Ridged noise with sharp, jagged features. Creates marble-like textures.\nVoronoi: Divides the surface into voronoi cells, and displaces each one by a random amount. Creates a patchwork texture.",
+   "category": "Others",
+   "mode": "simple",
+   "choices": [
+    [
+     "classic",
+     "Classic"
+    ],
+    [
+     "perlin",
+     "Perlin"
+    ],
+    [
+     "billow",
+     "Billow"
+    ],
+    [
+     "ridgedmulti",
+     "Ridged Multifractal"
+    ],
+    [
+     "voronoi",
+     "Voronoi"
+    ]
+   ]
+  },
+  "fuzzy_skin_octaves": {
+   "type": "coInt",
+   "label": "Fuzzy skin noise octaves",
+   "tooltip": "The number of octaves of coherent noise to use. Higher values increase the detail of the noise, but also increase computation time.",
+   "category": "Others",
+   "mode": "advanced",
+   "min": 1.0,
+   "max": 10.0
+  },
+  "fuzzy_skin_persistence": {
+   "type": "coFloat",
+   "label": "Fuzzy skin noise persistence",
+   "tooltip": "The decay rate for higher octaves of the coherent noise. Lower values will result in smoother noise.",
+   "category": "Others",
+   "mode": "advanced",
+   "min": 0.01,
+   "max": 1.0
+  },
+  "fuzzy_skin_point_distance": {
+   "type": "coFloat",
+   "label": "Fuzzy skin point distance",
+   "tooltip": "The average distance between the random points introduced on each line segment",
+   "sidetext": "mm",
+   "category": "Others",
+   "mode": "simple",
+   "min": 0.0,
+   "max": 5.0
+  },
+  "fuzzy_skin_scale": {
+   "type": "coFloat",
+   "label": "Fuzzy skin feature size",
+   "tooltip": "The base size of the coherent noise features, in mm. Higher values will result in larger features.",
+   "sidetext": "mm",
+   "category": "Others",
+   "mode": "advanced",
+   "min": 0.1,
+   "max": 500.0
+  },
+  "fuzzy_skin_thickness": {
+   "type": "coFloat",
+   "label": "Fuzzy skin thickness",
+   "tooltip": "The width within which to jitter. It's adversed to be below outer wall line width",
+   "sidetext": "mm",
+   "category": "Others",
+   "mode": "simple",
+   "min": 0.0,
+   "max": 1.0
+  },
+  "gap_infill_speed": {
+   "type": "coFloats",
+   "label": "Gap infill",
+   "tooltip": "Speed of gap infill. Gap usually has irregular line width and should be printed more slowly",
+   "sidetext": "mm/s",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "independent_support_layer_height": {
+   "type": "coBool",
+   "label": "Independent support layer height",
+   "tooltip": "Support layer uses layer height independent with object layer. This is to support customizing z-gap and save print time.This option will be invalid when the prime tower is enabled.",
+   "category": "Support",
+   "mode": "advanced"
+  },
+  "infill_combination": {
+   "type": "coBool",
+   "label": "Infill combination",
+   "tooltip": "Automatically Combine sparse infill of several layers to print together to reduce time. Wall is still printed with original layer height.",
+   "category": "Strength",
+   "mode": "advanced"
+  },
+  "infill_direction": {
+   "type": "coFloat",
+   "label": "Infill direction",
+   "tooltip": "Angle for sparse infill pattern, which controls the start or main direction of line",
+   "sidetext": "°",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 360.0
+  },
+  "infill_instead_top_bottom_surfaces": {
+   "type": "coBool",
+   "label": "Use infill instead of top and bottom surfaces",
+   "tooltip": "Using infill instead of top and bottom surfaces.",
+   "category": "Strength"
+  },
+  "infill_jerk": {
+   "type": "coFloat",
+   "label": "Infill",
+   "tooltip": "Jerk of infill",
+   "sidetext": "mm/s",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "infill_lock_depth": {
+   "type": "coFloat",
+   "label": "Infill lock depth",
+   "tooltip": "The parameter sets the overlapping depth between the interior and skin.",
+   "sidetext": "mm",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "infill_rotate_step": {
+   "type": "coFloat",
+   "label": "Infill rotate step",
+   "tooltip": "This parameter adds a slight rotation to each layer of infill to create a cross texture.",
+   "sidetext": "°",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 360.0
+  },
+  "infill_shift_step": {
+   "type": "coFloat",
+   "label": "Infill shift step",
+   "tooltip": "This parameter adds a slight displacement to each layer of infill to create a cross texture.",
+   "sidetext": "mm",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 10.0
+  },
+  "infill_wall_overlap": {
+   "type": "coPercent",
+   "label": "Infill/Wall overlap",
+   "tooltip": "Infill area is enlarged slightly to overlap with wall for better bonding. The percentage value is relative to line width of sparse infill",
+   "sidetext": "%",
+   "category": "Strength",
+   "mode": "advanced"
+  },
+  "initial_layer_acceleration": {
+   "type": "coFloats",
+   "label": "Initial layer",
+   "tooltip": "Acceleration of initial layer. Using a lower value can improve build plate adhensive",
+   "sidetext": "mm/s²",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "initial_layer_flow_ratio": {
+   "type": "coFloat",
+   "label": "Initial layer flow ratio",
+   "tooltip": "This factor affects the amount of material for the initial layer",
+   "category": "Quality",
+   "mode": "develop",
+   "min": 0.0,
+   "max": 2.0
+  },
+  "initial_layer_infill_line_width": {
+   "type": "coFloat",
+   "label": "Initial layer infill",
+   "tooltip": "Line width of the infill of initial layer, including sparse infill, solid infill and top surface. Walls, support and everything else of the initial layer are not affected and keep using the line width of initial layer. Zero means to use the line width of initial layer.",
+   "sidetext": "mm",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "initial_layer_infill_speed": {
+   "type": "coFloats",
+   "label": "Initial layer infill",
+   "tooltip": "Speed of solid infill part of initial layer",
+   "sidetext": "mm/s",
+   "mode": "advanced",
+   "min": 1.0
+  },
+  "initial_layer_jerk": {
+   "type": "coFloat",
+   "label": "First layer",
+   "tooltip": "Jerk of first layer",
+   "sidetext": "mm/s",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "initial_layer_line_width": {
+   "type": "coFloat",
+   "label": "Initial layer",
+   "tooltip": "Line width of initial layer",
+   "sidetext": "mm",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "initial_layer_print_height": {
+   "type": "coFloat",
+   "label": "Initial layer height",
+   "tooltip": "Height of initial layer. Making initial layer height thick slightly can improve build plate adhension",
+   "sidetext": "mm",
+   "category": "Quality",
+   "min": 0.0
+  },
+  "initial_layer_speed": {
+   "type": "coFloats",
+   "label": "Initial layer",
+   "tooltip": "Speed of initial layer except the solid infill part",
+   "sidetext": "mm/s",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "initial_layer_travel_acceleration": {
+   "type": "coFloats",
+   "label": "Initial layer travel",
+   "tooltip": "The acceleration of travel of initial layer",
+   "sidetext": "mm/s²",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "inner_wall_acceleration": {
+   "type": "coFloats",
+   "label": "Inner wall",
+   "tooltip": "Acceleration of inner walls. 0 means using normal printing acceleration",
+   "sidetext": "mm/s²",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "inner_wall_jerk": {
+   "type": "coFloat",
+   "label": "Inner wall",
+   "tooltip": "Jerk of inner walls",
+   "sidetext": "mm/s",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "inner_wall_line_width": {
+   "type": "coFloat",
+   "label": "Inner wall",
+   "tooltip": "Line width of inner wall",
+   "sidetext": "mm",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "inner_wall_speed": {
+   "type": "coFloats",
+   "label": "Inner wall",
+   "tooltip": "Speed of inner wall",
+   "sidetext": "mm/s",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "interface_shells": {
+   "type": "coBool",
+   "label": "Interface shells",
+   "tooltip": "Force the generation of solid shells between adjacent materials/volumes. Useful for multi-extruder prints with translucent materials or manual soluble support material",
+   "category": "Quality",
+   "mode": "develop"
+  },
+  "interlocking_beam": {
+   "type": "coBool",
+   "label": "Use beam interlocking",
+   "tooltip": "Generate interlocking beam structure at the locations where different filaments touch. This improves the adhesion between filaments, especially models printed in different materials.",
+   "category": "Advanced",
+   "mode": "advanced"
+  },
+  "interlocking_beam_layer_count": {
+   "type": "coInt",
+   "label": "Interlocking beam layers",
+   "tooltip": "The height of the beams of the interlocking structure, measured in number of layers. Less layers is stronger, but more prone to defects.",
+   "category": "Advanced",
+   "mode": "advanced",
+   "min": 1.0
+  },
+  "interlocking_beam_width": {
+   "type": "coFloat",
+   "label": "Interlocking beam width",
+   "tooltip": "The width of the interlocking structure beams.",
+   "sidetext": "mm",
+   "category": "Advanced",
+   "mode": "advanced",
+   "min": 0.01
+  },
+  "interlocking_boundary_avoidance": {
+   "type": "coInt",
+   "label": "Interlocking boundary avoidance",
+   "tooltip": "The distance from the outside of a model where interlocking structures will not be generated, measured in cells.",
+   "category": "Advanced",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "interlocking_depth": {
+   "type": "coInt",
+   "label": "Interlocking depth",
+   "tooltip": "The distance from the boundary between filaments to generate interlocking structure, measured in cells. Too few cells will result in poor adhesion.",
+   "category": "Advanced",
+   "mode": "advanced",
+   "min": 1.0
+  },
+  "interlocking_orientation": {
+   "type": "coFloat",
+   "label": "Interlocking direction",
+   "tooltip": "Orientation of interlock beams.",
+   "sidetext": "°",
+   "category": "Advanced",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 360.0
+  },
+  "internal_solid_infill_line_width": {
+   "type": "coFloat",
+   "label": "Internal solid infill",
+   "tooltip": "Line width of internal solid infill",
+   "sidetext": "mm",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "internal_solid_infill_pattern": {
+   "type": "coEnum",
+   "label": "Internal solid infill pattern",
+   "tooltip": "Line pattern of internal solid infill. if the detect narrow internal solid infill be enabled, the concentric pattern will be used for the small area.",
+   "category": "Strength",
+   "choices": [
+    [
+     "concentric",
+     "Concentric"
+    ],
+    [
+     "zig-zag",
+     "Rectilinear"
+    ],
+    [
+     "monotonic",
+     "Monotonic"
+    ],
+    [
+     "monotonicline",
+     "Monotonic line"
+    ],
+    [
+     "globalmonotonicline",
+     "Global monotonic line"
+    ],
+    [
+     "alignedrectilinear",
+     "Aligned Rectilinear"
+    ],
+    [
+     "hilbertcurve",
+     "Hilbert Curve"
+    ],
+    [
+     "archimedeanchords",
+     "Archimedean Chords"
+    ],
+    [
+     "octagramspiral",
+     "Octagram Spiral"
+    ]
+   ]
+  },
+  "internal_solid_infill_speed": {
+   "type": "coFloats",
+   "label": "Internal solid infill",
+   "tooltip": "Speed of internal solid infill, not the top and bottom surface",
+   "sidetext": "mm/s",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "ironing_direction": {
+   "type": "coFloat",
+   "label": "ironing direction",
+   "tooltip": "Angle for ironing, which controls the relative angle between the top surface and ironing",
+   "sidetext": "°",
+   "category": "Quality",
+   "mode": "develop",
+   "min": 0.0,
+   "max": 360.0
+  },
+  "ironing_flow": {
+   "type": "coPercent",
+   "label": "Ironing flow",
+   "tooltip": "The amount of material to extrude during ironing. Relative to flow of normal layer height. Too high value results in overextrusion on the surface",
+   "sidetext": "%",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "ironing_inset": {
+   "type": "coFloat",
+   "label": "Ironing inset",
+   "tooltip": "The distance to keep the from the edges of ironing line. 0 means not apply.",
+   "sidetext": "mm",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "ironing_pattern": {
+   "type": "coEnum",
+   "label": "Ironing Pattern",
+   "category": "Quality",
+   "mode": "advanced",
+   "choices": [
+    [
+     "concentric",
+     "Concentric"
+    ],
+    [
+     "zig-zag",
+     "Rectilinear"
+    ],
+    [
+     "ironingarchimedeanspiral",
+     "Archimedean Chords"
+    ]
+   ]
+  },
+  "ironing_spacing": {
+   "type": "coFloat",
+   "label": "Ironing line spacing",
+   "tooltip": "The distance between the lines of ironing",
+   "sidetext": "mm",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 1.0
+  },
+  "ironing_speed": {
+   "type": "coFloat",
+   "label": "Ironing speed",
+   "tooltip": "Print speed of ironing lines",
+   "sidetext": "mm/s",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "ironing_type": {
+   "type": "coEnum",
+   "label": "Ironing Type",
+   "tooltip": "Ironing is using small flow to print on same height of surface again to make flat surface more smooth. This setting controls which layer being ironed",
+   "category": "Quality",
+   "mode": "advanced",
+   "choices": [
+    [
+     "no ironing",
+     "No ironing"
+    ],
+    [
+     "top",
+     "Top surfaces"
+    ],
+    [
+     "topmost",
+     "Topmost surface"
+    ],
+    [
+     "solid",
+     "All solid layer"
+    ]
+   ]
+  },
+  "is_infill_first": {
+   "type": "coBool",
+   "label": "Print infill first",
+   "tooltip": "Order of wall/infill. false means print wall first. ",
+   "category": "Quality",
+   "mode": "advanced"
+  },
+  "layer_height": {
+   "type": "coFloat",
+   "label": "Layer height",
+   "tooltip": "Slicing height for each layer. Smaller layer height means more accurate and more printing time",
+   "sidetext": "mm",
+   "category": "Quality",
+   "min": 0.0
+  },
+  "line_width": {
+   "type": "coFloat",
+   "label": "Default",
+   "tooltip": "Default line width if some line width is set to be zero",
+   "sidetext": "mm",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 10.0
+  },
+  "locked_skeleton_infill_pattern": {
+   "type": "coEnum",
+   "label": "Skeleton infill pattern",
+   "tooltip": "Line pattern for skeleton",
+   "category": "Strength",
+   "choices": [
+    [
+     "concentric",
+     "Concentric"
+    ],
+    [
+     "zig-zag",
+     "Rectilinear"
+    ],
+    [
+     "grid",
+     "Grid"
+    ],
+    [
+     "line",
+     "Line"
+    ],
+    [
+     "cubic",
+     "Cubic"
+    ],
+    [
+     "triangles",
+     "Triangles"
+    ],
+    [
+     "tri-hexagon",
+     "Tri-hexagon"
+    ],
+    [
+     "gyroid",
+     "Gyroid"
+    ],
+    [
+     "honeycomb",
+     "Honeycomb"
+    ],
+    [
+     "alignedrectilinear",
+     "Aligned Rectilinear"
+    ],
+    [
+     "3dhoneycomb",
+     "3D Honeycomb"
+    ],
+    [
+     "hilbertcurve",
+     "Hilbert Curve"
+    ],
+    [
+     "archimedeanchords",
+     "Archimedean Chords"
+    ],
+    [
+     "octagramspiral",
+     "Octagram Spiral"
+    ],
+    [
+     "crosshatch",
+     "Cross Hatch"
+    ],
+    [
+     "zigzag",
+     "Zig Zag"
+    ],
+    [
+     "crosszag",
+     "Cross Zag"
+    ]
+   ]
+  },
+  "locked_skin_infill_pattern": {
+   "type": "coEnum",
+   "label": "Skin infill pattern",
+   "tooltip": "Line pattern for skin",
+   "category": "Strength",
+   "choices": [
+    [
+     "concentric",
+     "Concentric"
+    ],
+    [
+     "zig-zag",
+     "Rectilinear"
+    ],
+    [
+     "grid",
+     "Grid"
+    ],
+    [
+     "line",
+     "Line"
+    ],
+    [
+     "cubic",
+     "Cubic"
+    ],
+    [
+     "triangles",
+     "Triangles"
+    ],
+    [
+     "tri-hexagon",
+     "Tri-hexagon"
+    ],
+    [
+     "gyroid",
+     "Gyroid"
+    ],
+    [
+     "honeycomb",
+     "Honeycomb"
+    ],
+    [
+     "alignedrectilinear",
+     "Aligned Rectilinear"
+    ],
+    [
+     "3dhoneycomb",
+     "3D Honeycomb"
+    ],
+    [
+     "hilbertcurve",
+     "Hilbert Curve"
+    ],
+    [
+     "archimedeanchords",
+     "Archimedean Chords"
+    ],
+    [
+     "octagramspiral",
+     "Octagram Spiral"
+    ],
+    [
+     "crosshatch",
+     "Cross Hatch"
+    ],
+    [
+     "zigzag",
+     "Zig Zag"
+    ],
+    [
+     "crosszag",
+     "Cross Zag"
+    ]
+   ]
+  },
+  "max_bridge_length": {
+   "type": "coFloat",
+   "label": "Max bridge length",
+   "tooltip": "Max length of bridges that don't need support. Set it to 0 if you want all bridges to be supported, and set it to a very large value if you don't want any bridges to be supported.",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "max_travel_detour_distance": {
+   "type": "coFloatOrPercent",
+   "label": "Avoid crossing wall - Max detour length",
+   "tooltip": "Maximum detour distance for avoiding crossing wall. Don't detour if the detour distance is larger than this value. Detour length could be specified either as an absolute value or as percentage (for example 50%) of a direct travel path. Zero to disable",
+   "sidetext": "mm or %",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "min_bead_width": {
+   "type": "coPercent",
+   "label": "Minimum wall width",
+   "tooltip": "Width of the wall that will replace thin features (according to the Minimum feature size) of the model. If the Minimum wall width is thinner than the thickness of the feature, the wall will become as thick as the feature itself. It's expressed as a percentage over nozzle diameter",
+   "sidetext": "%",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "min_feature_size": {
+   "type": "coPercent",
+   "label": "Minimum feature size",
+   "tooltip": "Minimum thickness of thin features. Model features that are thinner than this value will not be printed, while features thicker than the Minimum feature size will be widened to the Minimum wall width. It's expressed as a percentage over nozzle diameter",
+   "sidetext": "%",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "minimum_sparse_infill_area": {
+   "type": "coFloat",
+   "label": "Minimum sparse infill threshold",
+   "tooltip": "Sparse infill area which is smaller than threshold value is replaced by internal solid infill",
+   "sidetext": "mm²",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "mmu_segmented_region_interlocking_depth": {
+   "type": "coFloat",
+   "label": "Interlocking depth of a segmented region",
+   "tooltip": "Interlocking depth of a segmented region. Zero disables this feature.",
+   "sidetext": "mm",
+   "category": "Advanced",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "monotonic_travel_into_wall": {
+   "type": "coPercent",
+   "label": "Monotonic line travel extend",
+   "tooltip": "Enable this option to extend the travel distance between lines, improving the adhesion between the monotonic line infill and the walls.(percent to line width)",
+   "sidetext": "%",
+   "category": "Strength",
+   "mode": "develop",
+   "min": 0.0,
+   "max": 200.0
+  },
+  "only_one_wall_first_layer": {
+   "type": "coBool",
+   "label": "Only one wall on first layer",
+   "tooltip": "Use only one wall on the first layer of model",
+   "category": "Quality"
+  },
+  "outer_wall_acceleration": {
+   "type": "coFloats",
+   "label": "Outer wall",
+   "tooltip": "Acceleration of outer wall. Using a lower value can improve quality",
+   "sidetext": "mm/s²",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "outer_wall_jerk": {
+   "type": "coFloat",
+   "label": "Outer wall",
+   "tooltip": "Jerk of outer walls",
+   "sidetext": "mm/s",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "outer_wall_line_width": {
+   "type": "coFloat",
+   "label": "Outer wall",
+   "tooltip": "Line width of outer wall",
+   "sidetext": "mm",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "outer_wall_speed": {
+   "type": "coFloats",
+   "label": "Outer wall",
+   "tooltip": "Speed of outer wall which is outermost and visible. It's used to be slower than inner wall speed to get better quality.",
+   "sidetext": "mm/s",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "overhang_1_4_speed": {
+   "type": "coFloats",
+   "label": "10%",
+   "full_label": "10%",
+   "sidetext": "mm/s",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "overhang_2_4_speed": {
+   "type": "coFloats",
+   "label": "25%",
+   "full_label": "25%",
+   "sidetext": "mm/s",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "overhang_3_4_speed": {
+   "type": "coFloats",
+   "label": "50%",
+   "full_label": "50%",
+   "sidetext": "mm/s",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "overhang_4_4_speed": {
+   "type": "coFloats",
+   "label": "75%",
+   "full_label": "75%",
+   "sidetext": "mm/s",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "overhang_totally_speed": {
+   "type": "coFloats",
+   "label": "100%",
+   "full_label": "100%",
+   "tooltip": "Speed of 100% overhang wall which has 0 overlap with the lower layer.",
+   "sidetext": "mm/s",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "override_filament_scarf_seam_setting": {
+   "type": "coBool",
+   "label": "Override filament scarf seam setting",
+   "tooltip": "Overrider filament scarf seam setting and could control settings by modifier.",
+   "category": "Quality",
+   "mode": "advanced"
+  },
+  "precise_outer_wall": {
+   "type": "coBool",
+   "label": "Precise wall",
+   "tooltip": "Improve shell precision by adjusting outer wall spacing. This also improves layer consistency.",
+   "category": "Quality",
+   "mode": "develop"
+  },
+  "precise_z_height": {
+   "type": "coBool",
+   "label": "Precise Z height",
+   "tooltip": "Enable this to get precise z height of object after slicing. It will get the precise object height by fine-tuning the layer heights of the last few layers. Note that this is an experimental parameter.",
+   "mode": "advanced"
+  },
+  "prime_tower_brim_width": {
+   "type": "coFloat",
+   "label": "Brim width",
+   "tooltip": "Brim width of prime tower, negative number means auto calculated width based on the height of prime tower.",
+   "sidetext": "mm",
+   "mode": "advanced",
+   "min": -1.0,
+   "choices": [
+    [
+     "-1",
+     "Auto"
+    ]
+   ]
+  },
+  "prime_tower_enable_framework": {
+   "type": "coBool",
+   "label": "Internal ribs",
+   "tooltip": "Enable internal ribs to increase the stability of the prime tower.",
+   "mode": "advanced"
+  },
+  "prime_tower_extra_rib_length": {
+   "type": "coFloat",
+   "label": "Extra rib length",
+   "tooltip": "Positive values can increase the size of the rib wall, while negative values can reduce the size.However, the size of the rib wall can not be smaller than that determined by the cleaning volume.",
+   "sidetext": "mm",
+   "mode": "advanced",
+   "max": 300.0
+  },
+  "prime_tower_fillet_wall": {
+   "type": "coBool",
+   "label": "Fillet wall",
+   "tooltip": "The wall of prime tower will fillet",
+   "mode": "advanced"
+  },
+  "prime_tower_infill_gap": {
+   "type": "coPercent",
+   "label": "Infill gap",
+   "tooltip": "Infill gap",
+   "sidetext": "%",
+   "mode": "advanced",
+   "min": 100.0
+  },
+  "prime_tower_max_speed": {
+   "type": "coFloat",
+   "label": "Max speed",
+   "tooltip": "The maximum printing speed on the prime tower excluding ramming.",
+   "sidetext": "mm/s",
+   "mode": "advanced",
+   "min": 10.0
+  },
+  "prime_tower_rib_wall": {
+   "type": "coBool",
+   "label": "Rib wall",
+   "tooltip": "The wall of prime tower will add four ribs and make its cross-section as close to a square as possible, so the width will be fixed.",
+   "mode": "advanced"
+  },
+  "prime_tower_rib_width": {
+   "type": "coFloat",
+   "label": "Rib width",
+   "tooltip": "Rib width is always less than half the prime tower side length.",
+   "sidetext": "mm",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 300.0
+  },
+  "prime_tower_skip_points": {
+   "type": "coBool",
+   "label": "Skip points",
+   "tooltip": "The wall of prime tower will skip the start points of wipe path",
+   "mode": "advanced"
+  },
+  "prime_tower_width": {
+   "type": "coFloat",
+   "label": "Width",
+   "tooltip": "Width of prime tower",
+   "sidetext": "mm",
+   "mode": "simple",
+   "min": 2.0
+  },
+  "print_flow_ratio": {
+   "type": "coFloat",
+   "label": "Object flow ratio",
+   "tooltip": "The flow ratio set by object, the meaning is the same as flow ratio.",
+   "category": "Quality",
+   "mode": "develop",
+   "min": 0.01,
+   "max": 2.0
+  },
+  "print_sequence": {
+   "type": "coEnum",
+   "label": "Print sequence",
+   "tooltip": "Print sequence, layer by layer or object by object",
+   "mode": "simple",
+   "choices": [
+    [
+     "by layer",
+     "By layer"
+    ],
+    [
+     "by object",
+     "By object"
+    ]
+   ]
+  },
+  "raft_contact_distance": {
+   "type": "coFloat",
+   "label": "Raft contact Z distance",
+   "tooltip": "Z gap between object and raft. Ignored for soluble interface",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "raft_first_layer_density": {
+   "type": "coPercent",
+   "label": "Initial layer density",
+   "tooltip": "Density of the first raft or support layer",
+   "sidetext": "%",
+   "category": "Support",
+   "mode": "advanced",
+   "min": 10.0,
+   "max": 100.0
+  },
+  "raft_first_layer_expansion": {
+   "type": "coFloat",
+   "label": "Initial layer expansion",
+   "tooltip": "Expand the first raft or support layer to improve bed plate adhesion, -1 means auto",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "advanced",
+   "min": -1.0
+  },
+  "raft_layers": {
+   "type": "coInt",
+   "label": "Raft layers",
+   "tooltip": "Object will be raised by this number of support layers. Use this function to avoid warping when print ABS",
+   "sidetext": "layers",
+   "category": "Support",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "reduce_crossing_wall": {
+   "type": "coBool",
+   "label": "Avoid crossing wall",
+   "tooltip": "Detour and avoid traveling across wall which may cause blob on surface (when travel length greater than Travel distance threshold)",
+   "category": "Quality",
+   "mode": "advanced"
+  },
+  "resolution": {
+   "type": "coFloat",
+   "label": "Resolution",
+   "tooltip": "G-code path is generated after simplifying the contour of model to avoid too many points and gcode lines in the gcode file. Smaller value means higher resolution and more time to slice",
+   "sidetext": "mm",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "role_base_wipe_speed": {
+   "type": "coBool",
+   "label": "Role-based wipe speed",
+   "tooltip": "The wipe speed is determined by speed of current extrusion role. e.g if a wipe action is executed immediately following an outer wall extrusion, the speed of the outer wall extrusion will be utilized for the wipe action.",
+   "category": "Quality",
+   "mode": "advanced"
+  },
+  "scarf_angle_threshold": {
+   "type": "coInt",
+   "label": "Scarf application angle threshold",
+   "tooltip": "This option sets the threshold angle for applying a conditional scarf joint seam.\nIf the seam angle within the perimeter loop exceeds this value (indicating the absence of sharp corners), a scarf joint seam will be used. The default value is 155°.",
+   "sidetext": "°",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 180.0
+  },
+  "seam_gap": {
+   "type": "coPercent",
+   "label": "Seam gap",
+   "tooltip": "In order to reduce the visibility of the seam in a closed loop extrusion, the loop is interrupted and shortened by a specified amount.\nThis amount as a percentage of the current extruder diameter. The default value for this parameter is 15",
+   "sidetext": "%",
+   "category": "Quality",
+   "mode": "develop",
+   "min": 0.0
+  },
+  "seam_placement_away_from_overhangs": {
+   "type": "coBool",
+   "label": "Seam placement away from overhangs(experimental)",
+   "tooltip": "Ensure seam placement away from overhangs for alignment and backing modes.",
+   "category": "Quality",
+   "mode": "advanced"
+  },
+  "seam_position": {
+   "type": "coEnum",
+   "label": "Seam position",
+   "tooltip": "The start position to print each part of outer wall",
+   "category": "Quality",
+   "mode": "simple",
+   "choices": [
+    [
+     "nearest",
+     "Nearest"
+    ],
+    [
+     "aligned",
+     "Aligned"
+    ],
+    [
+     "back",
+     "Back"
+    ],
+    [
+     "random",
+     "Random"
+    ]
+   ]
+  },
+  "seam_slope_conditional": {
+   "type": "coBool",
+   "label": "Smart scarf seam application",
+   "tooltip": "Apply scarf joints only to smooth perimeters where traditional seams do not conceal the seams at sharp corners effectively.",
+   "category": "Quality",
+   "mode": "advanced"
+  },
+  "seam_slope_entire_loop": {
+   "type": "coBool",
+   "label": "Scarf around entire wall",
+   "tooltip": "The scarf extends to the entire length of the wall.",
+   "category": "Quality",
+   "mode": "advanced"
+  },
+  "seam_slope_gap": {
+   "type": "coFloatOrPercent",
+   "label": "Scarf slope gap",
+   "tooltip": "In order to reduce the visiblity of the seam in closed loop, the inner wall and outer wall are shortened by a specified amount.",
+   "sidetext": "mm/%",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "seam_slope_inner_walls": {
+   "type": "coBool",
+   "label": "Scarf joint for inner walls",
+   "tooltip": "Use scarf joint for inner walls as well.",
+   "category": "Quality",
+   "mode": "advanced"
+  },
+  "seam_slope_min_length": {
+   "type": "coFloat",
+   "label": "Scarf length",
+   "tooltip": "Length of the scarf. Setting this parameter to zero effectively disables the scarf.",
+   "sidetext": "mm",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "seam_slope_start_height": {
+   "type": "coFloatOrPercent",
+   "label": "Scarf start height",
+   "tooltip": "This amount can be specified in millimeters or as a percentage of the current layer height.",
+   "sidetext": "mm/%",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "seam_slope_steps": {
+   "type": "coInt",
+   "label": "Scarf steps",
+   "tooltip": "Minimum number of segments of each scarf.",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 1.0
+  },
+  "seam_slope_type": {
+   "type": "coEnum",
+   "label": "Scarf seam type",
+   "tooltip": "Set scarf seam type for this filament. This setting could minimize seam visibiliy.",
+   "category": "Quality",
+   "mode": "advanced",
+   "choices": [
+    [
+     "none",
+     "None"
+    ],
+    [
+     "external",
+     "Contour"
+    ],
+    [
+     "all",
+     "Contour and hole"
+    ]
+   ]
+  },
+  "skeleton_infill_density": {
+   "type": "coPercent",
+   "label": "Skeleton infill density",
+   "tooltip": "The remaining part of the model contour after removing a certain depth from the surface is called the skeleton. This parameter is used to adjust the density of this section.When two regions have the same sparse infill settings but different skeleton densities, their skeleton areas will develop overlapping sections.default is as same as infill density.",
+   "sidetext": "%",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "skeleton_infill_line_width": {
+   "type": "coFloat",
+   "label": "Skeleton line width",
+   "tooltip": "Adjust the line width of the selected skeleton paths.",
+   "sidetext": "mm",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "skin_infill_density": {
+   "type": "coPercent",
+   "label": "Skin infill density",
+   "tooltip": "The portion of the model's outer surface within a certain depth range is called the skin. This parameter is used to adjust the density of this section.When two regions have the same sparse infill settings but different skin densities, This area will not be split into two separate regions.default is as same as infill density.",
+   "sidetext": "%",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "skin_infill_depth": {
+   "type": "coFloat",
+   "label": "Skin infill depth",
+   "tooltip": "The parameter sets the depth of skin.",
+   "sidetext": "mm",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "skin_infill_line_width": {
+   "type": "coFloat",
+   "label": "Skin line width",
+   "tooltip": "Adjust the line width of the selected skin paths.",
+   "sidetext": "mm",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "skirt_distance": {
+   "type": "coFloat",
+   "label": "Skirt distance",
+   "tooltip": "Distance from skirt to brim or object",
+   "sidetext": "mm",
+   "mode": "develop",
+   "min": 0.0,
+   "max": 55.0
+  },
+  "skirt_height": {
+   "type": "coInt",
+   "label": "Skirt height",
+   "tooltip": "How many layers of skirt. Usually only one layer",
+   "sidetext": "layers",
+   "mode": "simple",
+   "max": 10000.0
+  },
+  "skirt_loops": {
+   "type": "coInt",
+   "label": "Skirt loops",
+   "full_label": "Skirt loops",
+   "tooltip": "Number of loops for the skirt. Zero means disabling skirt",
+   "mode": "simple",
+   "min": 0.0,
+   "max": 10.0
+  },
+  "slice_closing_radius": {
+   "type": "coFloat",
+   "label": "Slice gap closing radius",
+   "tooltip": "Cracks smaller than 2x gap closing radius are being filled during the triangle mesh slicing. The gap closing operation may reduce the final print resolution, therefore it is advisable to keep the value reasonably low.",
+   "sidetext": "mm",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "slicing_mode": {
+   "type": "coEnum",
+   "label": "Slicing Mode",
+   "tooltip": "Use \"Even-odd\" for 3DLabPrint airplane models. Use \"Close holes\" to close all holes in the model.",
+   "category": "Other",
+   "mode": "advanced",
+   "choices": [
+    [
+     "regular",
+     "Regular"
+    ],
+    [
+     "even_odd",
+     "Even-odd"
+    ],
+    [
+     "close_holes",
+     "Close holes"
+    ]
+   ]
+  },
+  "slowdown_end_acc": {
+   "type": "coFloats",
+   "label": "Acceleration at ending height",
+   "sidetext": "mm/s²",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "slowdown_end_height": {
+   "type": "coFloats",
+   "label": "Ending height",
+   "tooltip": "The height finishes slowing down, Ending height should be larger than Starting height, or the slowing down will not work!",
+   "sidetext": "mm",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "slowdown_end_speed": {
+   "type": "coFloats",
+   "label": "Speed at ending height",
+   "sidetext": "mm/s",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "slowdown_start_acc": {
+   "type": "coFloats",
+   "label": "Acceleration at starting height",
+   "sidetext": "mm/s²",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "slowdown_start_height": {
+   "type": "coFloats",
+   "label": "Starting height",
+   "tooltip": "The height starts to slow down",
+   "sidetext": "mm",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "slowdown_start_speed": {
+   "type": "coFloats",
+   "label": "Speed at starting height",
+   "sidetext": "mm/s",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "small_perimeter_speed": {
+   "type": "coFloatsOrPercents",
+   "label": "Small perimeters",
+   "tooltip": "This setting will affect the speed of perimeters having radius <= small perimeter threshold(usually holes). If expressed as percentage (for example: 80%) it will be calculated onthe outer wall speed setting above. Set to zero for auto.",
+   "sidetext": "mm/s or %",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "small_perimeter_threshold": {
+   "type": "coFloats",
+   "label": "Small perimeter threshold",
+   "tooltip": "This sets the threshold for small perimeter length. Default threshold is 0mm",
+   "sidetext": "mm",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "smooth_coefficient": {
+   "type": "coFloat",
+   "label": "Smooth coefficient",
+   "tooltip": "The smaller the number, the longer the speed transition path. 0 means not apply.",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "smooth_speed_discontinuity_area": {
+   "type": "coBool",
+   "label": "Smooth speed discontinuity area",
+   "tooltip": "Add the speed transition between discontinuity area.",
+   "category": "Quality",
+   "mode": "advanced"
+  },
+  "solid_infill_filament": {
+   "type": "coInt",
+   "label": "Solid infill filament",
+   "tooltip": "Filament to print solid infill",
+   "category": "Extruders",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "sparse_infill_acceleration": {
+   "type": "coFloatsOrPercents",
+   "label": "Sparse infill",
+   "tooltip": "Acceleration of sparse infill. If the value is expressed as a percentage (e.g. 100%), it will be calculated based on the default acceleration.",
+   "sidetext": "mm/s² or %",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "sparse_infill_anchor": {
+   "type": "coFloatOrPercent",
+   "label": "Length of sparse infill anchor",
+   "tooltip": "Connect a sparse infill line to an internal perimeter with a short segment of an additional perimeter. If expressed as percentage (example: 15%) it is calculated over sparse infill line width. Slicer tries to connect two close infill lines to a short perimeter segment. If no such perimeter segment shorter than infill_anchor_max is found, the infill line is connected to a perimeter segment at just one side and the length of the perimeter segment taken is limited to this parameter, but no longer than anchor_length_max. Set this parameter to zero to disable anchoring perimeters connected to a single infill line.",
+   "sidetext": "mm or %",
+   "category": "Strength",
+   "mode": "advanced",
+   "choices": [
+    [
+     "0",
+     "0 (no open anchors)"
+    ],
+    [
+     "1",
+     "1 mm"
+    ],
+    [
+     "2",
+     "2 mm"
+    ],
+    [
+     "5",
+     "5 mm"
+    ],
+    [
+     "10",
+     "10 mm"
+    ],
+    [
+     "1000",
+     "1000 (unlimited)"
+    ]
+   ]
+  },
+  "sparse_infill_anchor_max": {
+   "type": "coFloatOrPercent",
+   "label": "Maximum length of sparse infill anchor",
+   "tooltip": "Connect a sparse infill line to an internal perimeter with a short segment of an additional perimeter. If expressed as percentage (example: 15%) it is calculated over sparse infill line width. Slicer tries to connect two close infill lines to a short perimeter segment. If no such perimeter segment shorter than this parameter is found, the infill line is connected to a perimeter segment at just one side and the length of the perimeter segment taken is limited to infill_anchor, but no longer than this parameter. Set this parameter to zero to disable anchoring.",
+   "choices": [
+    [
+     "0",
+     "0 (not anchored)"
+    ],
+    [
+     "1",
+     "1 mm"
+    ],
+    [
+     "2",
+     "2 mm"
+    ],
+    [
+     "5",
+     "5 mm"
+    ],
+    [
+     "10",
+     "10 mm"
+    ],
+    [
+     "1000",
+     "1000 (unlimited)"
+    ]
+   ]
+  },
+  "sparse_infill_density": {
+   "type": "coPercent",
+   "label": "Sparse infill density",
+   "tooltip": "Density of internal sparse infill, 100% means solid throughout",
+   "sidetext": "%",
+   "category": "Strength",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "sparse_infill_filament": {
+   "type": "coInt",
+   "label": "Sparse infill filament",
+   "tooltip": "Filament to print internal sparse infill.",
+   "category": "Extruders",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "sparse_infill_lattice_angle_1": {
+   "type": "coFloat",
+   "label": "Lattice angle 1",
+   "tooltip": "The angle of the first set of 2D lattice elements in the Z direction. Zero is vertical.",
+   "sidetext": "°",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": -75.0,
+   "max": 75.0
+  },
+  "sparse_infill_lattice_angle_2": {
+   "type": "coFloat",
+   "label": "Lattice angle 2",
+   "tooltip": "The angle of the second set of 2D lattice elements in the Z direction. Zero is vertical.",
+   "sidetext": "°",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": -75.0,
+   "max": 75.0
+  },
+  "sparse_infill_line_width": {
+   "type": "coFloat",
+   "label": "Sparse infill",
+   "tooltip": "Line width of internal sparse infill",
+   "sidetext": "mm",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "sparse_infill_pattern": {
+   "type": "coEnum",
+   "label": "Sparse infill pattern",
+   "tooltip": "Line pattern for internal sparse infill",
+   "category": "Strength",
+   "choices": [
+    [
+     "concentric",
+     "Concentric"
+    ],
+    [
+     "zig-zag",
+     "Rectilinear"
+    ],
+    [
+     "grid",
+     "Grid"
+    ],
+    [
+     "line",
+     "Line"
+    ],
+    [
+     "cubic",
+     "Cubic"
+    ],
+    [
+     "triangles",
+     "Triangles"
+    ],
+    [
+     "tri-hexagon",
+     "Tri-hexagon"
+    ],
+    [
+     "gyroid",
+     "Gyroid"
+    ],
+    [
+     "honeycomb",
+     "Honeycomb"
+    ],
+    [
+     "adaptivecubic",
+     "Adaptive Cubic"
+    ],
+    [
+     "alignedrectilinear",
+     "Aligned Rectilinear"
+    ],
+    [
+     "3dhoneycomb",
+     "3D Honeycomb"
+    ],
+    [
+     "hilbertcurve",
+     "Hilbert Curve"
+    ],
+    [
+     "archimedeanchords",
+     "Archimedean Chords"
+    ],
+    [
+     "octagramspiral",
+     "Octagram Spiral"
+    ],
+    [
+     "supportcubic",
+     "Support Cubic"
+    ],
+    [
+     "lightning",
+     "Lightning"
+    ],
+    [
+     "crosshatch",
+     "Cross Hatch"
+    ],
+    [
+     "zigzag",
+     "Zig Zag"
+    ],
+    [
+     "crosszag",
+     "Cross Zag"
+    ],
+    [
+     "lockedzag",
+     "Locked Zag"
+    ],
+    [
+     "2dlattice",
+     "2D Lattice"
+    ]
+   ]
+  },
+  "sparse_infill_speed": {
+   "type": "coFloats",
+   "label": "Sparse infill",
+   "tooltip": "Speed of internal sparse infill",
+   "sidetext": "mm/s",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "spiral_mode": {
+   "type": "coBool",
+   "label": "Spiral vase",
+   "tooltip": "Spiralize smooths out the z moves of the outer contour. And turns a solid model into a single walled print with solid bottom layers. The final generated model has no seam",
+   "mode": "simple"
+  },
+  "spiral_mode_max_xy_smoothing": {
+   "type": "coFloatOrPercent",
+   "label": "Max XY Smoothing",
+   "tooltip": "Maximum distance to move points in XY to try to achieve a smooth spiralIf expressed as a %, it will be computed over nozzle diameter",
+   "sidetext": "mm or %",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 1000.0
+  },
+  "spiral_mode_smooth": {
+   "type": "coBool",
+   "label": "Smooth Spiral",
+   "tooltip": "Smooth Spiral smoothes out X and Y moves as wellresulting in no visible seam at all, even in the XY directions on walls that are not vertical",
+   "mode": "simple"
+  },
+  "sub_top_surface_pattern": {
+   "type": "coEnum",
+   "label": "Sub-top surface pattern",
+   "tooltip": "Line pattern of the solid layer that supports a visible top surface. Its lines can print through and mark the top, so a monotonic pattern gives the smoothest result. The whole solid area that a top surface reaches uses this pattern, not only the part directly beneath it.",
+   "category": "Strength",
+   "mode": "advanced",
+   "choices": [
+    [
+     "concentric",
+     "Concentric"
+    ],
+    [
+     "zig-zag",
+     "Rectilinear"
+    ],
+    [
+     "monotonic",
+     "Monotonic"
+    ],
+    [
+     "monotonicline",
+     "Monotonic line"
+    ],
+    [
+     "globalmonotonicline",
+     "Global monotonic line"
+    ],
+    [
+     "alignedrectilinear",
+     "Aligned Rectilinear"
+    ],
+    [
+     "hilbertcurve",
+     "Hilbert Curve"
+    ],
+    [
+     "archimedeanchords",
+     "Archimedean Chords"
+    ],
+    [
+     "octagramspiral",
+     "Octagram Spiral"
+    ]
+   ]
+  },
+  "support_angle": {
+   "type": "coFloat",
+   "label": "Pattern angle",
+   "tooltip": "Use this setting to rotate the support pattern on the horizontal plane.",
+   "sidetext": "°",
+   "category": "Support",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 359.0
+  },
+  "support_base_pattern": {
+   "type": "coEnum",
+   "label": "Base pattern",
+   "tooltip": "Line pattern of support",
+   "category": "Support",
+   "mode": "advanced",
+   "choices": [
+    [
+     "default",
+     "Default"
+    ],
+    [
+     "rectilinear",
+     "Rectilinear"
+    ],
+    [
+     "rectilinear-grid",
+     "Rectilinear grid"
+    ],
+    [
+     "honeycomb",
+     "Honeycomb"
+    ],
+    [
+     "lightning",
+     "Lightning"
+    ],
+    [
+     "hollow",
+     "Hollow"
+    ]
+   ]
+  },
+  "support_base_pattern_spacing": {
+   "type": "coFloat",
+   "label": "Base pattern spacing",
+   "tooltip": "Spacing between support lines",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "support_bottom_interface_spacing": {
+   "type": "coFloat",
+   "label": "Bottom interface spacing",
+   "tooltip": "Spacing of bottom interface lines. Zero means solid interface",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "develop",
+   "min": 0.0
+  },
+  "support_bottom_z_distance": {
+   "type": "coFloat",
+   "label": "Bottom Z distance",
+   "tooltip": "The z gap between the bottom support interface and object",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "advanced"
+  },
+  "support_critical_regions_only": {
+   "type": "coBool",
+   "label": "Support critical regions only",
+   "tooltip": "Only create support for critical regions including sharp tail, cantilever, etc.",
+   "category": "Support",
+   "mode": "advanced"
+  },
+  "support_expansion": {
+   "type": "coFloat",
+   "label": "Normal Support expansion",
+   "tooltip": "Expand (+) or shrink (-) the horizontal span of normal support",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "advanced"
+  },
+  "support_filament": {
+   "type": "coInt",
+   "label": "Support/raft base",
+   "tooltip": "Filament to print support base and raft. \"Default\" means no specific filament for support and current filament is used",
+   "category": "Support",
+   "mode": "simple",
+   "min": 0.0
+  },
+  "support_interface_bottom_layers": {
+   "type": "coInt",
+   "label": "Bottom interface layers",
+   "tooltip": "Number of bottom interface layers",
+   "sidetext": "layers",
+   "category": "Support",
+   "mode": "advanced",
+   "min": -1.0,
+   "choices": [
+    [
+     "-1",
+     "Same as top"
+    ]
+   ]
+  },
+  "support_interface_filament": {
+   "type": "coInt",
+   "label": "Support/raft interface",
+   "tooltip": "Filament to print support interface. \"Default\" means no specific filament for support interface and current filament is used",
+   "category": "Support",
+   "mode": "simple",
+   "min": 0.0
+  },
+  "support_interface_not_for_body": {
+   "type": "coBool",
+   "label": "Avoid interface filament for base",
+   "tooltip": "Avoid using support interface filament to print support base if possible.",
+   "category": "Support",
+   "mode": "simple"
+  },
+  "support_interface_pattern": {
+   "type": "coEnum",
+   "label": "Interface pattern",
+   "tooltip": "Line pattern of support interface. Default pattern for support interface is Rectilinear Interlaced",
+   "category": "Support",
+   "mode": "advanced",
+   "choices": [
+    [
+     "auto",
+     "Default"
+    ],
+    [
+     "rectilinear",
+     "Rectilinear"
+    ],
+    [
+     "concentric",
+     "Concentric"
+    ],
+    [
+     "rectilinear_interlaced",
+     "Rectilinear Interlaced"
+    ],
+    [
+     "grid",
+     "Grid"
+    ]
+   ]
+  },
+  "support_interface_spacing": {
+   "type": "coFloat",
+   "label": "Top interface spacing",
+   "tooltip": "Spacing of interface lines. Zero means solid interface.And zero spacing is required to access the enable_support_ironing option",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "support_interface_speed": {
+   "type": "coFloats",
+   "label": "Support interface",
+   "tooltip": "Speed of support interface",
+   "sidetext": "mm/s",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 1.0
+  },
+  "support_interface_top_layers": {
+   "type": "coInt",
+   "label": "Top interface layers",
+   "tooltip": "Number of top interface layers",
+   "sidetext": "layers",
+   "category": "Support",
+   "mode": "advanced",
+   "min": 0.0,
+   "choices": [
+    [
+     "0",
+     "0"
+    ],
+    [
+     "1",
+     "1"
+    ],
+    [
+     "2",
+     "2"
+    ],
+    [
+     "3",
+     "3"
+    ]
+   ]
+  },
+  "support_ironing_direction": {
+   "type": "coFloat",
+   "label": "Support ironing direction",
+   "tooltip": "Angle for ironing, which controls the relative angle between the top surface and ironing",
+   "sidetext": "°",
+   "category": "Support",
+   "mode": "develop",
+   "min": 0.0,
+   "max": 360.0
+  },
+  "support_ironing_flow": {
+   "type": "coPercent",
+   "label": "Support ironing flow",
+   "tooltip": "The amount of material to extrude during ironing. Relative to flow of normal layer height. Too high value results in overextrusion on the surface",
+   "sidetext": "%",
+   "category": "Support",
+   "mode": "develop",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "support_ironing_inset": {
+   "type": "coFloat",
+   "label": "Support ironing inset",
+   "tooltip": "The distance to keep the from the edges of ironing line. 0 means not apply.",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "develop",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "support_ironing_pattern": {
+   "type": "coEnum",
+   "label": "Support ironing pattern",
+   "category": "Support",
+   "mode": "develop",
+   "choices": [
+    [
+     "concentric",
+     "Concentric"
+    ],
+    [
+     "zig-zag",
+     "Rectilinear"
+    ]
+   ]
+  },
+  "support_ironing_spacing": {
+   "type": "coFloat",
+   "label": "Support ironing line spacing",
+   "tooltip": "The distance between the lines of ironing",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "develop",
+   "min": 0.0,
+   "max": 1.0
+  },
+  "support_ironing_speed": {
+   "type": "coFloat",
+   "label": "Support ironing speed",
+   "tooltip": "Print speed of ironing lines",
+   "sidetext": "mm/s",
+   "category": "Support",
+   "mode": "develop",
+   "min": 0.0
+  },
+  "support_line_width": {
+   "type": "coFloat",
+   "label": "Support",
+   "tooltip": "Line width of support",
+   "sidetext": "mm",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "support_object_first_layer_gap": {
+   "type": "coFloat",
+   "label": "Support/object first layer gap",
+   "tooltip": "XY separation between an object and its support at the first layer.",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 10.0
+  },
+  "support_object_xy_distance": {
+   "type": "coFloat",
+   "label": "Support/object xy distance",
+   "tooltip": "XY separation between an object and its support",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 10.0
+  },
+  "support_on_build_plate_only": {
+   "type": "coBool",
+   "label": "On build plate only",
+   "tooltip": "Don't create support on model surface, only on build plate",
+   "category": "Support",
+   "mode": "simple"
+  },
+  "support_remove_small_overhang": {
+   "type": "coBool",
+   "label": "Remove small overhangs",
+   "tooltip": "Remove small overhangs that possibly need no supports.",
+   "category": "Support",
+   "mode": "advanced"
+  },
+  "support_speed": {
+   "type": "coFloats",
+   "label": "Support",
+   "tooltip": "Speed of support",
+   "sidetext": "mm/s",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "support_style": {
+   "type": "coEnum",
+   "label": "Style",
+   "tooltip": "Style and shape of the support. For normal support, projecting the supports into a regular grid will create more stable supports (default), while snug support towers will save material and reduce object scarring.\nFor tree support, slim style will merge branches more aggressively and save a lot of material, strong style will make larger and stronger support structure and use more materials, while hybrid style is the combination of slim tree and normal support with normal nodes under large flat overhangs. Organic style will produce more organic shaped tree structure and less interfaces which makes it easer to be removed. The default style is organic tree for most cases, and hybrid tree if adaptive layer height or soluble interface is enabled.",
+   "category": "Support",
+   "mode": "advanced",
+   "choices": [
+    [
+     "default",
+     "Default"
+    ],
+    [
+     "grid",
+     "Grid"
+    ],
+    [
+     "snug",
+     "Snug"
+    ],
+    [
+     "tree_slim",
+     "Tree Slim"
+    ],
+    [
+     "tree_strong",
+     "Tree Strong"
+    ],
+    [
+     "tree_hybrid",
+     "Tree Hybrid"
+    ],
+    [
+     "tree_organic",
+     "Tree Organic"
+    ]
+   ]
+  },
+  "support_threshold_angle": {
+   "type": "coInt",
+   "label": "Threshold angle",
+   "tooltip": "Support will be generated for overhangs whose slope angle is below the threshold.",
+   "sidetext": "°",
+   "category": "Support",
+   "mode": "simple",
+   "min": 1.0,
+   "max": 90.0
+  },
+  "support_top_z_distance": {
+   "type": "coFloat",
+   "label": "Top Z distance",
+   "tooltip": "The z gap between the top support interface and object",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "advanced"
+  },
+  "support_type": {
+   "type": "coEnum",
+   "label": "Type",
+   "tooltip": "normal(auto) and tree(auto) is used to generate support automatically. If normal(manual) or tree(manual) is selected, only support enforcers are generated",
+   "category": "Support",
+   "mode": "simple",
+   "choices": [
+    [
+     "normal(auto)",
+     "normal(auto)"
+    ],
+    [
+     "tree(auto)",
+     "tree(auto)"
+    ],
+    [
+     "normal(manual)",
+     "normal(manual)"
+    ],
+    [
+     "tree(manual)",
+     "tree(manual)"
+    ]
+   ]
+  },
+  "symmetric_infill_y_axis": {
+   "type": "coBool",
+   "label": "Symmetric infill y axis",
+   "tooltip": "If the model has two parts that are symmetric about the y-axis, and you want these parts to have symmetric textures, please click this option on one of the parts.",
+   "category": "Strength",
+   "mode": "advanced"
+  },
+  "thick_bridges": {
+   "type": "coBool",
+   "label": "Thick bridges",
+   "tooltip": "If enabled, bridges are more reliable, can bridge longer distances, but may look worse. If disabled, bridges look better but are reliable just for shorter bridged distances.",
+   "category": "Quality",
+   "mode": "advanced"
+  },
+  "timelapse_type": {
+   "type": "coEnum",
+   "label": "Timelapse",
+   "tooltip": "If smooth or instant mode is selected, a timelapse video will be generated for each print. After each layer is printed, a snapshot is taken with the chamber camera. All of these snapshots are composed into a timelapse video when printing completes. If smooth mode is selected, the toolhead will move to the excess chute after each layer is printed and then take a snapshot. Since the melt filament may leak from the nozzle during the process of taking a snapshot, prime tower is required for smooth mode to wipe nozzle.",
+   "mode": "simple",
+   "choices": [
+    [
+     "0",
+     "Instant"
+    ],
+    [
+     "1",
+     "Smooth"
+    ]
+   ]
+  },
+  "top_area_threshold": {
+   "type": "coPercent",
+   "label": "Top area threshold",
+   "tooltip": "The min width of top areas in percentage of perimeter line width.",
+   "sidetext": "%",
+   "mode": "develop",
+   "min": 0.0,
+   "max": 500.0
+  },
+  "top_color_penetration_layers": {
+   "type": "coInt",
+   "label": "Top paint penetration layers",
+   "tooltip": "This is  the number of layers of top paint penetration.",
+   "category": "Strength",
+   "min": 1.0
+  },
+  "top_one_wall_type": {
+   "type": "coEnum",
+   "label": "Only one wall on top surfaces",
+   "tooltip": "Use only one wall on flat top surface, to give more space to the top infill pattern. Could be applied on topmost surface or all top surface.",
+   "category": "Quality",
+   "choices": [
+    [
+     "not apply",
+     "Not apply"
+    ],
+    [
+     "all top",
+     "Top surfaces"
+    ],
+    [
+     "topmost",
+     "Topmost surface"
+    ]
+   ]
+  },
+  "top_shell_layers": {
+   "type": "coInt",
+   "label": "Top shell layers",
+   "full_label": "Top solid layers",
+   "tooltip": "This is the number of solid layers of top shell, including the top surface layer. When the thickness calculated by this value is thinner than top shell thickness, the top shell layers will be increased",
+   "category": "Strength",
+   "min": 0.0
+  },
+  "top_shell_thickness": {
+   "type": "coFloat",
+   "label": "Top shell thickness",
+   "full_label": "Top shell thickness",
+   "tooltip": "The number of top solid layers is increased when slicing if the thickness calculated by top shell layers is thinner than this value. This can avoid having too thin shell when layer height is small. 0 means that this setting is disabled and thickness of top shell is absolutely determained by top shell layers",
+   "sidetext": "mm",
+   "category": "Strength",
+   "min": 0.0
+  },
+  "top_solid_infill_flow_ratio": {
+   "type": "coFloats",
+   "label": "Top surface flow ratio",
+   "tooltip": "This factor affects the amount of material for top solid infill. You can decrease it slightly to have smooth surface finish",
+   "category": "Quality",
+   "mode": "develop",
+   "min": 0.0,
+   "max": 2.0
+  },
+  "top_surface_acceleration": {
+   "type": "coFloats",
+   "label": "Top surface",
+   "tooltip": "Acceleration of top surface infill. Using a lower value may improve top surface quality",
+   "sidetext": "mm/s²",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "top_surface_density": {
+   "type": "coPercent",
+   "label": "Top surface density",
+   "tooltip": "Density of top surface infill, 100% means a fully solid filled top layer.Lower values create a textured top surface, at 0%, only the walls are created on the top layer.Intended for aesthetic or functional purposes, not to fix issues such as over-extrusion.",
+   "sidetext": "%",
+   "category": "Strength",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "top_surface_jerk": {
+   "type": "coFloat",
+   "label": "Top surface",
+   "tooltip": "Jerk of top surface",
+   "sidetext": "mm/s",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "top_surface_line_width": {
+   "type": "coFloat",
+   "label": "Top surface",
+   "tooltip": "Line width for top surfaces",
+   "sidetext": "mm",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "top_surface_pattern": {
+   "type": "coEnum",
+   "label": "Top surface pattern",
+   "tooltip": "Line pattern of top surface infill",
+   "category": "Strength",
+   "choices": [
+    [
+     "concentric",
+     "Concentric"
+    ],
+    [
+     "zig-zag",
+     "Rectilinear"
+    ],
+    [
+     "monotonic",
+     "Monotonic"
+    ],
+    [
+     "monotonicline",
+     "Monotonic line"
+    ],
+    [
+     "globalmonotonicline",
+     "Global monotonic line"
+    ],
+    [
+     "alignedrectilinear",
+     "Aligned Rectilinear"
+    ],
+    [
+     "hilbertcurve",
+     "Hilbert Curve"
+    ],
+    [
+     "archimedeanchords",
+     "Archimedean Chords"
+    ],
+    [
+     "octagramspiral",
+     "Octagram Spiral"
+    ]
+   ]
+  },
+  "top_surface_speed": {
+   "type": "coFloats",
+   "label": "Top surface",
+   "tooltip": "Speed of top surface infill which is solid",
+   "sidetext": "mm/s",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "top_z_overrides_xy_distance": {
+   "type": "coBool",
+   "label": "Z overrides X/Y",
+   "tooltip": "When top z distance overrides support/object xy distance, give priority to ensuring that supports are generated beneath overhangs, and a gap of the same size as top z distance is leaved with the model. Whereas in the opposite case, the gap between supports and the model follows support/object xy distance all the time. Only recommended to enable when using HybridTree.",
+   "category": "Support",
+   "mode": "advanced"
+  },
+  "travel_acceleration": {
+   "type": "coFloats",
+   "label": "Travel",
+   "tooltip": "The acceleration of travel except initial layer",
+   "sidetext": "mm/s²",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "travel_jerk": {
+   "type": "coFloat",
+   "label": "Travel",
+   "tooltip": "Jerk of travel",
+   "sidetext": "mm/s",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "travel_short_distance_acceleration": {
+   "type": "coFloats",
+   "label": "Short travel",
+   "tooltip": "Acceleration used for short travel moves near external perimeters. Short travels are moves shorter than the 'Retraction minimum travel' distance.\n\nLower values (e.g., 250-500 mm/s²) reduce ringing artifacts on sharp corners without significantly impacting print time.\n\nSet to 0 to disable (uses normal travel acceleration).",
+   "sidetext": "mm/s²",
+   "mode": "develop",
+   "min": 0.0
+  },
+  "travel_speed": {
+   "type": "coFloats",
+   "label": "Travel",
+   "tooltip": "Speed of travel which is faster and without extrusion",
+   "sidetext": "mm/s",
+   "mode": "advanced",
+   "min": 1.0
+  },
+  "tree_support_branch_angle": {
+   "type": "coFloat",
+   "label": "Branch angle",
+   "tooltip": "This setting determines the maximum overhang angle that t he branches of tree support allowed to make.If the angle is increased, the branches can be printed more horizontally, allowing them to reach farther.",
+   "sidetext": "°",
+   "category": "Support",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 60.0
+  },
+  "tree_support_branch_diameter": {
+   "type": "coFloat",
+   "label": "Branch diameter",
+   "tooltip": "This setting determines the initial diameter of support nodes.",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "advanced",
+   "min": 1.0,
+   "max": 10.0
+  },
+  "tree_support_branch_diameter_angle": {
+   "type": "coFloat",
+   "label": "Branch diameter angle",
+   "tooltip": "The angle of the branches' diameter as they gradually become thicker towards the bottom. An angle of 0 will cause the branches to have uniform thickness over their length. A bit of an angle can increase stability of the tree support.",
+   "sidetext": "°",
+   "category": "Support",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 15.0
+  },
+  "tree_support_branch_distance": {
+   "type": "coFloat",
+   "label": "Branch distance",
+   "tooltip": "This setting determines the distance between neighboring tree support nodes.",
+   "sidetext": "mm",
+   "category": "Support",
+   "mode": "advanced",
+   "min": 1.0,
+   "max": 10.0
+  },
+  "tree_support_wall_count": {
+   "type": "coInt",
+   "label": "Support wall loops",
+   "tooltip": "This setting specifies the count of support walls in the range of [-1,2]. -1 means auto, and 0 means allowing infill-only mode where support is thick enough.",
+   "category": "Support",
+   "mode": "advanced",
+   "min": -1.0,
+   "max": 2.0
+  },
+  "vertical_shell_speed": {
+   "type": "coFloatsOrPercents",
+   "label": "Vertical shell speed",
+   "tooltip": "Speed for vertical shells with overhang regions. If expressed as percentage (for example: 80%) it will be calculated onthe internal solid infill speed above",
+   "sidetext": "mm/s or %",
+   "category": "Speed",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "wall_distribution_count": {
+   "type": "coInt",
+   "label": "Wall distribution count",
+   "tooltip": "The number of walls, counted from the center, over which the variation needs to be spread. Lower values mean that the outer walls don't change in width",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 1.0
+  },
+  "wall_filament": {
+   "type": "coInt",
+   "label": "Walls filament",
+   "tooltip": "Filament to print walls",
+   "category": "Extruders",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "wall_generator": {
+   "type": "coEnum",
+   "label": "Wall generator",
+   "tooltip": "Classic wall generator produces walls with constant extrusion width and for very thin areas is used gap-fill. Arachne engine produces walls with variable extrusion width",
+   "category": "Quality",
+   "mode": "advanced",
+   "choices": [
+    [
+     "classic",
+     "Classic"
+    ],
+    [
+     "arachne",
+     "Arachne"
+    ]
+   ]
+  },
+  "wall_loops": {
+   "type": "coInt",
+   "label": "Wall loops",
+   "tooltip": "Number of walls of every layer",
+   "category": "Strength",
+   "min": 0.0,
+   "max": 1000.0
+  },
+  "wall_sequence": {
+   "type": "coEnum",
+   "label": "Order of walls",
+   "tooltip": "Print sequence of inner wall and outer wall. ",
+   "category": "Quality",
+   "mode": "advanced",
+   "choices": [
+    [
+     "inner wall/outer wall",
+     "inner/outer"
+    ],
+    [
+     "outer wall/inner wall",
+     "outer/inner"
+    ],
+    [
+     "inner-outer-inner wall",
+     "inner wall/outer wall/inner wall"
+    ]
+   ]
+  },
+  "wall_transition_angle": {
+   "type": "coFloat",
+   "label": "Wall transitioning threshold angle",
+   "tooltip": "When to create transitions between even and odd numbers of walls. A wedge shape with an angle greater than this setting will not have transitions and no walls will be printed in the center to fill the remaining space. Reducing this setting reduces the number and length of these center walls, but may leave gaps or overextrude",
+   "sidetext": "°",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 1.0,
+   "max": 59.0
+  },
+  "wall_transition_filter_deviation": {
+   "type": "coPercent",
+   "label": "Wall transitioning filter margin",
+   "tooltip": "Prevent transitioning back and forth between one extra wall and one less. This margin extends the range of extrusion widths which follow to [Minimum wall width - margin, 2 * Minimum wall width + margin]. Increasing this margin reduces the number of transitions, which reduces the number of extrusion starts/stops and travel time. However, large extrusion width variation can lead to under- or overextrusion problems. It's expressed as a percentage over nozzle diameter",
+   "sidetext": "%",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "wall_transition_length": {
+   "type": "coPercent",
+   "label": "Wall transition length",
+   "tooltip": "When transitioning between different numbers of walls as the part becomes thinner, a certain amount of space is allotted to split or join the wall segments. It's expressed as a percentage over nozzle diameter",
+   "sidetext": "%",
+   "category": "Quality",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "wipe_speed": {
+   "type": "coPercent",
+   "label": "Wipe speed",
+   "tooltip": "The wipe speed is determined by the speed setting specified in this configuration.If the value is expressed as a percentage (e.g. 80%), it will be calculated based on the travel speed setting above.The default value for this parameter is 80%",
+   "sidetext": "%",
+   "category": "Quality",
+   "mode": "develop",
+   "min": 0.01
+  },
+  "wipe_tower_no_sparse_layers": {
+   "type": "coBool",
+   "label": "No sparse layers (experimental)",
+   "tooltip": "If enabled, the wipe tower will not be printed on layers with no toolchanges. On layers with a toolchange, extruder will travel downward to print the wipe tower. User is responsible for ensuring there is no collision with the print.",
+   "mode": "develop"
+  },
+  "xy_contour_compensation": {
+   "type": "coFloat",
+   "label": "X-Y contour compensation",
+   "tooltip": "Contour of object will be grown or shrunk in XY plane by the configured value. Positive value makes contour bigger. Negative value makes contour smaller. This function is used to adjust size slightly when the object has assembling issue",
+   "sidetext": "mm",
+   "category": "Quality",
+   "mode": "advanced"
+  },
+  "xy_hole_compensation": {
+   "type": "coFloat",
+   "label": "X-Y hole compensation",
+   "tooltip": "Holes of object will be grown or shrunk in XY plane by the configured value. Positive value makes holes bigger. Negative value makes holes smaller. This function is used to adjust size slightly when the object has assembling issue",
+   "sidetext": "mm",
+   "category": "Quality",
+   "mode": "advanced"
+  },
+  "z_direction_outwall_speed_continuous": {
+   "type": "coBool",
+   "label": "Smoothing wall speed along Z(experimental)",
+   "tooltip": "Smoothing outwall speed in z direction to get better surface quality. Print time will increases. This does not work on spiral vase mode.",
+   "category": "Quality",
+   "mode": "advanced"
+  }
+ },
+ "undefined": []
+}

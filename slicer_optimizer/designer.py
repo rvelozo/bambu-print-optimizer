@@ -55,8 +55,7 @@ class Searches:
                for k in knobs}
         for a in assignments:
             changes = search.changes_for(pr, plate, a)
-            label = search.label_for({k: v for k, v in a.items() if v != now.get(k)})  # name a run by what it changes
-            run = self.app.runs.add(plate, changes, label, "search" if changes else "baseline")
+            run = self.app.runs.add(plate, changes, None, "search" if changes else "baseline")  # named by its changes
             if run["status"] in ("queued", "error", "cancelled"):
                 self.app.enqueue(run["id"], 1)
             candidates.append({"assignment": a, "run_id": run["id"]})

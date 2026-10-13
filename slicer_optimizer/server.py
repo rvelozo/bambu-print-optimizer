@@ -36,7 +36,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
-from . import __version__, bambu, layers, metrics, paths
+from . import __version__, bambu, layers, metrics, paths, settings
 from .prints import ISSUES, OUTCOMES, PrintLog
 from .project3mf import Change, Project, ProjectError
 from .trial import PlannedChange, Trial, save_variant
@@ -78,6 +78,8 @@ class Runs:
             for r in json.loads(self.file.read_text()).get("runs", []):
                 if r.get("status") not in ("done", "error", "cancelled"):
                     r["status"] = "queued"
+                if r.get("changes"):
+                    r["label"] = settings.change_label(r["changes"])  # names by setting, not by key
                 self.runs[r["id"]] = r
 
     def save(self) -> None:
@@ -110,7 +112,7 @@ class Runs:
             if existing:
                 return existing
             run = {"id": uuid.uuid4().hex[:10], "plate": plate, "changes": changes, "kind": kind,
-                   "label": label or _label(changes), "status": "queued", "created": time.time(),
+                   "label": label or settings.change_label(changes), "status": "queued", "created": time.time(),
                    "source_sha": self.source_sha}
             self.runs[run["id"]] = run
             self.save()
@@ -126,14 +128,6 @@ def _changes_key(changes: list[dict]) -> str:
     return json.dumps(sorted((c["key"], c.get("value"), c.get("object_id")) for c in changes))
 
 
-def _label(changes: list[dict]) -> str:
-    if not changes:
-        return "Current settings"
-    parts = []
-    for c in changes:
-        scope = " (print-wide)" if c.get("object_id") is None else ""
-        parts.append(f"{c['key']}={c['value']}{scope}" if c.get("value") is not None else f"remove {c['key']}")
-    return ", ".join(dict.fromkeys(parts))
 
 
 class Worker(threading.Thread):
@@ -335,7 +329,7 @@ class App:
     def suggested_name(self, run: dict) -> str:
         name = self.hub.meta(self.id).get("name") or self.path.name
         stem = re.sub(r"\.3mf$", "", name, flags=re.I)
-        safe = re.sub(r"[^\w.=,+-]+", " ", run["label"]).strip()[:60]
+        safe = settings.file_label(run["changes"])[:60].strip()
         return f"{stem} - {safe}.3mf"
 
     def save_run(self, run: dict, dest: str, overwrite: bool) -> dict:
@@ -696,6 +690,8 @@ class Handler(BaseHTTPRequestHandler):
     def _handle(self, method: str) -> None:
         try:
             self._route(method)
+        except (BrokenPipeError, ConnectionResetError):
+            self.close_connection = True  # the client hung up (closed tab, timed-out check): nothing to answer
         except NotFound as e:
             self._error(404, str(e))
         except (ProjectError, ValueError, KeyError, FileNotFoundError, bambu.SliceError) as e:
@@ -780,6 +776,8 @@ class Handler(BaseHTTPRequestHandler):
         if len(route) == 2 and route[0] == "thumbnail" and method == "GET":
             png = app.thumbnail(int(route[1]), small=qs.get("size") == "small")
             return self._send(200, png, "image/png", "max-age=60") if png else self._error(404, "no picture")
+        if route == ["settings"] and method == "GET":
+            return self._json(settings.picker(app.project, int(qs.get("plate", "1"))))
         if route == ["keys"] and method == "GET":
             return self._json(app.keys(qs.get("q", ""), int(qs["plate"]) if qs.get("plate") else None))
         if route == ["runs"] and method == "GET":
@@ -797,8 +795,8 @@ class Handler(BaseHTTPRequestHandler):
                 obj = c.get("object_id")
                 if obj is not None:
                     app.project.object(str(obj))
-                changes.append({"key": key, "value": None if c.get("value") is None else str(c["value"]).strip(),
-                                "object_id": None if obj is None else str(obj)})
+                value = None if c.get("value") is None else settings.check_value(key, str(c["value"]))
+                changes.append({"key": key, "value": value, "object_id": None if obj is None else str(obj)})
             if body.get("scope") == "plate" and changes:
                 expanded = []
                 for c in changes:
@@ -806,6 +804,8 @@ class Handler(BaseHTTPRequestHandler):
                         expanded.append({**c, "object_id": o.id})
                 changes = expanded
             run = app.runs.add(plate, changes, body.get("label"), "trial" if changes else "baseline")
+            if run.get("kind") == "search" and not run.get("pinned"):
+                app.runs.update(run["id"], pinned=True)  # a search already sliced it: show it, you asked for it
             if run["status"] in ("queued", "error", "cancelled"):
                 app.enqueue(run["id"])
             return self._json(app.run_view(run))

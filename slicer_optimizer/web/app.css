@@ -237,6 +237,33 @@ a.proj-name:hover { text-decoration: underline; }
 .stopped h1 { margin-bottom: 6px; font-size: 24px; }
 code { font-size: 13px; background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
 
+/* ---- setting picker (Try a change) ------------------------------------------------------ */
+.pick-setting { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; width: 100%; min-height: 34px;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--bg); padding: 5px 8px; cursor: pointer; text-align: left; }
+.pick-setting:hover { border-color: var(--accent); }
+.pick-setting .ps-name { color: var(--ink); font-size: 14px; overflow-wrap: anywhere; }
+.pick-setting .ps-path { color: var(--muted); font-size: 11px; }
+.pick-setting .ps-path:empty { display: none; }
+.v-wrap { display: flex; align-items: center; gap: 4px; }
+.v-wrap .v { width: 100%; }
+.v-wrap .unit { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.sp { position: fixed; z-index: 40; display: flex; flex-direction: column; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); overflow: hidden; }
+.sp-search { margin: 10px 10px 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); padding: 7px 9px; color: var(--ink); font: inherit; }
+.sp-tabs { display: flex; gap: 16px; padding: 0 12px; border-bottom: 1px solid var(--line); overflow-x: auto; }
+.sp-tabs button { background: none; border: none; padding: 8px 0; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+.sp-tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.sp-search, .sp-tabs { flex-shrink: 0; }  /* only the list scrolls */
+.sp-list { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 4px 6px 10px; }
+.sp-list h4 { font-family: var(--font-cond); font-weight: 600; font-size: 13px; color: var(--muted); margin: 12px 6px 4px; }
+.sp-row { display: flex; justify-content: space-between; gap: 12px; width: 100%; background: none; border: none; border-radius: 6px;
+  padding: 6px 8px; cursor: pointer; text-align: left; font-size: 14px; color: var(--ink); }
+.sp-row:hover, .sp-row:focus-visible { background: var(--bg); }
+.sp-row.on { box-shadow: inset 3px 0 0 var(--accent); background: var(--bg); }
+.sp-row .sp-path { display: block; font-size: 11px; color: var(--muted); }
+.sp-now { color: var(--muted); white-space: nowrap; font-size: 13px; }
+.sp-empty { padding: 10px; }
+
 /* ---- optimize ------------------------------------------------------------------------ */
 .opt { display: grid; grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); gap: 28px; align-items: start; }
 .opt-form { display: flex; flex-direction: column; gap: 12px; }

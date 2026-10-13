@@ -2,6 +2,7 @@ import { LayerView, parseLayer } from "./layerview.js";
 import { featureColor, RAMP_CSS } from "./colors.js";
 import { layerBars, layerLines, featureBars, fmtTime, fmtDelta } from "./charts.js";
 import { enableDrop, escapeHtml, quitApp } from "./opener.js";
+import { nameOf, openPicker, valueText } from "./settingpicker.js";
 
 const $ = (id) => document.getElementById(id);
 const PID = (location.pathname.match(/^\/p\/([0-9a-f]{16})/) || [])[1];  // this project's id, from /p/<id>/
@@ -456,36 +457,62 @@ document.addEventListener("keydown", (e) => {
 });
 
 // ---- try a change -------------------------------------------------------------------
+// Settings are picked from Bambu Studio's Process tab arrangement (settingpicker.js);
+// the value field follows the setting: a list for choices, on/off, or a number with its unit.
 
-let keyTimer = null;
-function addTryRow(key = "", value = "") {
+let settingsData = null;
+async function loadSettings() {
+  if (!settingsData || settingsData.plate !== state.plate) {
+    settingsData = { ...(await api(`settings?plate=${state.plate}`)), plate: state.plate };
+  }
+  return settingsData;
+}
+
+function sourceText(src) {
+  return { "print-wide": "for the whole project", object: "set on this plate's objects", part: "set on a part", varies: "differs between objects" }[src] || src;
+}
+
+function setRowSetting(row, s) {
+  row.dataset.key = s.key;
+  row.querySelector(".ps-name").textContent = nameOf(s);
+  row.querySelector(".ps-path").textContent = `${s.page} › ${s.group}`;
+  const wrap = row.querySelector(".v-wrap");
+  const now = s.now;
+  if (s.choices || s.type === "coBool" || s.type === "coBools") {
+    const opts = s.choices || [["1", "On"], ["0", "Off"]];
+    wrap.innerHTML = `<select class="v" aria-label="New value">` +
+      opts.map(([v, l]) => `<option value="${escapeHtml(v)}" ${v === now ? "selected" : ""}>${escapeHtml(l)}${v === now ? " (now)" : ""}</option>`).join("") + `</select>`;
+  } else {
+    const shown = now == null ? "" : String(now).replace(/%$/, s.unit === "%" ? "" : "%");
+    wrap.innerHTML = `<input type="text" class="v" aria-label="New value" inputmode="decimal" placeholder="${escapeHtml(shown)}">` +
+      (s.unit ? `<span class="unit">${escapeHtml(s.unit)}</span>` : "");
+  }
+  row.querySelector(".now").textContent = `Now ${valueText(s)}, ${sourceText(s.source)}` +
+    (s.default != null && s.default !== now ? `. Bambu's default: ${valueText(s, s.default)}` : "");
+  row.querySelector(".now").title = s.tooltip || "";
+}
+
+function addTryRow() {
   const row = document.createElement("div");
   row.className = "try-row";
   row.innerHTML = `
-    <label class="field"><span>Setting</span><input type="text" list="key-list" class="k" aria-label="Setting" placeholder="bridge_speed" value="${key}"></label>
-    <label class="field"><span>New value</span><input type="text" class="v" aria-label="New value" placeholder="100" value="${value}"></label>
+    <div class="field"><span>Setting</span>
+      <button type="button" class="pick-setting" aria-haspopup="dialog" aria-expanded="false">
+        <span class="ps-name">Choose a setting</span><span class="ps-path"></span></button></div>
+    <div class="field"><span>New value</span><span class="v-wrap"><input type="text" class="v" aria-label="New value" disabled></span></div>
     <button type="button" class="icon" aria-label="Remove this setting">✕</button>
     <div class="now"></div>`;
-  const k = row.querySelector(".k");
-  k.addEventListener("input", () => {
-    clearTimeout(keyTimer);
-    keyTimer = setTimeout(() => lookupKey(k.value, row), 200);
-  });
-  row.querySelector("button").onclick = () => { row.remove(); if (!$("try-rows").children.length) addTryRow(); };
+  const btn = row.querySelector(".pick-setting");
+  btn.onclick = async () => {
+    try {
+      const data = await loadSettings();
+      openPicker(btn, data, row.dataset.key, (s) => { setRowSetting(row, s); row.querySelector(".v").focus(); });
+    } catch (e) {
+      $("try-error").textContent = e.message;
+    }
+  };
+  row.querySelector(".icon").onclick = () => { row.remove(); if (!$("try-rows").children.length) addTryRow(); };
   $("try-rows").appendChild(row);
-}
-
-async function lookupKey(q, row) {
-  if (!q.trim()) { row.querySelector(".now").textContent = ""; return; }
-  const items = await api(`keys?q=${encodeURIComponent(q.trim())}&plate=${state.plate}`);
-  $("key-list").innerHTML = items.map((i) => `<option value="${i.key}">`).join("");
-  const exact = items.find((i) => i.key === q.trim());
-  const now = row.querySelector(".now");
-  if (!exact) { now.textContent = items.length ? "" : "No setting by that name"; return; }
-  const show = (v) => (Array.isArray(v) ? (new Set(v).size === 1 ? v[0] : v.join(", ")) : v);
-  const objs = exact.objects ? Object.values(exact.objects).map(([v, src]) => `${show(v)} (${src})`) : [];
-  now.textContent = `Now: ${[...new Set(objs)].join("; ") || show(exact.print_wide)}` +
-    (exact.default != null ? `, system default ${show(exact.default)}` : "");
 }
 
 $("try-add").onclick = () => addTryRow();
@@ -495,10 +522,11 @@ $("try-form").addEventListener("submit", async (e) => {
   err.textContent = "";
   const changes = [];
   for (const row of $("try-rows").children) {
-    const key = row.querySelector(".k").value.trim();
-    const value = row.querySelector(".v").value.trim();
+    const key = row.dataset.key || "";
+    const value = (row.querySelector(".v").value || "").trim();
     if (!key && !value) continue;
-    if (!key || !value) { err.textContent = "Each setting needs a name and a new value."; return; }
+    if (!key) { err.textContent = "Choose a setting for each row, or remove the row."; return; }
+    if (!value) { err.textContent = `Give ${row.querySelector(".ps-name").textContent} a new value.`; return; }
     changes.push({ key, value, object_id: null });
   }
   if (!changes.length) { err.textContent = "Add a setting to change first."; return; }

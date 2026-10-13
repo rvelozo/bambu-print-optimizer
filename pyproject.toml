@@ -25,4 +25,4 @@ slicer-opt = "slicer_optimizer.cli:main"
 packages = ["slicer_optimizer"]
 
 [tool.setuptools.package-data]
-slicer_optimizer = ["catalog.json", "web/*"]
+slicer_optimizer = ["catalog.json", "settings_layout.json", "web/*"]

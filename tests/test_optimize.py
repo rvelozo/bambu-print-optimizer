@@ -48,7 +48,7 @@ class ChooseKnobs(unittest.TestCase):
         self.assertEqual([k["values"] for k in trimmed], [["1", "4"], ["1", "3"], ["1", "2"]])
         trimmed, notes = optimize.fit_measure_budget(knobs, 5)
         self.assertEqual([k["key"] for k in trimmed], ["a", "b"])
-        self.assertIn("c was left out to fit the budget.", notes)
+        self.assertIn("c was left out of the measurements.", notes)
 
 
 # measured on the v7 lid (Bambu Studio 02.08.04.57); stiffness is the flat-part proxy
@@ -91,9 +91,11 @@ class EffectsAndCombinations(unittest.TestCase):
                                  {"key": "bridge_speed", "values": ["50", "100", "75"]}])
         knobs, notes = optimize.plan_combinations(eff, current, 1)   # room for one new slice only
         self.assertEqual(knobs, [{"key": "top_shell_layers", "values": ["5", "3"]}, {"key": "bridge_speed", "values": ["50", "100"]}])
+        self.assertEqual(notes, ["To fit the time you gave it, only the best value of Top shell layers and Bridge speed "
+                                 "went into the combinations."])
         knobs, notes = optimize.plan_combinations(eff, current, 0)
         self.assertEqual(knobs, [])
-        self.assertTrue(any("didn't fit" in n for n in notes))
+        self.assertEqual(notes, ["To fit the time you gave it, Bridge speed helped alone but was left out."])
 
     def test_one_setting_needs_no_combination_stage(self):
         eff = optimize.effects(LID_KNOBS[:1], LID_SOLO, LID_BASE, {"time_s": 3}, TOL)

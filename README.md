@@ -16,18 +16,30 @@ changed: variants are new files, byte for byte what was sliced.
 
 Not affiliated with Bambu Lab.
 
+![The Optimize tab: what should improve on the left; on the right the recommended settings, each with what it did on its own, and the fastest and lightest alternatives](docs/images/optimize.png)
+
 ## What you can do
 
 - **Optimize** a plate for what matters to you: print time, weight, strength
   (a proxy for flat parts), filament cost, or headroom below the filament's
   flow limit. Set how much each one matters and any limits, and choose how
   long it may slice. You get a recommendation, the fastest, lightest and
-  strongest alternatives, and what each setting did on its own.
+  strongest alternatives, and what each setting did on its own:
+
+  ![Each setting's measured effect on print time and weight when changed alone](docs/images/settings-effects.png)
+
 - **Compare** any two variants layer by layer: toolpaths at their real line
   widths, colored by feature, speed, flow or width; time per layer; flow
   against the filament's limit; where the time goes; a cross-section; 3D.
+
+  ![The current settings and the recommended ones side by side on the same layer, colored by feature](docs/images/compare.png)
+
 - **Try a change** by hand, or search combinations of settings you choose
-  (Designer), with the Pareto front over your goals.
+  (Designer), with the Pareto front over your goals. Settings are picked by
+  name from the same tabs and sections as Bambu Studio's Process settings:
+
+  ![Choosing a setting from a dropdown arranged like Bambu Studio's Process tab, with each setting's current value](docs/images/setting-picker.png)
+
 - **Save** any variant as a new `.3mf` to open in Bambu Studio.
 - **Log real prints** (time, weight, outcome) and see how far Bambu's
   estimates are from your printer.
@@ -35,6 +47,10 @@ Not affiliated with Bambu Lab.
 Strength is a beam-theory proxy that ranks variants of the same flat part; it
 doesn't predict breaking loads. Surface quality isn't measured at all. Print a
 test piece before a batch.
+
+The screenshots show [3DBenchy](https://www.3dbenchy.com) by Creative Tools,
+the test model that ships with Bambu Studio, on a Bambu Lab P2S with Bambu PLA
+Basic. `tools/readme_screenshots.py` retakes them.
 
 ## Requirements
 
@@ -55,6 +71,8 @@ cd bambu-print-optimizer
 http://127.0.0.1:8765. Open a `.3mf` there (choose it, paste its path, or drop
 it on the page), pick a plate, and start on the Optimize tab. The Quit button
 stops the app.
+
+![The home page: open a project by choosing it, pasting its path or dropping it; recent projects below](docs/images/home.png)
 
 To install the `slicer-opt` command instead of running it from the checkout:
 

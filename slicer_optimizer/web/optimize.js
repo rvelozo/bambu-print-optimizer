@@ -412,13 +412,14 @@ function recommendation(o, _pick, chosen) {
 function alternatives(o, chosen) {
   const entries = chosen.map((g) => [g, o.best_for[g]]).filter(([, b]) => b);
   if (!o.pick || !entries.length) return "";
+  const shown = [...new Set(["time_s", "grams", ...chosen])];  // your goals, plus time and weight
   const chip = (label, b, id) => {
     const on = ui.altPick === id;
-    const stats = ["time_s", "grams", "stiffness"].filter((g) => b.goals[g] != null).map((g) => value(g, b.goals[g])).join(", ");
+    const stats = shown.filter((g) => b.goals[g] != null).map((g) => value(g, b.goals[g])).join(", ");
     return `<button type="button" class="opt-alt ${on ? "on" : ""}" data-alt="${id}"><strong>${label}</strong><span class="small">${stats}</span></button>`;
   };
   return `<div class="opt-alts"><span class="muted small">Other good points</span>` +
-    `<button type="button" class="opt-alt ${!ui.altPick ? "on" : ""}" data-alt=""><strong>Recommended</strong><span class="small">${["time_s", "grams", "stiffness"].filter((g) => o.pick.goals[g] != null).map((g) => value(g, o.pick.goals[g])).join(", ")}</span></button>` +
+    `<button type="button" class="opt-alt ${!ui.altPick ? "on" : ""}" data-alt=""><strong>Recommended</strong><span class="small">${shown.filter((g) => o.pick.goals[g] != null).map((g) => value(g, o.pick.goals[g])).join(", ")}</span></button>` +
     entries.map(([g, b]) => chip(BEST[g], b, b.run_id)).join("") + `</div>`;
 }
 

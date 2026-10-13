@@ -80,6 +80,14 @@ def choose_knobs(catalog: list[dict], base: dict, weights: dict, allowed: set[st
     return chosen, skipped
 
 
+def _name(key: str) -> str:
+    return search.KNOBS.get(key, {}).get("label") or key
+
+
+def _join(names: list[str]) -> str:
+    return names[0] if len(names) == 1 else ", ".join(names[:-1]) + " and " + names[-1]
+
+
 def fit_measure_budget(knobs: list[dict], budget: int) -> tuple[list[dict], list[str]]:
     """Trim the measuring stage to the budget: first to each knob's extreme values, then whole knobs."""
     notes = []
@@ -87,10 +95,12 @@ def fit_measure_budget(knobs: list[dict], budget: int) -> tuple[list[dict], list
     if count(knobs) <= budget:
         return knobs, notes
     trimmed = [{**k, "values": [k["values"][0], k["values"][-1]] if len(k["values"]) > 2 else k["values"]} for k in knobs]
-    notes.append("Only the lowest and highest values of each setting were measured, to fit the budget.")
+    notes.append("To fit the time you gave it, only the lowest and highest value of each setting were measured.")
+    dropped = []
     while count(trimmed) > budget and len(trimmed) > 1:
-        dropped = trimmed.pop()
-        notes.append(f"{dropped['key']} was left out to fit the budget.")
+        dropped.insert(0, _name(trimmed.pop()["key"]))
+    if dropped:
+        notes.append(f"{_join(dropped)} {'was' if len(dropped) == 1 else 'were'} left out of the measurements.")
     return trimmed, notes
 
 
@@ -172,6 +182,8 @@ def plan_combinations(effect_rows: list[dict], current: dict[str, str], budget: 
             n += changed >= 2
         return n
 
+    left_out: list[str] = []   # helped alone, no room in the combinations
+    best_only: list[str] = []  # combined with its best value only
     # first every setting that helped, with its best value; then second-best values while there's room
     picked: list[tuple[str, list[str], list[str]]] = []  # (key, values in use, helping values by score)
     for e in ranked:
@@ -180,16 +192,23 @@ def plan_combinations(effect_rows: list[dict], current: dict[str, str], budget: 
         if new_slices(as_knobs(trial)) <= budget:
             picked = trial
         else:
-            notes.append(f"{e['key']} helped alone but didn't fit the combination budget.")
+            left_out.append(_name(e["key"]))
     for i, (key, used, helping) in enumerate(picked):
         for extra in helping[len(used):MAX_VALUES_PER_KNOB]:
             trial = picked[:i] + [(key, used + [extra], helping)] + picked[i + 1:]
             if new_slices(as_knobs(trial)) <= budget:
                 picked, used = trial, used + [extra]
             else:
-                notes.append(f"Only the best value of {key} went into the combinations, to fit the budget.")
+                best_only.append(_name(key))
                 break
     knobs = as_knobs(picked)
+    parts = []
+    if best_only:
+        parts.append(f"only the best value of {_join(best_only)} went into the combinations")
+    if left_out:
+        parts.append(f"{_join(left_out)} helped alone but {'was' if len(left_out) == 1 else 'were'} left out")
+    if parts:
+        notes.append("To fit the time you gave it, " + "; ".join(parts) + ".")
     if len(knobs) < 2:
         return [], notes  # one setting: its values were all measured already
     return knobs, notes

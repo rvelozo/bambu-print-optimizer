@@ -74,7 +74,7 @@
     "cost"
    ],
    "explain": "Solid layers under the top surface. Fewer is faster and lighter; too few can show infill through the top.",
-   "note": "Bambu keeps at least top_shell_thickness (1 mm by default), so it is set to 0 whenever this changes.",
+   "note": "Bambu keeps the top shells at least as thick as Top shell thickness (1 mm by default), so that is set to 0 whenever this changes.",
    "needs": "Top surface"
   },
   {
@@ -96,7 +96,7 @@
     "cost"
    ],
    "explain": "Solid layers above the bed-side surface.",
-   "note": "bottom_shell_thickness is set to 0 whenever this changes, for the same reason as the top shells.",
+   "note": "Bottom shell thickness is set to 0 whenever this changes, for the same reason as the top shells.",
    "needs": "Bottom surface"
   },
   {

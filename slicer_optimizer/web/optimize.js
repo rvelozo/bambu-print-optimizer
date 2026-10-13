@@ -5,14 +5,21 @@ import { escapeHtml as esc } from "./opener.js";
 
 const LEVELS = [["Off", 0], ["A little", 1], ["Some", 3], ["A lot", 6]];
 const BUDGETS = [["About 10 minutes", 600], ["About 30 minutes", 1800], ["About an hour", 3600], ["About 3 hours", 10800]];
-const ORDER = ["time_s", "grams", "stiffness", "cost", "near_cap_s"];
-const BEST = { time_s: "Fastest", grams: "Lightest", stiffness: "Strongest", cost: "Cheapest", near_cap_s: "Most flow headroom" };
+const ORDER = ["time_s", "grams", "stiffness", "quality", "cost", "near_cap_s"];
+const BEST = { time_s: "Fastest", grams: "Lightest", stiffness: "Strongest", quality: "Best quality", cost: "Cheapest", near_cap_s: "Most flow headroom" };
+// quality aspects, as quality.py measures them
+const ASPECTS = {
+  slopes: { label: "Steps on slopes", show: (a) => `${a.step_um.toFixed(0)} µm` },
+  walls: { label: "Outer walls", show: (a) => `${a.speed.toFixed(0)} mm/s` },
+  air: { label: "Over air (overhangs, bridges)", show: (a) => `${a.speed.toFixed(0)} mm/s` },
+  top: { label: "Top surface", show: (a) => `${a.speed.toFixed(0)} mm/s` + (a.solid_layers != null ? `, ${a.solid_layers} solid layers` : "") },
+};
 
 const ui = {
   goals: null, plate: null, list: [], selected: null, shown: null,
-  weights: { time_s: 3, grams: 3, stiffness: 3, cost: 0, near_cap_s: 0 },
-  limits: { strength_on: true, strength_pct: 90, max_time: "", max_grams: "" },
-  allowed: null, budget_s: 1800, preview: null, previewTimer: null,
+  weights: { time_s: 3, grams: 3, stiffness: 3, quality: 0, cost: 0, near_cap_s: 0 },
+  limits: { strength_on: true, strength_pct: 90, quality_on: false, quality_pct: 100, max_time: "", max_grams: "" },
+  allowed: null, touched: new Set(), budget_s: 1800, preview: null, previewTimer: null,
 };
 
 const $ = (id) => document.getElementById(id);
@@ -21,20 +28,20 @@ function value(goal, v) {
   if (v == null) return "–";
   if (goal === "time_s" || goal === "near_cap_s") return fmtTime(v);
   if (goal === "grams") return `${v.toFixed(2)} g`;
-  if (goal === "stiffness") return `${v.toFixed(1)}%`;
+  if (goal === "stiffness" || goal === "quality") return `${v.toFixed(1)}%`;
   if (goal === "cost") return v.toFixed(2);
   return String(v);
 }
 
 function delta(goal, d) {
   const better = ui.goals[goal]?.better || "lower";
-  const shown = { time_s: 0.5, near_cap_s: 0.5, grams: 0.005, cost: 0.005, stiffness: 0.05 }[goal] ?? 0.005;
+  const shown = { time_s: 0.5, near_cap_s: 0.5, grams: 0.005, cost: 0.005, stiffness: 0.05, quality: 0.05 }[goal] ?? 0.005;
   if (d == null || Math.abs(d) < shown) return { text: "same", cls: "" };  // below what's displayed
   const good = better === "higher" ? d > 0 : d < 0;
   const sign = d < 0 ? "−" : "+";
   const text = goal === "time_s" || goal === "near_cap_s" ? fmtDelta(d)
     : goal === "grams" ? `${sign}${Math.abs(d).toFixed(2)} g`
-    : goal === "stiffness" ? `${sign}${Math.abs(d).toFixed(1)} pt` : `${sign}${Math.abs(d).toFixed(2)}`;
+    : goal === "stiffness" || goal === "quality" ? `${sign}${Math.abs(d).toFixed(1)} pt` : `${sign}${Math.abs(d).toFixed(2)}`;
   return { text, cls: good ? "good" : "bad" };
 }
 
@@ -57,6 +64,7 @@ const activeWeights = () => Object.fromEntries(Object.entries(ui.weights).filter
 function limitsBody() {
   return {
     strength_pct: ui.limits.strength_on && ui.limits.strength_pct !== "" ? +ui.limits.strength_pct : null,
+    quality_pct: ui.limits.quality_on && ui.limits.quality_pct !== "" ? +ui.limits.quality_pct : null,
     max_time_s: parseHM(ui.limits.max_time),
     max_grams: ui.limits.max_grams === "" ? null : +ui.limits.max_grams,
   };
@@ -76,6 +84,8 @@ function start(app) {
         <div class="opt-limits">
           <label class="check"><input type="checkbox" id="opt-strength-on"> Keep strength at least
             <input type="text" id="opt-strength" class="num" inputmode="decimal" aria-label="Strength floor, percent of now"> % of now</label>
+          <label class="check"><input type="checkbox" id="opt-quality-on"> Keep every quality aspect at least
+            <input type="text" id="opt-quality" class="num" inputmode="decimal" aria-label="Quality floor, percent of now"> % of now</label>
           <label class="field inline"><span>Finish within</span><input type="text" id="opt-maxtime" class="num" placeholder="2h30m"></label>
           <label class="field inline"><span>No heavier than</span><input type="text" id="opt-maxgrams" class="num" inputmode="decimal" placeholder="g"> g</label>
         </div>
@@ -98,6 +108,8 @@ function start(app) {
   $("opt-budget").onchange = (e) => { ui.budget_s = +e.target.value; schedulePreview(app); };
   $("opt-strength-on").onchange = (e) => { ui.limits.strength_on = e.target.checked; onPriorities(app); };
   $("opt-strength").oninput = (e) => { ui.limits.strength_pct = e.target.value; onPriorities(app); };
+  $("opt-quality-on").onchange = (e) => { ui.limits.quality_on = e.target.checked; onPriorities(app); };
+  $("opt-quality").oninput = (e) => { ui.limits.quality_pct = e.target.value; onPriorities(app); };
   $("opt-maxtime").oninput = (e) => { ui.limits.max_time = e.target.value; onPriorities(app); };
   $("opt-maxgrams").oninput = (e) => { ui.limits.max_grams = e.target.value; onPriorities(app); };
   $("opt-form").addEventListener("submit", (e) => { e.preventDefault(); create(app); });
@@ -119,6 +131,8 @@ async function render(app) {
   }
   $("opt-strength-on").checked = ui.limits.strength_on;
   $("opt-strength").value = ui.limits.strength_pct;
+  $("opt-quality-on").checked = ui.limits.quality_on;
+  $("opt-quality").value = ui.limits.quality_pct;
   renderGoals(app);
   schedulePreview(app, 0);
   await refresh(app);
@@ -131,7 +145,7 @@ function renderGoals(app) {
     const meta = ui.goals[g];
     const unavailable = bg && bg[g] == null;
     const proxy = meta.source === "proxy" ? `<span class="tag" title="${esc(meta.explain || "")}">proxy</span>` : "";
-    const now = bg ? `now ${value(g, bg[g])}` : "";
+    const now = !bg ? "" : g === "quality" ? "100% is as good as now" : `now ${value(g, bg[g])}`;
     const seg = LEVELS.map(([l, w]) => `<button type="button" role="radio" aria-checked="${ui.weights[g] === w}" data-goal="${g}" data-w="${w}" ${unavailable ? "disabled" : ""}>${l}</button>`).join("");
     return `<div class="opt-goal" title="${esc(meta.explain || "")}">
       <div class="opt-goal-name"><strong>${esc(meta.want)}</strong> ${proxy}<span class="muted small">${unavailable ? "can't be measured on this part" : esc(now)}</span></div>
@@ -151,8 +165,22 @@ function schedulePreview(app, wait = 250) {
   ui.previewTimer = setTimeout(() => preview(app), wait);
 }
 
+const qualityInPlay = () => ui.weights.quality > 0 || limitsBody().quality_pct != null;
+
+// Settings off by default because of how they change the look (layer height) come on with
+// quality as a goal or limit, unless you ticked or unticked them yourself.
+function syncDefaults() {
+  if (!ui.preview || !ui.allowed) return;
+  for (const k of ui.preview.catalog) {
+    if (!k.on_with_quality || ui.touched.has(k.key)) continue;
+    qualityInPlay() ? ui.allowed.add(k.key) : ui.allowed.delete(k.key);
+  }
+}
+
 async function preview(app) {
-  const q = new URLSearchParams({ plate: app.state.plate, weights: JSON.stringify(activeWeights()), budget_s: ui.budget_s });
+  syncDefaults();
+  const q = new URLSearchParams({ plate: app.state.plate, weights: JSON.stringify(activeWeights()), budget_s: ui.budget_s,
+    limits: JSON.stringify(limitsBody()) });
   if (ui.allowed) q.set("allowed", JSON.stringify([...ui.allowed]));
   try {
     ui.preview = await app.api(`optimize/preview?${q}`);
@@ -161,7 +189,10 @@ async function preview(app) {
     return;
   }
   const p = ui.preview;
-  if (!ui.allowed) ui.allowed = new Set(p.catalog.filter((k) => !k.off_by_default).map((k) => k.key));
+  if (!ui.allowed) {
+    ui.allowed = new Set(p.catalog.filter((k) => !k.off_by_default).map((k) => k.key));
+    syncDefaults();
+  }
   renderAllowed(app);
   const per = p.per_slice_s;
   if (!Object.keys(activeWeights()).length) $("opt-plan").textContent = "Choose at least one goal.";
@@ -186,6 +217,7 @@ function renderAllowed(app) {
       <span class="muted small">now ${esc(k.current ?? "varies")}${inapplicable ? `; ${esc(why)}` : ""}${!ui.allowed.has(k.key) && k.off_by_default ? `; ${esc(k.off_by_default)}` : ""}</span></span></label>`;
   }).join("");
   for (const cb of $("opt-allowed").querySelectorAll("input[type=checkbox]")) cb.onchange = () => {
+    ui.touched.add(cb.dataset.key);
     cb.checked ? ui.allowed.add(cb.dataset.key) : ui.allowed.delete(cb.dataset.key);
     schedulePreview(app);
   };
@@ -223,7 +255,7 @@ function onPriorities(app) {
 }
 
 // limits without the empty ones, in a fixed order, so equal limits compare equal
-const normLimits = (l) => Object.fromEntries(["strength_pct", "max_time_s", "max_grams"]
+const normLimits = (l) => Object.fromEntries(["strength_pct", "quality_pct", "max_time_s", "max_grams"]
   .filter((k) => l && l[k] != null && l[k] !== "").map((k) => [k, +l[k]]));
 const normWeights = () => Object.fromEntries(Object.keys(ui.goals).map((g) => [g, +(ui.weights[g] || 0)]));
 
@@ -248,11 +280,14 @@ function loadForm(app, o) {
   const l = o.limits || {};
   ui.limits = {
     strength_on: l.strength_pct != null, strength_pct: l.strength_pct ?? ui.limits.strength_pct,
+    quality_on: l.quality_pct != null, quality_pct: l.quality_pct ?? ui.limits.quality_pct,
     max_time: l.max_time_s ? `${Math.floor(l.max_time_s / 3600)}h${String(Math.round((l.max_time_s % 3600) / 60)).padStart(2, "0")}m` : "",
     max_grams: l.max_grams ?? "",
   };
   $("opt-strength-on").checked = ui.limits.strength_on;
   $("opt-strength").value = ui.limits.strength_pct;
+  $("opt-quality-on").checked = ui.limits.quality_on;
+  $("opt-quality").value = ui.limits.quality_pct;
   $("opt-maxtime").value = ui.limits.max_time;
   $("opt-maxgrams").value = ui.limits.max_grams;
   renderGoals(app);
@@ -310,6 +345,8 @@ function renderResult(app) {
   box.innerHTML = html;
   const skippedBox = box.querySelector(".opt-skipped");
   if (skippedBox) skippedBox.ontoggle = () => { ui.skippedOpen = skippedBox.open; };
+  const qualityBox = box.querySelector(".opt-quality");
+  if (qualityBox) qualityBox.ontoggle = () => { ui.qualityOpen = qualityBox.open; };
   for (const b of box.querySelectorAll("[data-alt]")) b.onclick = () => { ui.altPick = b.dataset.alt || null; renderResult(app); };
   const shownRun = currentPick(o);
   const cmp = box.querySelector("#opt-compare"), save = box.querySelector("#opt-save");
@@ -340,7 +377,7 @@ function emptyState(app) {
         <li>It combines the settings that helped, as many combinations as the time you give it allows.</li>
         <li>It recommends the result closest to your priorities, within your limits, and shows the best one for each goal.</li>
       </ol>
-      <p class="muted small">Every number is from a real slice with Bambu Studio${base && base.metrics ? `; this plate slices in about ${fmtTime(base.metrics.wall_s)}` : ""}. Strength is a proxy for flat parts and surface quality isn't measured, so print a test piece before a batch.</p>
+      <p class="muted small">Every number is from a real slice with Bambu Studio${base && base.metrics ? `; this plate slices in about ${fmtTime(base.metrics.wall_s)}` : ""}. Strength and quality are proxies worked out from the toolpaths, so print a test piece before a batch.</p>
     </div></div>`;
 }
 
@@ -383,13 +420,13 @@ function currentPick(o) {
 function recommendation(o, _pick, chosen) {
   const p = currentPick(o);
   const isPick = !ui.altPick;
-  const goals = [...new Set([...chosen, "time_s", "grams"])].filter((g) => p.goals[g] != null);
+  const goals = [...new Set([...chosen, "time_s", "grams", "quality"])].filter((g) => p.goals[g] != null);
   const rows = goals.map((g) => {
     const d = p.deltas[g];
     const dd = delta(g, d);
     return `<div class="opt-stat"><div class="label">${esc(ui.goals[g].label)}</div>
       <div class="value"><span class="muted">${value(g, o.base_goals[g])}</span> → ${value(g, p.goals[g])}</div>
-      <div class="delta ${dd.cls}">${dd.text}${dd.text !== "same" && g !== "stiffness" ? pct(d, o.base_goals[g]) : ""}</div></div>`;
+      <div class="delta ${dd.cls}">${dd.text}${dd.text !== "same" && g !== "stiffness" && g !== "quality" ? pct(d, o.base_goals[g]) : ""}</div></div>`;
   }).join("");
   const changes = p.changes.length ? `<ul class="opt-changes">` + p.changes.map((c) => {
     const alone = c.alone ? goals.map((g) => (c.alone[g] != null ? delta(g, c.alone[g]) : null)).filter((x) => x && x.text !== "same").map((x) => `<span class="${x.cls}">${x.text}</span>`).join(", ") : "";
@@ -401,12 +438,30 @@ function recommendation(o, _pick, chosen) {
   return `<section class="opt-card">
     <h2>${isPick ? (o.status === "done" ? "Recommended" : "Best so far") : esc(BEST[altGoal] || "Alternative")} for plate ${o.plate}</h2>
     <div class="opt-stats">${rows}</div>
+    ${qualityTable(p.quality)}
     ${changes}
     ${p.changes.length ? `<div class="d-actions">
       <button type="button" class="primary" id="opt-compare">Compare with current, layer by layer</button>
       <button type="button" class="ghost" id="opt-save">Save as .3mf</button></div>` : ""}
-    <p class="muted small">Measured by slicing. Strength is a flat-part proxy, and faster bridges or overhangs, fewer shells and other changes can affect surface quality, which isn't measured: print a test piece first.</p>
+    <p class="muted small">Measured by slicing. Strength and quality are proxies worked out from the toolpaths, not measurements of a print: print a test piece first.</p>
   </section>`;
+}
+
+// What the quality figure is made of: each aspect now and with these settings.
+function qualityTable(q) {
+  if (!q || !q.aspects) return "";
+  const rows = Object.entries(q.aspects).filter(([k]) => ASPECTS[k]).sort((a, b) => b[1].weight - a[1].weight).map(([k, a]) => {
+    const meta = ASPECTS[k];
+    const now = meta.show(a.now), then = meta.show(a.then);
+    const d = a.score - 100;
+    const cls = Math.abs(d) < 0.5 ? "" : d > 0 ? "good" : "bad";
+    return `<tr><td>${esc(meta.label)}</td><td class="num">${(100 * a.weight).toFixed(0)}%</td><td>${esc(now)}</td>
+      <td>${now === then ? '<span class="muted">same</span>' : esc(then)}</td>
+      <td class="num ${cls}">${Math.abs(d) < 0.5 ? "same" : `${a.score.toFixed(0)}%`}</td></tr>`;
+  }).join("");
+  return `<details class="opt-quality" ${ui.qualityOpen === false ? "" : "open"}><summary class="small">Quality aspects</summary>
+    <table class="table opt-qtable"><tr><th>Aspect</th><th class="num" title="Share of the measured surface: how much the aspect counts">Counts</th><th>Now</th><th>These settings</th><th class="num">vs now</th></tr>${rows}</table>
+    <p class="muted small">Slower and finer is assumed to look better: steps on slopes are layer height times the slope; speeds are what the printer reaches after acceleration. Over air, each overhang class is compared with itself. A top surface also scores lower with fewer solid layers than now.</p></details>`;
 }
 
 function alternatives(o, chosen) {
@@ -426,7 +481,8 @@ function alternatives(o, chosen) {
 function effectsTable(o, chosen) {
   const rows = o.effects.filter((e) => e.values.some((v) => v.measured));
   if (!rows.length) return "";
-  const goals = [...new Set(["time_s", ...chosen])].filter((g) => o.base_goals[g] != null);
+  const limited = o.limits && o.limits.quality_pct != null ? ["quality"] : [];
+  const goals = [...new Set(["time_s", ...chosen, ...limited])].filter((g) => o.base_goals[g] != null);
   const head = `<tr><th>Setting</th><th>Value</th>${goals.map((g) => `<th>${esc(ui.goals[g].label.replace(/ \(.*\)$/, ""))}</th>`).join("")}</tr>`;
   const body = rows.map((e) => e.values.filter((v) => v.measured).map((v, i, arr) => {
     const cells = goals.map((g) => {

@@ -150,6 +150,30 @@ class Analysis:
         out["Travel"] = moves.get(TRAVEL, 0.0)
         return out
 
+    def layer_heights(self) -> list[float]:
+        """Each layer's thickness: the LAYER_HEIGHT its toolpaths carry, most of them by length.
+
+        Bridge lines are left out: Bambu tags a thick bridge with its line's height
+        (0.4 mm in a 0.2 mm layer). The tag a layer ends on can be that one, so
+        layers[i]["h"] is not always the layer's thickness. A layer with nothing
+        else printed gets its Z step.
+        """
+        bridge = {i for i, name in enumerate(self.features) if name == "Bridge"}
+        votes: list[dict[float, float]] = [{} for _ in self.layers]
+        for i, layer in enumerate(self.layer):
+            if self.feat[i] in bridge:
+                continue
+            h = round(self.height[i], 4)
+            v = votes[layer]
+            v[h] = v.get(h, 0.0) + math.hypot(self.x1[i] - self.x0[i], self.y1[i] - self.y0[i])
+        out = []
+        for k, layer in enumerate(self.layers):
+            if votes[k]:
+                out.append(max(votes[k].items(), key=lambda kv: kv[1])[0])
+            else:
+                out.append(round(layer["z"] - (self.layers[k - 1]["z"] if k > 1 else 0.0), 4) if k else 0.0)
+        return out
+
     @property
     def model_s(self) -> float:
         """Bambu's main_predication: total minus start-up (prepare) and flush time."""

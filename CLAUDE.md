@@ -39,6 +39,7 @@ with Bambu Studio 02.08.04.57 on macOS. Numbers below called "the v7 lid / rails
 | `slicer_optimizer/web/` | Frontend: vanilla ES modules (app, layer view, charts, designer, section, 3D, prints), no build step |
 | `slicer_optimizer/catalog.json` | Goals and the settings the designer can search, with values and plain-language notes |
 | `slicer_optimizer/metrics.py` | Goal metrics per run (time, weight, cost, stiffness proxy, time at the flow cap) |
+| `slicer_optimizer/quality.py` | Quality proxy from the toolpaths (steps on slopes, outer wall speed, speed over air, top surface), and its score against the current settings |
 | `slicer_optimizer/search.py` | Sensitivity and grid candidates, Pareto front, weighted-Chebyshev pick |
 | `slicer_optimizer/designer.py` | Server side of the designer: searches whose candidates are ordinary runs |
 | `slicer_optimizer/optimize.py` | Goal-first optimizer: picks settings from the catalog by goal and by the plate's features, measures each alone, combines what helped within a slicing budget, recommends (stages advance in a hub thread) |
@@ -138,6 +139,38 @@ Projects not saved by the Bambu Studio window exist: the ge-circle file
 model_settings.config on one line, with extruders on modifier parts.
 `_set_object_setting` edits <metadata> elements wherever the line breaks are;
 an override written there slices the same as the print-wide value.
+
+## Quality proxy notes (verified 2026-10-13)
+
+- `quality.measure()` runs inside `layers.build()`, so it's in every analysis
+  and run's metrics (`metrics["quality"]`). The goal value is relative: the
+  server scores each run against its plate's current-settings run when it's
+  read (`App.goals_of`, `quality.score`), so it is never stored in `goals`.
+- Slopes and overhangs come from each layer's outer walls against the layer
+  below's. Test shapes sliced by Bambu (`tests/test_quality.py`): steps match
+  layer height × sin(slope) to 0.5 µm; walls over air fall in the class whose
+  overhang speed Bambu used (30°: 25–50 % at 50 mm/s, 45°: 50–75 % at 30,
+  60°: 75–100 % at 10), 100 % of the length.
+- The material side of a wall comes from the same layer's inner walls and
+  infill (wall direction isn't consistent: 80–100 % of outer wall length has
+  the material on the right, never all of it). Thin features with nothing
+  beside them use the share of the line's width with nothing printed below.
+- The first layer is inset by elephant foot compensation, so comparisons start
+  at layer 3; a one-layer offset is a ledge, not a slope.
+- On a lattice (the v7 panel's grid) about half of what measures 75–100 %
+  over air prints at Bambu's 50–75 % speed, so every overhang speed is tried
+  when any wall hangs over air (`"needs": "@overhangs"`).
+- Speeds over air are compared overhang class by class (and bridges apart):
+  thicker layers push the same overhang into a steeper class that Bambu prints
+  slower, and a plain mean speed read that as a better finish (+23 % "over
+  air" on 3DBenchy at 0.28 mm, cancelling the bigger slope steps). The top
+  surface counts solid layers, not mm, for the same kind of reason: 0.12 mm
+  layers with a 0.6 mm minimum gave a thinner but more-layered top.
+- Bambu tags a thick bridge with the bridge line's height (0.4 mm in a 0.2 mm
+  layer), and a layer's last LAYER_HEIGHT tag can be that one.
+  `Analysis.layer_heights()` leaves bridge lines out; `layers.build` uses it
+  for each layer's `h` (the stiffness proxy read 86.1 % instead of 83.8 % on
+  the v7 lid with 2 top shells before this).
 
 ## Per-variant values
 

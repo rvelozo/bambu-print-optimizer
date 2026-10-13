@@ -315,6 +315,14 @@ input.num { width: 72px; }
 .opt-table td.good { color: var(--good); }
 .opt-table td.bad { color: var(--bad); }
 .opt-skipped ul { margin: 6px 0 0; padding-left: 18px; }
+.opt-quality { margin: 0 0 12px; }
+.opt-quality summary { cursor: pointer; color: var(--muted); }
+.opt-quality p { margin: 4px 0 0; }
+.opt-qtable { margin-top: 4px; font-size: 13px; }
+.opt-qtable td, .opt-qtable th { padding: 3px 10px; text-align: left; }
+.opt-qtable td.num, .opt-qtable th.num { text-align: right; }
+.opt-qtable td.good { color: var(--good); }
+.opt-qtable td.bad { color: var(--bad); }
 
 @media (max-width: 860px) {
   .shell { grid-template-columns: 1fr; }

@@ -20,9 +20,9 @@ import math
 from array import array
 from pathlib import Path
 
-from . import gcode
+from . import gcode, quality
 
-VERSION = 6
+VERSION = 9
 MERGE_WIDTH_MM = 0.02
 MERGE_SPEED_REL = 0.05
 EXT_FIELDS = ["x0", "y0", "x1", "y1", "width", "height", "speed", "flow", "time", "feature"]
@@ -98,6 +98,7 @@ def build(a: gcode.Analysis) -> tuple[dict, bytes]:
     for i, layer in enumerate(a.seam_layer):
         seams_by_layer[layer].append([round(a.seam_x[i], 2), round(a.seam_y[i], 2)])
 
+    heights = a.layer_heights()
     out = array("f")
     layers = []
     feature_totals: dict[int, list[float]] = {}  # feature -> [time, volume, length]
@@ -156,7 +157,7 @@ def build(a: gcode.Analysis) -> tuple[dict, bytes]:
         info = a.layers[li]
         roles = {a.roles[r]: round(t, 3) for (l, r), t in a.layer_role_time.items() if l == li and t > 0}
         layers.append({
-            "index": li, "z": info["z"], "h": info["h"],
+            "index": li, "z": info["z"], "h": heights[li],
             "time_s": round(a.layer_time.get(li, 0.0), 3), "time_by_role": roles,
             "volume_mm3": round(volume, 2), "length_mm": round(length, 1),
             "max_flow": round(max((q for q, _ in flows), default=0.0), 3),
@@ -193,6 +194,7 @@ def build(a: gcode.Analysis) -> tuple[dict, bytes]:
                  "max": round(max(a.flow, default=0.0), 3),
                  "near_cap_s": round(sum(l["near_cap_s"] for l in layers), 2)},
         "segments": {"raw": raw_segments, "merged": merged_segments, "travel": len(a.tx0)},
+        "quality": quality.measure(a),
         "layers": layers,
     }
     return analysis, out.tobytes()

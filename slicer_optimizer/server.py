@@ -36,12 +36,12 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
-from . import __version__, bambu, layers, metrics, paths, settings
+from . import __version__, bambu, layers, metrics, paths, quality, settings
 from .prints import ISSUES, OUTCOMES, PrintLog
 from .project3mf import Change, Project, ProjectError
 from .trial import PlannedChange, Trial, save_variant
 
-METRICS_VERSION = 6  # bump to recompute stored run metrics (from the cache) on startup
+METRICS_VERSION = 9  # bump to recompute stored run metrics (from the cache) on startup
 DATA = paths.data_dir()
 WEB = Path(__file__).parent / "web"
 MAX_UPLOAD = 1 << 30
@@ -270,6 +270,7 @@ class App:
             "flow_cap": analysis["flow"]["cap"],
             "cost": None if (c := metrics.filament_cost(res, analysis["filament"])) is None else round(c, 3),
             "filament": analysis["filament"].get("name"),
+            "quality": analysis.get("quality"),
         }, goals=metrics.run_metrics(res, analysis))
 
     # ---- API data ------------------------------------------------------------------
@@ -295,7 +296,8 @@ class App:
                 "modified": pr.modified_vs_system(), "disk": self.disk_state()}
 
     def runs_view(self) -> dict:
-        runs = [self.run_view(r) for r in self.runs.current()]
+        bases = self.baselines()
+        runs = [self.run_view(r, bases.get(r["plate"])) for r in self.runs.current()]
         current = self.hub.worker.current
         return {"runs": runs, "older": self.runs.older(), "waiting": self.hub.waiting(),
                 "active": current[1] if current and current[0] == self.id else None, "disk": self.disk_state()}
@@ -320,11 +322,31 @@ class App:
                 break
         return out
 
-    def run_view(self, run: dict) -> dict:
+    def run_view(self, run: dict, base: dict | None = None) -> dict:
         view = {k: v for k, v in run.items() if k not in ("trace",)}
+        view["goals"] = self.goals_of(run, base)
         if self.hub.worker.current == (self.id, run["id"]):
             view["active"] = True
         return view
+
+    def baselines(self) -> dict[int, dict]:
+        """The current settings' run of each plate, for scoring many runs against it."""
+        with self.runs.lock:
+            return {r["plate"]: r for r in self.runs.runs.values()
+                    if not r["changes"] and r["source_sha"] == self.runs.source_sha}
+
+    def quality_of(self, run: dict, base: dict | None = None) -> dict | None:
+        """The run's quality aspects scored against the plate's current settings (quality.score)."""
+        base = base if base is not None else self.baseline(run["plate"])
+        return quality.score((run.get("metrics") or {}).get("quality"), ((base or {}).get("metrics") or {}).get("quality"))
+
+    def goals_of(self, run: dict, base: dict | None = None) -> dict | None:
+        """The run's goals, with quality relative to the plate's current settings (100 = as good as now)."""
+        goals = run.get("goals")
+        if goals is None:
+            return None
+        s = self.quality_of(run, base)
+        return {**goals, "quality": s["index"] if s else None, "quality_worst": s["worst"] if s else None}
 
     def suggested_name(self, run: dict) -> str:
         name = self.hub.meta(self.id).get("name") or self.path.name

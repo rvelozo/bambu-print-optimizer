@@ -1,7 +1,7 @@
 # bambu-print-optimizer
 
-Make a Bambu Studio project faster, lighter, stronger or cheaper, and see how
-each print setting changes your part. Every number comes from slicing the
+Make a Bambu Studio project faster, lighter, stronger, cheaper or better
+looking, and see how each print setting changes your part. Every number comes from slicing the
 project with Bambu Studio itself, so what you see is what the slicer would do.
 
 You say what matters, for example "faster and lighter, but keep at least 90 %
@@ -21,10 +21,11 @@ Not affiliated with Bambu Lab.
 ## What you can do
 
 - **Optimize** a plate for what matters to you: print time, weight, strength
-  (a proxy for flat parts), filament cost, or headroom below the filament's
-  flow limit. Set how much each one matters and any limits, and choose how
-  long it may slice. You get a recommendation, the fastest, lightest and
-  strongest alternatives, and what each setting did on its own:
+  (a proxy for flat parts), quality (a proxy from the toolpaths, below),
+  filament cost, or headroom below the filament's flow limit. Set how much
+  each one matters and any limits, and choose how long it may slice. You get
+  a recommendation, the best alternative for each goal, and what each setting
+  did on its own:
 
   ![Each setting's measured effect on print time and weight when changed alone](docs/images/settings-effects.png)
 
@@ -45,8 +46,30 @@ Not affiliated with Bambu Lab.
   estimates are from your printer.
 
 Strength is a beam-theory proxy that ranks variants of the same flat part; it
-doesn't predict breaking loads. Surface quality isn't measured at all. Print a
-test piece before a batch.
+doesn't predict breaking loads.
+
+Quality is also a proxy, worked out from each slice's toolpaths and scored
+against your current settings (100 % is as good as now). It has four aspects,
+each counted by the share of the surface it covers:
+
+- **Steps on slopes:** the stair-step height on sloped and curved sides, layer
+  height times the sine of the slope from vertical.
+- **Outer walls:** the speed they actually print at, after acceleration.
+- **Over air:** the speed of walls that hang out a quarter of their width or
+  more past the layer below, and of bridges over open space, compared class by
+  class (a quarter to half of the width, half to three quarters, more).
+  Bridges hidden inside the part don't count.
+- **Top surface:** its speed, and the solid layers under it when there are
+  fewer than now.
+
+Layer lines on vertical walls aren't counted: thicker layers only cost quality
+where the sides slope.
+
+These are rules of thumb (slower and finer looks better), not measurements of
+a print. Slopes and overhangs come from comparing each layer's walls with the
+layer below. On test shapes they match the exact step height, and the overhang
+speeds Bambu Studio itself chose (`tests/test_quality.py`). Print a test piece
+before a batch.
 
 The screenshots show [3DBenchy](https://www.3dbenchy.com) by Creative Tools,
 the test model that ships with Bambu Studio, on a Bambu Lab P2S with Bambu PLA

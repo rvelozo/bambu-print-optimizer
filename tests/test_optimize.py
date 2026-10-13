@@ -40,6 +40,35 @@ class ChooseKnobs(unittest.TestCase):
         self.assertEqual(knobs[0], {"key": "bridge_speed", "values": ["75", "100"]})
         self.assertEqual({s["key"]: s["why"] for s in skipped}["layer_height"], "Changes how slopes look.")
 
+    def test_only_values_that_can_help_a_chosen_goal(self):
+        knob = {"key": "outer_wall_speed", "values": ["60", "100", "150", "200", "250"], "current": "200",
+                "goals": ["time_s", "near_cap_s", "quality"], "helps": {"time_s": "higher", "near_cap_s": "lower", "quality": "lower"}}
+        self.assertEqual(optimize.useful_values(knob, {"time_s"}), ["250"])           # slower walls can't be faster
+        self.assertEqual(optimize.useful_values(knob, {"quality"}), ["60", "100", "150"])
+        self.assertEqual(optimize.useful_values(knob, {"time_s", "quality"}), ["60", "100", "150", "250"])
+        pattern = {"key": "sparse_infill_pattern", "values": ["grid", "gyroid"], "current": "grid", "goals": ["time_s"],
+                   "helps": {"time_s": "higher"}}
+        self.assertEqual(optimize.useful_values(pattern, {"time_s"}), ["gyroid"])     # no direction for words
+
+    def test_layer_height_comes_on_with_quality(self):
+        cat = [{"key": "layer_height", "label": "Layer height", "values": ["0.12", "0.2", "0.28"], "current": "0.2",
+                "goals": ["time_s", "quality"], "helps": {"time_s": "higher", "quality": "lower"},
+                "off_by_default": "Changes how slopes look.", "on_with_quality": True}]
+        self.assertEqual(optimize.choose_knobs(cat, BASE_METRICS, {"time_s": 3}, None)[0], [])
+        self.assertEqual(optimize.choose_knobs(cat, BASE_METRICS, {"time_s": 3, "quality": 1}, None)[0],
+                         [{"key": "layer_height", "values": ["0.12", "0.28"]}])
+        # a quality limit alone: only thicker layers can be faster, and the limit holds the looks
+        self.assertEqual(optimize.choose_knobs(cat, BASE_METRICS, {"time_s": 3}, None, {"quality_pct": 100})[0],
+                         [{"key": "layer_height", "values": ["0.28"]}])
+
+    def test_overhang_speeds_need_walls_over_air(self):
+        knob = {"key": "overhang_2_4_speed", "needs": "@overhangs"}
+        air = lambda mm: {**BASE_METRICS, "quality": {"air": {"walls_mm": mm}}}
+        self.assertIsNone(optimize.relevance(knob, air(250.0)))
+        self.assertEqual(optimize.relevance(knob, air(0.0)), "no wall on this plate hangs over air")
+        # runs measured before quality: Bambu's overhang wall feature decides, as before
+        self.assertEqual(optimize.relevance(knob, BASE_METRICS), "this plate has no overhangs")
+
     def test_budget_trims_values_then_settings(self):
         knobs = [{"key": "a", "values": ["1", "2", "3", "4"]}, {"key": "b", "values": ["1", "2", "3"]}, {"key": "c", "values": ["1", "2"]}]
         same, notes = optimize.fit_measure_budget(knobs, 20)
@@ -121,6 +150,16 @@ class Recommend(unittest.TestCase):
         self.assertEqual(r["pick"], "stiff")          # only the base and "stiff" keep 99 % of the strength
         limits = optimize.limits_for({"max_time_s": 6000}, {})
         self.assertIsNone(optimize.recommend(self.POINTS, w, limits)["pick"])
+
+    def test_quality_limit_holds_every_aspect(self):
+        points = [{"run_id": "base", "time_s": 100, "quality": 100.0, "quality_worst": 100.0},
+                  {"run_id": "trade", "time_s": 80, "quality": 101.0, "quality_worst": 90.0},   # walls worse, top better
+                  {"run_id": "noise", "time_s": 90, "quality": 99.95, "quality_worst": 99.9},
+                  {"run_id": "fast", "time_s": 70, "quality": 80.0, "quality_worst": 70.0}]
+        limits = optimize.limits_for({"quality_pct": 100}, {"quality": 100.0})
+        self.assertEqual(limits, {"quality_worst": (">=", 100 - optimize.QUALITY_SLACK)})
+        self.assertEqual(optimize.recommend(points, {"time_s": 1}, limits)["pick"], "noise")
+        self.assertEqual(optimize.recommend(points, {"time_s": 1}, optimize.limits_for({"quality_pct": 90}, {}))["pick"], "trade")
 
 
 if __name__ == "__main__":

@@ -97,6 +97,7 @@ class Searches:
 
     def view(self, item: dict) -> dict:
         runs = self.app.runs.runs
+        bases = self.app.baselines()
         cands, walls = [], []
         counts = {"done": 0, "queued": 0, "error": 0, "cancelled": 0, "active": 0}
         for c in item["candidates"]:
@@ -110,7 +111,7 @@ class Searches:
             if status == "done" and m.get("samples") and m.get("wall_s"):
                 walls.append(m["wall_s"])
             cands.append({"assignment": c["assignment"], "run_id": c["run_id"], "status": status,
-                          "label": run.get("label"), "goals": run.get("goals"),
+                          "label": run.get("label"), "goals": self.app.goals_of(run, bases.get(run.get("plate"))) if run.get("goals") else None,
                           "error": run.get("error"), "pinned": run.get("pinned", False)})
         remaining = counts["queued"] + counts["active"]
         per = statistics.median(walls) if walls else None

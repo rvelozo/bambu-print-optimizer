@@ -13,7 +13,7 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&l
 
 const ui = {
   catalog: null, catalogPlate: null, searches: [], selected: null, picked: null, manual: false,
-  weights: { time_s: 5, grams: 3, stiffness: 3, cost: 0, near_cap_s: 0 },
+  weights: { time_s: 5, grams: 3, stiffness: 3, quality: 0, cost: 0, near_cap_s: 0 },
   limits: { maxTime: "", minStiffness: "" }, yGoal: "grams", checked: new Set(["bridge_speed", "top_shell_layers"]),
   values: {},
 };
@@ -22,7 +22,7 @@ function goalValue(goal, v) {
   if (v == null) return "–";
   if (goal === "time_s" || goal === "near_cap_s") return fmtTime(v);
   if (goal === "grams") return `${v.toFixed(2)} g`;
-  if (goal === "stiffness") return `${v.toFixed(1)}%`;
+  if (goal === "stiffness" || goal === "quality") return `${v.toFixed(1)}%`;
   if (goal === "cost") return v.toFixed(2);
   return String(v);
 }
@@ -31,7 +31,7 @@ function goalDelta(goal, d, better) {
   if (Math.abs(d) < 1e-9) return { text: "same", cls: "" };
   const good = better === "higher" ? d > 0 : d < 0;
   const text = goal === "time_s" || goal === "near_cap_s" ? fmtDelta(d) :
-    `${d < 0 ? "−" : "+"}${goal === "stiffness" ? Math.abs(d).toFixed(1) + " pt" : goal === "grams" ? Math.abs(d).toFixed(2) + " g" : Math.abs(d).toFixed(2)}`;
+    `${d < 0 ? "−" : "+"}${goal === "stiffness" || goal === "quality" ? Math.abs(d).toFixed(1) + " pt" : goal === "grams" ? Math.abs(d).toFixed(2) + " g" : Math.abs(d).toFixed(2)}`;
   return { text, cls: good ? "good" : "bad" };
 }
 

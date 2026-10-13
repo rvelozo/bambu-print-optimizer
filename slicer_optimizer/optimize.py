@@ -25,8 +25,10 @@ import uuid
 from . import search
 from .project3mf import ProjectError
 
-DEFAULT_WEIGHTS = {"time_s": 3, "grams": 3, "stiffness": 3, "cost": 0, "near_cap_s": 0}
-NOISE = {"grams": 0.01, "cost": 0.001, "stiffness": 0.05, "near_cap_s": 1.0}  # time uses the plate's own repeat noise
+DEFAULT_WEIGHTS = {"time_s": 3, "grams": 3, "stiffness": 3, "quality": 0, "cost": 0, "near_cap_s": 0}
+# time uses the plate's own repeat noise; quality's aspects moved by under 0.1% for settings that don't touch them
+NOISE = {"grams": 0.01, "cost": 0.001, "stiffness": 0.05, "quality": 0.1, "near_cap_s": 1.0}
+QUALITY_SLACK = 0.2  # points of quality a limit forgives, above that noise
 MIN_EFFECT = 0.002  # a setting must move a goal by more than 0.2 % of its current value to be worth changing
 MAX_VALUES_PER_KNOB = 2  # besides the current one, in the combination stage
 MIN_BUDGET = 6
@@ -44,6 +46,13 @@ def relevance(knob: dict, base: dict) -> str | None:
     need = knob.get("needs")
     if not need:
         return None
+    if need == "@overhangs":
+        air = (base.get("quality") or {}).get("air")
+        if air is None:  # measured before quality: Bambu's own overhang feature is the best guess
+            return None if base.get("feature_s", {}).get("Overhang wall", 0.0) >= 0.5 else "this plate has no overhangs"
+        # any wall over air: Bambu's overhang classes don't match the measured share of the width
+        # exactly (a lattice's bars print at the speed one class down), so every overhang speed is tried
+        return None if air.get("walls_mm", 0.0) >= 1.0 else "no wall on this plate hangs over air"
     if need == "@flow_cap":
         if not base.get("flow_cap"):
             return "this plate's filaments don't share one flow cap"
@@ -55,28 +64,70 @@ def relevance(knob: dict, base: dict) -> str | None:
     return None
 
 
-def choose_knobs(catalog: list[dict], base: dict, weights: dict, allowed: set[str] | None) -> tuple[list[dict], list[dict]]:
+def _number(v) -> float | None:
+    try:
+        return float(str(v).rstrip("%"))
+    except (TypeError, ValueError):
+        return None
+
+
+def useful_values(knob: dict, goals: set[str]) -> list[str]:
+    """The knob's catalog values worth slicing for these goals.
+
+    A knob's "helps" says which way a goal improves: {"time_s": "higher"} means
+    only values above the current one can make the print faster. A value is kept
+    when some chosen goal can improve with it, or the direction is unknown.
+    """
+    cur = _number(knob.get("current"))
+    out = []
+    for v in knob["values"]:
+        v = str(v)
+        if v == str(knob.get("current")):
+            continue
+        x = _number(v)
+        if cur is None or x is None:  # words, or objects that disagree: no direction to go by
+            out.append(v)
+            continue
+        for g in goals & set(knob.get("goals", [])):
+            way = knob.get("helps", {}).get(g)
+            if way is None or (way == "higher" and x > cur) or (way == "lower" and x < cur):
+                out.append(v)
+                break
+    return out
+
+
+def quality_in_play(weights: dict, limits: dict | None) -> bool:
+    return weights.get("quality", 0) > 0 or (limits or {}).get("quality_pct") not in (None, "")
+
+
+def choose_knobs(catalog: list[dict], base: dict, weights: dict, allowed: set[str] | None,
+                 limits: dict | None = None) -> tuple[list[dict], list[dict]]:
     """The settings to measure, and the ones left out with the reason."""
     goals = {g for g, w in weights.items() if w > 0}
     chosen, skipped = [], []
     for k in catalog:
         why = None
+        off = k.get("off_by_default")
+        if off and k.get("on_with_quality") and quality_in_play(weights, limits):
+            off = None  # its effect on looks is measured now
         if not goals & set(k.get("goals", [])):
             why = "doesn't affect the goals you chose"
         elif (r := relevance(k, base)) is not None:
             why = r
         elif allowed is not None and k["key"] not in allowed:
-            why = k.get("off_by_default") or "you left it out"
-        elif allowed is None and k.get("off_by_default"):
-            why = k["off_by_default"]  # only when asked for
+            why = off or "you left it out"
+        elif allowed is None and off:
+            why = off  # only when asked for
         if why:
             skipped.append({"key": k["key"], "label": k.get("label", k["key"]), "why": why})
             continue
-        values = [str(v) for v in k["values"] if str(v) != str(k.get("current"))]
+        values = useful_values(k, goals)
         if values:
             chosen.append({"key": k["key"], "values": values})
         else:
-            skipped.append({"key": k["key"], "label": k.get("label", k["key"]), "why": "every catalog value is the current one"})
+            others = [str(v) for v in k["values"] if str(v) != str(k.get("current"))]
+            why = "no catalog value can improve the goals you chose" if others else "every catalog value is the current one"
+            skipped.append({"key": k["key"], "label": k.get("label", k["key"]), "why": why})
     return chosen, skipped
 
 
@@ -215,7 +266,11 @@ def plan_combinations(effect_rows: list[dict], current: dict[str, str], budget: 
 
 
 def limits_for(raw: dict, base: dict) -> dict[str, tuple[str, float]]:
-    """The user's limits in search.feasible form; strength is relative to the current part."""
+    """The user's limits in search.feasible form; strength and quality are relative to the current part.
+
+    The quality limit holds every quality aspect (quality.score's "worst"), so a
+    better finish in one place can't pay for a worse one elsewhere.
+    """
     out: dict[str, tuple[str, float]] = {}
     if raw.get("strength_pct") not in (None, "") and base.get("stiffness") is not None:
         out["stiffness"] = (">=", base["stiffness"] * float(raw["strength_pct"]) / 100.0 - 1e-9)
@@ -223,6 +278,8 @@ def limits_for(raw: dict, base: dict) -> dict[str, tuple[str, float]]:
         out["time_s"] = ("<=", float(raw["max_time_s"]))
     if raw.get("max_grams") not in (None, ""):
         out["grams"] = ("<=", float(raw["max_grams"]))
+    if raw.get("quality_pct") not in (None, ""):
+        out["quality_worst"] = (">=", float(raw["quality_pct"]) - QUALITY_SLACK)
     return out
 
 
@@ -280,7 +337,8 @@ class Optimizations:
             return None
         return m["wall_s"] + (m["analysis_s"] if m.get("analysis_s") is not None else m["wall_s"])
 
-    def preview(self, plate: int, weights: dict, allowed: list[str] | None, budget_s: float | None) -> dict:
+    def preview(self, plate: int, weights: dict, allowed: list[str] | None, budget_s: float | None,
+                limits: dict | None = None) -> dict:
         """What an optimization with these choices would measure, before starting it."""
         project = self.app.project
         project.plate(plate)
@@ -288,7 +346,7 @@ class Optimizations:
         base = self._baseline(plate)
         if not base or base.get("status") != "done":
             return {"ready": False, "catalog": cat, "message": "The plate's current settings are still being sliced."}
-        knobs, skipped = choose_knobs(cat, base["metrics"], weights, set(allowed) if allowed is not None else None)
+        knobs, skipped = choose_knobs(cat, base["metrics"], weights, set(allowed) if allowed is not None else None, limits)
         budget = self.budget_slices(plate, budget_s)
         measured, notes = fit_measure_budget(knobs, budget)
         return {"ready": True, "catalog": cat, "knobs": measured, "skipped": skipped, "notes": notes,
@@ -386,7 +444,8 @@ class Optimizations:
                 raise ProjectError("the plate's current settings couldn't be sliced")
             cat = search.catalog_for(self.app.project, plate)
             knobs, skipped = choose_knobs(cat, base["metrics"], item["weights"],
-                                          set(item["allowed"]) if item.get("allowed") is not None else None)
+                                          set(item["allowed"]) if item.get("allowed") is not None else None,
+                                          item.get("limits"))
             budget = self.budget_slices(plate, item.get("budget_s"))
             knobs, notes = fit_measure_budget(knobs, budget)
             with self.lock:
@@ -429,7 +488,7 @@ class Optimizations:
         """Baseline, every sliced candidate and the measured effects of single changes."""
         runs = self.app.runs.runs
         base = self._baseline(item["plate"])
-        base_goals = (base or {}).get("goals") or {}
+        base_goals = (self.app.goals_of(base, base) if base else None) or {}
         tol = {**NOISE, "time_s": ((base or {}).get("metrics") or {}).get("tolerance_s") or 0.0}
         points, seen, solo = [], set(), {}
         counts = {"done": 0, "total": 0, "left": 0, "error": 0}
@@ -450,17 +509,18 @@ class Optimizations:
                 st = run.get("status")
                 if st == "done" and run.get("goals"):
                     counts["done"] += 1
-                    points.append({**run["goals"], "run_id": c["run_id"], "assignment": c["assignment"],
+                    goals = self.app.goals_of(run, base)
+                    points.append({**goals, "run_id": c["run_id"], "assignment": c["assignment"],
                                    "label": run.get("label")})
                     if len(c["assignment"]) == 1:
                         (k, v), = c["assignment"].items()
-                        solo[(k, v)] = run["goals"]
+                        solo[(k, v)] = goals
                 elif st in ("queued", "slicing", "analysing"):
                     counts["left"] += 1
                 elif st == "error":
                     counts["error"] += 1
         if base and base.get("status") == "done" and base["id"] not in seen and base.get("goals"):
-            points.append({**base["goals"], "run_id": base["id"], "assignment": {}, "label": "Current settings"})
+            points.append({**base_goals, "run_id": base["id"], "assignment": {}, "label": "Current settings"})
         eff = effects(item.get("knobs", []), solo, base_goals, item["weights"], tol) if base_goals else []
         return {"base": base, "base_goals": base_goals, "points": points, "effects": eff, "counts": counts,
                 "measure_slices": measure_slices, "tolerance": thresholds(base_goals, tol)}
@@ -487,7 +547,10 @@ class Optimizations:
                                 "scope": k.get("scope", "object"), "explain": k.get("explain"), "note": k.get("note"),
                                 "alone": r["deltas"] if r else None})
             goals = {g: p.get(g) for g in search.GOALS}
+            run = self.app.runs.runs.get(run_id)
+            q = self.app.quality_of(run, data["base"]) if run else None
             return {"run_id": run_id, "label": p.get("label"), "goals": goals, "changes": changes,
+                    "quality": q and {"worst": q["worst"], "aspects": q["aspects"]},
                     "deltas": {g: goals[g] - base_goals[g] for g in goals
                                if goals[g] is not None and base_goals.get(g) is not None}}
 
@@ -525,7 +588,8 @@ def register(app) -> None:
             weights = json.loads(qs.get("weights") or "{}") or DEFAULT_WEIGHTS
             allowed = json.loads(qs["allowed"]) if qs.get("allowed") else None
             return h._json(store.preview(int(qs.get("plate", "1")), weights, allowed,
-                                         float(qs["budget_s"]) if qs.get("budget_s") else None))
+                                         float(qs["budget_s"]) if qs.get("budget_s") else None,
+                                         json.loads(qs["limits"]) if qs.get("limits") else None))
         if len(route) > 1:
             item = store.items.get(route[1])
             return h._json(store.view(item)) if item else h._error(404, "no such optimization")

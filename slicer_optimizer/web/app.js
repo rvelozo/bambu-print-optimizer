@@ -86,7 +86,7 @@ function renderRuns(force = true) {
   const list = $("runs");
   list.innerHTML = "";
   const base = baselineRun();
-  const runs = plateRuns().filter((r) => r.kind !== "search" || r.pinned || r.id === state.A || r.id === state.B)
+  const runs = plateRuns().filter((r) => (r.kind !== "search" && r.kind !== "revert") || r.pinned || r.id === state.A || r.id === state.B)
     .sort((a, b) => (a.kind === "baseline" ? -1 : b.kind === "baseline" ? 1 : a.created - b.created));
   for (const r of runs) {
     const li = document.createElement("li");

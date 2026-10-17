@@ -11,6 +11,7 @@ import urllib.request
 from pathlib import Path
 
 from slicer_optimizer import bambu
+from . import MEASURED_WITH, measured_with_this_bambu
 
 V7 = Path(os.environ.get("SLICER_OPT_V7", "/nonexistent/gaveta_painel_v7.3mf"))
 
@@ -64,6 +65,7 @@ class ServerApi(unittest.TestCase):
             time.sleep(0.5)
         self.fail(f"run {run_id} not done after {timeout} s")
 
+    @unittest.skipUnless(measured_with_this_bambu(), f"times measured with Bambu Studio {MEASURED_WITH}")
     def test_project_and_baseline_lid(self):
         info = self.get(f"{self.api}/project")
         self.assertEqual([p["index"] for p in info["plates"]], [1, 2, 3])
@@ -82,6 +84,7 @@ class ServerApi(unittest.TestCase):
         self.assertEqual(len(blob), 8 + 4 * (10 * n_ext + 5 * n_tr))
         self.assertEqual(n_ext, analysis["layers"][7]["ext_count"])
 
+    @unittest.skipUnless(measured_with_this_bambu(), f"times measured with Bambu Studio {MEASURED_WITH}")
     def test_trial_through_the_api(self):
         run = self.post(f"{self.api}/runs", {"plate": 1, "scope": "plate",
                                       "changes": [{"key": "bridge_speed", "value": "100", "object_id": None}]})

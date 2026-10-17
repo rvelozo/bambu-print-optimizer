@@ -41,7 +41,7 @@ from .prints import ISSUES, OUTCOMES, PrintLog
 from .project3mf import Change, Project, ProjectError
 from .trial import PlannedChange, Trial, save_variant
 
-METRICS_VERSION = 9  # bump to recompute stored run metrics (from the cache) on startup
+METRICS_VERSION = 10  # bump to recompute stored run metrics (from the cache) on startup
 DATA = paths.data_dir()
 WEB = Path(__file__).parent / "web"
 MAX_UPLOAD = 1 << 30
@@ -78,7 +78,7 @@ class Runs:
             for r in json.loads(self.file.read_text()).get("runs", []):
                 if r.get("status") not in ("done", "error", "cancelled"):
                     r["status"] = "queued"
-                if r.get("changes"):
+                if r.get("changes") and r.get("kind") not in ("reference", "revert"):
                     r["label"] = settings.change_label(r["changes"])  # names by setting, not by key
                 self.runs[r["id"]] = r
 
@@ -125,7 +125,11 @@ class Runs:
 
 
 def _changes_key(changes: list[dict]) -> str:
-    return json.dumps(sorted((c["key"], c.get("value"), c.get("object_id")) for c in changes))
+    """The same changes give the same key, in any order. Sorted by their JSON: a value can be None
+    (an override removed), a string or a list (per-filament values), which don't compare."""
+    entries = [(c["key"], c.get("value"), c.get("object_id")) + ((c["part_id"],) if c.get("part_id") else ())
+               for c in changes]
+    return json.dumps(sorted(entries, key=json.dumps))
 
 
 
@@ -182,9 +186,10 @@ class App:
         self.project: Project | None = None
         self.stat: tuple[int, int] | None = None
         self._disk: tuple[tuple[int, int], str] | None = None  # (stat, sha) of the file as last checked
-        from . import designer, optimize
+        from . import designer, optimize, overview
         designer.register(self)
         optimize.register(self)
+        overview.register(self)
         # Hub._create calls load() once the hub knows this project, so the worker can find
         # the runs load() queues.
 
@@ -244,7 +249,8 @@ class App:
         self.hub.worker.put(self.id, run_id, priority)
 
     def changes_of(self, run: dict) -> list[Change]:
-        return [Change(c["key"], c.get("value"), c.get("object_id")) for c in run["changes"]]
+        return [Change(c["key"], tuple(c["value"]) if isinstance(c.get("value"), list) else c.get("value"),
+                       c.get("object_id"), c.get("part_id")) for c in run["changes"]]
 
     def process(self, run_id: str) -> None:
         with self.lock:

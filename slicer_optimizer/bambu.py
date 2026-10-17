@@ -21,6 +21,7 @@ import shutil
 import subprocess
 import tempfile
 import time
+import zipfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -258,3 +259,45 @@ def _tail(proc: subprocess.CompletedProcess, n: int = 400) -> str:
     text = (proc.stdout or "") + (proc.stderr or "")
     lines = [l for l in text.splitlines() if "Invalid T command (T65535)" not in l]
     return "\n".join(lines)[-n:]
+
+
+_BOX = "solid box\n" + "".join(
+    f" facet normal 0 0 0\n  outer loop\n" + "".join(f"   vertex {x} {y} {z}\n" for x, y, z in t) + "  endloop\n endfacet\n"
+    for t in [((0, 0, 0), (10, 10, 0), (10, 0, 0)), ((0, 0, 0), (0, 10, 0), (10, 10, 0)),
+              ((0, 0, 10), (10, 0, 10), (10, 10, 10)), ((0, 0, 10), (10, 10, 10), (0, 10, 10)),
+              ((0, 0, 0), (10, 0, 0), (10, 0, 10)), ((0, 0, 0), (10, 0, 10), (0, 0, 10)),
+              ((10, 0, 0), (10, 10, 0), (10, 10, 10)), ((10, 0, 0), (10, 10, 10), (10, 0, 10)),
+              ((10, 10, 0), (0, 10, 0), (0, 10, 10)), ((10, 10, 0), (0, 10, 10), (10, 10, 10)),
+              ((0, 10, 0), (0, 0, 0), (0, 0, 10)), ((0, 10, 0), (0, 0, 10), (0, 10, 10))]) + "endsolid box\n"
+
+
+def builtin_defaults() -> dict:
+    """The value Bambu Studio gives each setting when no preset names it (its compiled-in defaults).
+
+    System presets don't name every setting; Bambu fills the rest from
+    PrintConfig.cpp. Its command line writes exactly those values when it
+    exports a model without loading any preset. Read once per Bambu Studio
+    version and cached. Empty if Bambu Studio isn't installed.
+    """
+    if not cli_path().exists():
+        return {}
+    path = CACHE / f"builtin-defaults-{studio_version()}.json"
+    if path.exists():
+        return json.loads(path.read_text())
+    CACHE.mkdir(parents=True, exist_ok=True)
+    work = Path(tempfile.mkdtemp(prefix="defaults-", dir=CACHE))
+    try:
+        (work / "box.stl").write_text(_BOX)
+        subprocess.run([str(cli_path()), "--outputdir", str(work), "--export-3mf", "bare.3mf", str(work / "box.stl")],
+                       cwd=work, capture_output=True, timeout=120)
+        out = work / "bare.3mf"
+        if not out.exists():
+            return {}
+        with zipfile.ZipFile(out) as z:
+            values = json.loads(z.read("Metadata/project_settings.config"))
+        tmp = path.with_suffix(".tmp")
+        tmp.write_text(json.dumps(values))
+        tmp.replace(path)
+        return values
+    finally:
+        shutil.rmtree(work, ignore_errors=True)

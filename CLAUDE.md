@@ -39,6 +39,7 @@ with Bambu Studio 02.08.04.57 on macOS. Numbers below called "the v7 lid / rails
 | `slicer_optimizer/web/` | Frontend: vanilla ES modules (app, layer view, charts, designer, section, 3D, prints), no build step |
 | `slicer_optimizer/catalog.json` | Goals and the settings the designer can search, with values and plain-language notes |
 | `slicer_optimizer/metrics.py` | Goal metrics per run (time, weight, cost, stiffness proxy, time at the flow cap) |
+| `slicer_optimizer/overview.py` | What a file is tuned for: its differences from the printer's default process (print-wide, objects, parts, filaments), the default rebuilt as a "reference" run, one-setting "revert" runs, the verdict |
 | `slicer_optimizer/quality.py` | Quality proxy from the toolpaths (steps on slopes, outer wall speed, speed over air, top surface), and its score against the current settings |
 | `slicer_optimizer/search.py` | Sensitivity and grid candidates, Pareto front, weighted-Chebyshev pick |
 | `slicer_optimizer/designer.py` | Server side of the designer: searches whose candidates are ordinary runs |
@@ -103,6 +104,24 @@ include the panel plates (~1.5 min each).
   top shells 5 → 3 alone changes nothing; with thickness 0 too it saves 19m39s
   and 25.30 g. `trial.BLOCKERS` lists these pairs and the tool tests them.
 - The G-code header's "total filament volume [cm^3]" is actually mm³.
+- Presets inherit within their vendor folder: `fdm_process_common`,
+  `fdm_filament_common` and `fdm_machine_common` exist under a dozen vendors
+  with different values (`presets.resolve` used Anker's until 2026-10-17).
+- `--load-settings`/`--load-filaments` load a preset file without what it
+  inherits; everything else comes out as built-in defaults (0.20mm Standard
+  @BBL P2S exported with 0.4 mm lines and 4 top shells instead of 0.42 and 5).
+  `presets.standalone()` folds the parents in first.
+- Exporting a model with no presets at all writes Bambu's built-in defaults
+  (PrintConfig.cpp), 555 settings: `bambu.builtin_defaults()`, cached per
+  version. System presets don't name every setting (`top_one_wall_type`,
+  `internal_solid_infill_pattern`, ...), and those take these values.
+- `different_settings_to_system` is exact: on four GUI-saved projects the
+  print-wide differences from the resolved preset (plus built-in defaults)
+  were the recorded keys, no more and no fewer. Comparing values directly is
+  not: GUI-saved P2S projects all have travel 1000 mm/s where every preset
+  file says 600, and Bambu doesn't count it as a change.
+- The machine preset's `default_print_profile` names the printer's default
+  process ("0.20mm Standard @BBL P2S", "0.30mm Standard @BBL P2S 0.6 nozzle").
 
 ## Time model notes
 

@@ -1,6 +1,6 @@
 {
  "bambu_studio": "02.08.04.57",
- "source": "BambuStudio src/slic3r/GUI/Tab.cpp (TabPrint::build) and src/libslic3r/PrintConfig.cpp",
+ "source": "BambuStudio src/slic3r/GUI/Tab.cpp (TabPrint::build, TabFilament::build) and src/libslic3r/PrintConfig.cpp",
  "pages": [
   {
    "title": "Quality",
@@ -948,6 +948,361 @@
    ]
   }
  ],
+ "filament_pages": [
+  {
+   "title": "Filament",
+   "groups": [
+    {
+     "title": "Basic information",
+     "options": [
+      {
+       "key": "filament_type"
+      },
+      {
+       "key": "filament_vendor"
+      },
+      {
+       "key": "filament_soluble"
+      },
+      {
+       "key": "filament_is_support"
+      },
+      {
+       "key": "impact_strength_z"
+      },
+      {
+       "key": "required_nozzle_HRC"
+      },
+      {
+       "key": "default_filament_colour"
+      },
+      {
+       "key": "filament_diameter"
+      },
+      {
+       "key": "filament_adhesiveness_category"
+      },
+      {
+       "key": "filament_metal_stickiness"
+      },
+      {
+       "key": "filament_flow_ratio"
+      },
+      {
+       "key": "enable_pressure_advance"
+      },
+      {
+       "key": "pressure_advance"
+      },
+      {
+       "key": "filament_density"
+      },
+      {
+       "key": "filament_shrink"
+      },
+      {
+       "key": "filament_velocity_adaptation_factor"
+      },
+      {
+       "key": "filament_cost"
+      },
+      {
+       "key": "temperature_vitrification"
+      },
+      {
+       "key": "filament_printable"
+      },
+      {
+       "key": "filament_cooling_before_tower"
+      },
+      {
+       "key": "filament_tower_interface_pre_extrusion_dist"
+      },
+      {
+       "key": "filament_tower_interface_pre_extrusion_length"
+      },
+      {
+       "key": "filament_tower_ironing_area"
+      },
+      {
+       "key": "filament_tower_interface_purge_volume"
+      },
+      {
+       "key": "filament_tower_interface_print_temp"
+      },
+      {
+       "key": "filament_prime_volume",
+       "line": "Filament prime volume"
+      },
+      {
+       "key": "filament_prime_volume_nc",
+       "line": "Filament prime volume"
+      },
+      {
+       "key": "filament_change_length",
+       "line": "Filament ramming length"
+      },
+      {
+       "key": "filament_change_length_nc",
+       "line": "Filament ramming length"
+      },
+      {
+       "key": "filament_ramming_travel_time",
+       "line": "Travel time after ramming"
+      },
+      {
+       "key": "filament_ramming_travel_time_nc",
+       "line": "Travel time after ramming"
+      },
+      {
+       "key": "filament_pre_cooling_temperature",
+       "line": "Precooling target temperature"
+      },
+      {
+       "key": "filament_pre_cooling_temperature_nc",
+       "line": "Precooling target temperature"
+      },
+      {
+       "key": "nozzle_temperature_range_low",
+       "line": "Recommended nozzle temperature"
+      },
+      {
+       "key": "nozzle_temperature_range_high",
+       "line": "Recommended nozzle temperature"
+      }
+     ]
+    },
+    {
+     "title": "Print temperature",
+     "options": [
+      {
+       "key": "chamber_temperatures"
+      },
+      {
+       "key": "supertack_plate_temp_initial_layer",
+       "line": "Bambu Cool Plate SuperTack"
+      },
+      {
+       "key": "supertack_plate_temp",
+       "line": "Bambu Cool Plate SuperTack"
+      },
+      {
+       "key": "cool_plate_temp_initial_layer",
+       "line": "Cool Plate"
+      },
+      {
+       "key": "cool_plate_temp",
+       "line": "Cool Plate"
+      },
+      {
+       "key": "eng_plate_temp_initial_layer",
+       "line": "Engineering Plate"
+      },
+      {
+       "key": "eng_plate_temp",
+       "line": "Engineering Plate"
+      },
+      {
+       "key": "hot_plate_temp_initial_layer",
+       "line": "Smooth PEI Plate / High Temp Plate"
+      },
+      {
+       "key": "hot_plate_temp",
+       "line": "Smooth PEI Plate / High Temp Plate"
+      },
+      {
+       "key": "textured_plate_temp_initial_layer",
+       "line": "Textured PEI Plate"
+      },
+      {
+       "key": "textured_plate_temp",
+       "line": "Textured PEI Plate"
+      },
+      {
+       "key": "nozzle_temperature_initial_layer",
+       "line": "Nozzle"
+      },
+      {
+       "key": "nozzle_temperature",
+       "line": "Nozzle"
+      }
+     ]
+    },
+    {
+     "title": "Volumetric speed limitation",
+     "options": [
+      {
+       "key": "filament_adaptive_volumetric_speed"
+      },
+      {
+       "key": "filament_max_volumetric_speed"
+      },
+      {
+       "key": "filament_ramming_volumetric_speed",
+       "line": "Ramming volumetric speed"
+      },
+      {
+       "key": "filament_ramming_volumetric_speed_nc",
+       "line": "Ramming volumetric speed"
+      }
+     ]
+    },
+    {
+     "title": "Filament scarf seam settings",
+     "options": [
+      {
+       "key": "filament_scarf_seam_type"
+      },
+      {
+       "key": "filament_scarf_height"
+      },
+      {
+       "key": "filament_scarf_gap"
+      },
+      {
+       "key": "filament_scarf_length"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Cooling",
+   "groups": [
+    {
+     "title": "Part cooling fan",
+     "options": [
+      {
+       "key": "close_fan_the_first_x_layers",
+       "line": "Initial layer fan"
+      },
+      {
+       "key": "first_x_layer_part_fan_speed",
+       "line": "Initial layer fan"
+      },
+      {
+       "key": "full_fan_speed_layer",
+       "line": "Linear ramp up to"
+      },
+      {
+       "key": "fan_min_speed",
+       "line": "Min fan speed threshold"
+      },
+      {
+       "key": "fan_cooling_layer_time",
+       "line": "Min fan speed threshold"
+      },
+      {
+       "key": "fan_max_speed",
+       "line": "Max fan speed threshold"
+      },
+      {
+       "key": "slow_down_layer_time",
+       "line": "Max fan speed threshold"
+      },
+      {
+       "key": "reduce_fan_stop_start_freq"
+      },
+      {
+       "key": "slow_down_for_layer_cooling"
+      },
+      {
+       "key": "no_slow_down_for_cooling_on_outwalls"
+      },
+      {
+       "key": "cooling_slowdown_logic"
+      },
+      {
+       "key": "cooling_perimeter_transition_distance"
+      },
+      {
+       "key": "slow_down_min_speed"
+      },
+      {
+       "key": "enable_overhang_bridge_fan"
+      },
+      {
+       "key": "overhang_fan_threshold"
+      },
+      {
+       "key": "overhang_threshold_participating_cooling"
+      },
+      {
+       "key": "overhang_fan_speed"
+      },
+      {
+       "key": "pre_start_fan_time"
+      },
+      {
+       "key": "ironing_fan_speed"
+      }
+     ]
+    },
+    {
+     "title": "Auxiliary part cooling fan",
+     "options": [
+      {
+       "key": "close_additional_fan_first_x_layers",
+       "line": "Initial layer fan"
+      },
+      {
+       "key": "first_x_layer_fan_speed",
+       "line": "Initial layer fan"
+      },
+      {
+       "key": "additional_fan_full_speed_layer",
+       "line": "Linear ramp up"
+      },
+      {
+       "key": "additional_cooling_fan_speed",
+       "line": "Linear ramp up"
+      }
+     ]
+    },
+    {
+     "title": "Exhaust fan",
+     "options": [
+      {
+       "key": "activate_air_filtration"
+      },
+      {
+       "key": "during_print_exhaust_fan_speed",
+       "line": "During print"
+      },
+      {
+       "key": "complete_print_exhaust_fan_speed",
+       "line": "Complete print"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Multi Filament",
+   "groups": [
+    {
+     "title": "Multi Filament",
+     "options": [
+      {
+       "key": "filament_flush_temp"
+      },
+      {
+       "key": "filament_flush_temp_fast"
+      },
+      {
+       "key": "filament_flush_volumetric_speed"
+      },
+      {
+       "key": "long_retractions_when_ec"
+      },
+      {
+       "key": "retraction_distances_when_ec"
+      }
+     ]
+    }
+   ]
+  }
+ ],
  "settings": {
   "accel_to_decel_enable": {
    "type": "coBool",
@@ -963,6 +1318,29 @@
    "mode": "advanced",
    "min": 1.0,
    "max": 100.0
+  },
+  "activate_air_filtration": {
+   "type": "coBools",
+   "label": "Activate air filtration",
+   "tooltip": "Activate for better air filtration",
+   "mode": "simple"
+  },
+  "additional_cooling_fan_speed": {
+   "type": "coInts",
+   "label": "Fan speed",
+   "tooltip": "Speed of auxiliary part cooling fan. Auxiliary fan will run at this speed during printing except the first several layers which are defined by no cooling layers",
+   "sidetext": "%",
+   "mode": "simple",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "additional_fan_full_speed_layer": {
+   "type": "coInts",
+   "label": "Full fan speed at layer",
+   "tooltip": "Auxiliary fan speed will be ramped up linearly from layer \"For the first\" to maximum at layer \"Full fan speed at layer\". \"Full fan speed at layer\" will be ignored if lower than \"For the first\", in which case the fan will be running at maximum allowed speed at layer \"For the first\" + 1.",
+   "mode": "simple",
+   "min": 0.0,
+   "max": 100000.0
   },
   "alternate_extra_wall": {
    "type": "coBool",
@@ -1143,12 +1521,58 @@
    "min": 0.0,
    "max": 100.0
   },
+  "chamber_temperatures": {
+   "type": "coInts",
+   "label": "Chamber temperature",
+   "full_label": "Chamber temperature",
+   "tooltip": "Higher chamber temperature can help suppress or reduce warping and potentially lead to higher interlayer bonding strength for high temperature materials like ABS, ASA, PC, PA and so on.At the same time, the air filtration of ABS and ASA will get worse.While for PLA, PETG, TPU, PVA and other low temperature materials,the actual chamber temperature should not be high to avoid cloggings, so 0 which stands for turning off is highly recommended",
+   "sidetext": "°C",
+   "min": 0.0,
+   "max": 80.0
+  },
   "circle_compensation_manual_offset": {
    "type": "coFloat",
    "label": "User Customized Offset",
    "tooltip": "If you want to have tighter or looser assemble, you can set this value. When it is positive, it indicates tightening, otherwise, it indicates loosening",
    "sidetext": "mm",
    "mode": "advanced"
+  },
+  "close_additional_fan_first_x_layers": {
+   "type": "coInts",
+   "label": "For the first",
+   "tooltip": "Set special auxiliary cooling fan for the first certain layers.",
+   "sidetext": "layers",
+   "mode": "simple",
+   "min": 0.0,
+   "max": 100000.0
+  },
+  "close_fan_the_first_x_layers": {
+   "type": "coInts",
+   "label": "For the first",
+   "tooltip": "Set special cooling fan for the first certain layers.The part cooling fan of the first layer used to be closed to get better build plate adhesion and used for auto cooling function",
+   "sidetext": "layers",
+   "mode": "simple",
+   "min": 0.0,
+   "max": 100000.0
+  },
+  "compatible_printers": {
+   "type": "coStrings",
+   "label": "Compatible machine",
+   "mode": "develop"
+  },
+  "compatible_prints": {
+   "type": "coStrings",
+   "label": "Compatible process profiles",
+   "mode": "develop"
+  },
+  "complete_print_exhaust_fan_speed": {
+   "type": "coInts",
+   "label": "Fan speed",
+   "tooltip": "Speed of exhuast fan after printing completes",
+   "sidetext": "%",
+   "mode": "simple",
+   "min": 0.0,
+   "max": 100.0
   },
   "conformal_hub_radius": {
    "type": "coFloat",
@@ -1236,6 +1660,49 @@
     ]
    ]
   },
+  "cool_plate_temp": {
+   "type": "coInts",
+   "label": "Other layers",
+   "full_label": "Bed temperature",
+   "tooltip": "Bed temperature for layers except the initial one. Value 0 means the filament does not support to print on the Cool Plate",
+   "sidetext": "°C",
+   "min": 0.0,
+   "max": 120.0
+  },
+  "cool_plate_temp_initial_layer": {
+   "type": "coInts",
+   "label": "Initial layer",
+   "full_label": "Initial layer bed temperature",
+   "tooltip": "Bed temperature of the initial layer. Value 0 means the filament does not support to print on the Cool Plate",
+   "sidetext": "°C",
+   "min": 0.0,
+   "max": 120.0
+  },
+  "cooling_perimeter_transition_distance": {
+   "type": "coFloats",
+   "label": "Perimeter transition distance",
+   "tooltip": "Distance in millimeters before the end of slowed perimeters where the original print speed is gradually restored. This reduces quality issues when transitioning from slowed features to fast external perimeter printing.\n\nOnly applies when 'Consistent surface' cooling logic is selected.\nRecommended value: 5-10mm. Set to 0 to disable.",
+   "sidetext": "mm",
+   "mode": "develop",
+   "min": 0.0,
+   "max": 50.0
+  },
+  "cooling_slowdown_logic": {
+   "type": "coEnums",
+   "label": "Cooling slowdown logic",
+   "tooltip": "Determines how the printer slows down when minimum layer time isn't reached.\n\n'Uniform cooling' slows down all print features equally (current default behavior).\n\n'Consistent surface' prioritizes slowing infill and internal perimeters first, preserving external perimeter speed for better surface finish on glossy filaments. This helps reduce VFA (Vertical Fine Artifacts) and maintains consistent surface shine.",
+   "mode": "develop",
+   "choices": [
+    [
+     "uniform_cooling",
+     "Uniform cooling"
+    ],
+    [
+     "consistent_surface",
+     "Consistent surface"
+    ]
+   ]
+  },
   "counterbore_hole_bridging": {
    "type": "coEnum",
    "label": "Bridge counterbore holes",
@@ -1257,6 +1724,34 @@
     ]
    ]
   },
+  "curr_bed_type": {
+   "type": "coEnum",
+   "label": "Bed type",
+   "tooltip": "Bed types supported by the printer",
+   "mode": "simple",
+   "choices": [
+    [
+     "Cool Plate",
+     "Cool Plate"
+    ],
+    [
+     "Engineering Plate",
+     "Engineering Plate"
+    ],
+    [
+     "High Temp Plate",
+     "Smooth PEI Plate / High Temp Plate"
+    ],
+    [
+     "Textured PEI Plate",
+     "Textured PEI Plate"
+    ],
+    [
+     "Supertack Plate",
+     "Bambu Cool Plate SuperTack"
+    ]
+   ]
+  },
   "default_acceleration": {
    "type": "coFloats",
    "label": "Normal printing",
@@ -1264,6 +1759,12 @@
    "sidetext": "mm/s²",
    "mode": "advanced",
    "min": 0.0
+  },
+  "default_filament_colour": {
+   "type": "coStrings",
+   "label": "Default color",
+   "tooltip": "Default filament color",
+   "mode": "advanced"
   },
   "default_jerk": {
    "type": "coFloat",
@@ -1300,6 +1801,15 @@
    "category": "Strength",
    "mode": "advanced"
   },
+  "during_print_exhaust_fan_speed": {
+   "type": "coInts",
+   "label": "Fan speed",
+   "tooltip": "Speed of exhaust fan during printing.This speed will overwrite the speed in filament custom gcode",
+   "sidetext": "%",
+   "mode": "simple",
+   "min": 0.0,
+   "max": 100.0
+  },
   "elefant_foot_compensation": {
    "type": "coFloat",
    "label": "Elephant foot compensation",
@@ -1335,6 +1845,10 @@
    "category": "Speed",
    "mode": "advanced"
   },
+  "enable_long_retraction_when_cut": {
+   "type": "coInt",
+   "mode": "develop"
+  },
   "enable_mixed_color_sublayer": {
    "type": "coBool",
    "label": "Mixed color sublayer",
@@ -1348,12 +1862,23 @@
    "tooltip": "When enabled, overlapping model parts are carved by bounding-box size so smaller embedded parts are not removed by larger parts due to volume order.",
    "mode": "develop"
   },
+  "enable_overhang_bridge_fan": {
+   "type": "coBools",
+   "label": "Force cooling for overhang and bridge",
+   "tooltip": "Enable this option to optimize part cooling fan speed for overhang and bridge to get better cooling",
+   "mode": "simple"
+  },
   "enable_overhang_speed": {
    "type": "coBools",
    "label": "Slow down for overhang",
    "tooltip": "Enable this option to slow printing down for different overhang degree",
    "category": "Speed",
    "mode": "advanced"
+  },
+  "enable_pressure_advance": {
+   "type": "coBools",
+   "label": "Enable pressure advance",
+   "tooltip": "Enable pressure advance, auto calibration result will be overwritten once enabled. Useless for Bambu Printer"
   },
   "enable_prime_tower": {
    "type": "coBool",
@@ -1386,6 +1911,32 @@
    "tooltip": "Enable clumping detection",
    "mode": "advanced"
   },
+  "enforce_support_layers": {
+   "type": "coInt",
+   "sidetext": "layers",
+   "category": "Support",
+   "mode": "develop",
+   "min": 0.0,
+   "max": 5000.0
+  },
+  "eng_plate_temp": {
+   "type": "coInts",
+   "label": "Other layers",
+   "full_label": "Bed temperature",
+   "tooltip": "Bed temperature for layers except the initial one. Value 0 means the filament does not support to print on the Engineering Plate",
+   "sidetext": "°C",
+   "min": 0.0,
+   "max": 120.0
+  },
+  "eng_plate_temp_initial_layer": {
+   "type": "coInts",
+   "label": "Initial layer",
+   "full_label": "Initial layer bed temperature",
+   "tooltip": "Bed temperature of the initial layer. Value 0 means the filament does not support to print on the Engineering Plate",
+   "sidetext": "°C",
+   "min": 0.0,
+   "max": 120.0
+  },
   "ensure_vertical_shell_thickness": {
    "type": "coEnum",
    "label": "Ensure vertical shell thickness",
@@ -1407,6 +1958,539 @@
     ]
    ]
   },
+  "exclude_object": {
+   "type": "coBool",
+   "label": "Exclude objects",
+   "tooltip": "Enable this option to add EXCLUDE OBJECT command in g-code for klipper firmware printer",
+   "mode": "advanced"
+  },
+  "extruder_max_nozzle_count": {
+   "type": "coInts",
+   "mode": "develop"
+  },
+  "fan_cooling_layer_time": {
+   "type": "coInts",
+   "label": "Layer time",
+   "tooltip": "Part cooling fan will be enabled for layers of which estimated time is shorter than this value. Fan speed is interpolated between the minimum and maximum fan speeds according to layer printing time",
+   "sidetext": "s",
+   "mode": "simple",
+   "min": 0.0,
+   "max": 1000.0
+  },
+  "fan_max_speed": {
+   "type": "coInts",
+   "label": "Fan speed",
+   "tooltip": "Part cooling fan speed may be increased when auto cooling is enabled. This is the maximum speed limitation of part cooling fan",
+   "sidetext": "%",
+   "mode": "simple",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "fan_min_speed": {
+   "type": "coInts",
+   "label": "Fan speed",
+   "tooltip": "Minimum speed for part cooling fan",
+   "sidetext": "%",
+   "mode": "simple",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "filament_adaptive_volumetric_speed": {
+   "type": "coBools",
+   "label": "Adaptive volumetric speed",
+   "tooltip": "When enabled, the extrusion flow is limited by the smaller of the fitted value (calculated from line width and layer height) and the user-defined maximum flow. When disabled, only the user-defined maximum flow is applied.",
+   "mode": "advanced"
+  },
+  "filament_adhesiveness_category": {
+   "type": "coInts",
+   "label": "Adhesiveness Category",
+   "tooltip": "Filament category",
+   "mode": "develop",
+   "min": 0.0
+  },
+  "filament_change_length": {
+   "type": "coFloats",
+   "label": "Extruder change",
+   "tooltip": "When changing the extruder, it is recommended to extrude a certain length of filament from the original extruder. This helps minimize nozzle oozing.",
+   "sidetext": "mm",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "filament_change_length_nc": {
+   "type": "coFloats",
+   "label": "Hotend change",
+   "tooltip": "When changing the hotend, it is recommended to extrude a certain length of filament from the original nozzle. This helps minimize nozzle oozing.",
+   "sidetext": "mm",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "filament_cooling_before_tower": {
+   "type": "coFloats",
+   "label": "Wipe tower cooling",
+   "tooltip": "Temperature drop before entering filament tower",
+   "sidetext": "°C",
+   "mode": "develop"
+  },
+  "filament_cost": {
+   "type": "coFloats",
+   "label": "Price",
+   "tooltip": "Filament price. For statistics only",
+   "sidetext": "money/kg",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "filament_density": {
+   "type": "coFloats",
+   "label": "Density",
+   "tooltip": "Filament density. For statistics only",
+   "sidetext": "g/cm³",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "filament_diameter": {
+   "type": "coFloats",
+   "label": "Diameter",
+   "tooltip": "Filament diameter is used to calculate extrusion in gcode, so it's important and should be accurate",
+   "sidetext": "mm",
+   "min": 0.0
+  },
+  "filament_end_gcode": {
+   "type": "coStrings",
+   "label": "End G-code",
+   "tooltip": "End G-code when finish the printing of this filament",
+   "mode": "advanced"
+  },
+  "filament_extruder_variant": {
+   "type": "coStrings",
+   "label": "Filament's extruder variant",
+   "tooltip": "Filament's extruder variant"
+  },
+  "filament_flow_ratio": {
+   "type": "coFloats",
+   "label": "Flow ratio",
+   "tooltip": "The material may have volumetric change after switching between molten state and crystalline state. This setting changes all extrusion flow of this filament in gcode proportionally. Recommended value range is between 0.95 and 1.05. Maybe you can tune this value to get nice flat surface when there has slight overflow or underflow",
+   "mode": "advanced",
+   "max": 2.0
+  },
+  "filament_flush_temp": {
+   "type": "coInts",
+   "label": "Flush temperature",
+   "tooltip": "temperature when flushing filament. 0 indicates the upper bound of the recommended nozzle temperature range",
+   "sidetext": "°C",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "filament_flush_temp_fast": {
+   "type": "coInts",
+   "label": "Flush temperature",
+   "tooltip": "Flush temperature used in fast purge mode.",
+   "sidetext": "°C",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "filament_flush_volumetric_speed": {
+   "type": "coFloats",
+   "label": "Flush volumetric speed",
+   "tooltip": "Volumetric speed when flushing filament. 0 indicates the max volumetric speed",
+   "sidetext": "mm³/s",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 200.0
+  },
+  "filament_is_mixed": {
+   "type": "coBools",
+   "label": "Is mixed filament",
+   "tooltip": "Whether this filament slot is a mixed filament composed of multiple physical filaments",
+   "mode": "develop"
+  },
+  "filament_is_support": {
+   "type": "coBools",
+   "label": "Support material",
+   "tooltip": "Support material is commonly used to print support and support interface",
+   "mode": "develop"
+  },
+  "filament_max_volumetric_speed": {
+   "type": "coFloats",
+   "label": "Max volumetric speed",
+   "tooltip": "This setting stands for how much volume of filament can be melted and extruded per second. Printing speed is limited by max volumetric speed, in case of too high and unreasonable speed setting. Can't be zero",
+   "sidetext": "mm³/s",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 200.0
+  },
+  "filament_metal_stickiness": {
+   "type": "coEnums",
+   "label": "Metal stickiness",
+   "tooltip": "Indicates how strongly the filament tends to stick to the metal nozzle and leave residue. \"None\" means untested or custom filament, behaves the same as Low. Low: e.g. PLA - retraction can be safely skipped in infill areas. Medium: moderate stickiness - use with caution. High: e.g. PETG - retraction should not be skipped to avoid oozing artifacts on outer walls.",
+   "mode": "advanced",
+   "choices": [
+    [
+     "None",
+     "None"
+    ],
+    [
+     "Low",
+     "Low"
+    ],
+    [
+     "Medium",
+     "Medium"
+    ],
+    [
+     "High",
+     "High"
+    ]
+   ]
+  },
+  "filament_notes": {
+   "type": "coString",
+   "label": "Filament notes",
+   "tooltip": "You can put your notes regarding the filament here.",
+   "mode": "advanced"
+  },
+  "filament_pre_cooling_temperature": {
+   "type": "coInts",
+   "label": "Extruder change",
+   "tooltip": "To prevent oozing, the nozzle temperature will be cooled during ramming. Therefore, the ramming time must be greater than the cooldown time. 0 means disabled.",
+   "sidetext": "°C",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "filament_pre_cooling_temperature_nc": {
+   "type": "coInts",
+   "label": "Hotend change",
+   "tooltip": "To prevent oozing, the nozzle temperature will be cooled during ramming. Note: only a cooldown command and fan activation are triggered, reaching the target temperature is not guaranteed. 0 means disabled.",
+   "sidetext": "°C",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "filament_prime_volume": {
+   "type": "coFloats",
+   "label": "Filament change",
+   "tooltip": "The volume of material required to prime the extruder on the tower, excluding a hotend change.",
+   "sidetext": "mm³",
+   "mode": "simple",
+   "min": 1.0
+  },
+  "filament_prime_volume_nc": {
+   "type": "coFloats",
+   "label": "Hotend change",
+   "tooltip": "The volume of material required to prime the extruder for a hotend change on the tower.",
+   "sidetext": "mm³",
+   "mode": "simple",
+   "min": 1.0
+  },
+  "filament_printable": {
+   "type": "coInts",
+   "label": "Filament printable",
+   "tooltip": "The filament is printable in extruder",
+   "mode": "develop"
+  },
+  "filament_ramming_travel_time": {
+   "type": "coFloats",
+   "label": "Extruder change",
+   "tooltip": "To prevent oozing, the nozzle will perform a reverse travel movement for a certain period after the ramming is complete. The setting define the travel time.",
+   "sidetext": "s",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "filament_ramming_travel_time_nc": {
+   "type": "coFloats",
+   "label": "Hotend change",
+   "tooltip": "To prevent oozing, the nozzle will perform a reverse travel movement for a certain period after the ramming is complete. The setting define the travel time.",
+   "sidetext": "s",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "filament_ramming_volumetric_speed": {
+   "type": "coFloats",
+   "label": "Extruder change",
+   "tooltip": "The maximum volumetric speed for ramming before extruder change, where -1 means using the maximum volumetric speed.",
+   "sidetext": "mm³/s",
+   "mode": "advanced",
+   "min": -1.0,
+   "max": 200.0
+  },
+  "filament_ramming_volumetric_speed_nc": {
+   "type": "coFloats",
+   "label": "Hotend change",
+   "tooltip": "The maximum volumetric speed for ramming before a hotend change, where -1 means using the maximum volumetric speed.",
+   "sidetext": "mm³/s",
+   "mode": "advanced",
+   "min": -1.0,
+   "max": 200.0
+  },
+  "filament_retract_length_nc": {
+   "type": "coFloats",
+   "label": "length when change hotend",
+   "tooltip": "When this retraction value is modified, it will be used as the amount of filament retracted inside the hotend before changing hotends.",
+   "sidetext": "mm",
+   "mode": "develop",
+   "min": 0.0,
+   "max": 18.0
+  },
+  "filament_scarf_gap": {
+   "type": "coFloatsOrPercents",
+   "label": "Scarf slope gap",
+   "tooltip": "In order to reduce the visiblity of the seam in closed loop, the inner wall and outer wall are shortened by a specified amount.",
+   "sidetext": "mm/%",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "filament_scarf_height": {
+   "type": "coFloatsOrPercents",
+   "label": "Scarf start height",
+   "tooltip": "This amount can be specified in millimeters or as a percentage of the current layer height.",
+   "sidetext": "mm/%",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "filament_scarf_length": {
+   "type": "coFloats",
+   "label": "Scarf length",
+   "tooltip": "Length of the scarf. Setting this parameter to zero effectively disables the scarf.",
+   "sidetext": "mm",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "filament_scarf_seam_type": {
+   "type": "coEnums",
+   "label": "Scarf seam type",
+   "tooltip": "Set scarf seam type for this filament. This setting could minimize seam visibiliy.",
+   "mode": "advanced",
+   "choices": [
+    [
+     "none",
+     "None"
+    ],
+    [
+     "external",
+     "Contour"
+    ],
+    [
+     "all",
+     "Contour and hole"
+    ]
+   ]
+  },
+  "filament_shrink": {
+   "type": "coPercents",
+   "label": "Shrinkage",
+   "tooltip": "Enter the shrinkage percentage that the filament will get after cooling (94% if you measure 94mm instead of 100mm). The part will be scaled in xy to compensate. Only the filament used for the perimeter is taken into account.\nBe sure to allow enough space between objects, as this compensation is done after the checks.",
+   "sidetext": "%",
+   "mode": "advanced",
+   "min": 10.0
+  },
+  "filament_soluble": {
+   "type": "coBools",
+   "label": "Soluble material",
+   "tooltip": "Soluble material is commonly used to print support and support interface",
+   "mode": "develop"
+  },
+  "filament_start_gcode": {
+   "type": "coStrings",
+   "label": "Start G-code",
+   "tooltip": "Start G-code when start the printing of this filament",
+   "mode": "advanced"
+  },
+  "filament_tower_interface_pre_extrusion_dist": {
+   "type": "coFloats",
+   "label": "Interface layer pre-extrusion distance",
+   "tooltip": "Pre-extrusion distance for prime tower interface layer (where different materials meet).",
+   "sidetext": "mm",
+   "mode": "develop",
+   "min": 0.0
+  },
+  "filament_tower_interface_pre_extrusion_length": {
+   "type": "coFloats",
+   "label": "Interface layer pre-extrusion length",
+   "tooltip": "Pre-extrusion length for prime tower interface layer (where different materials meet).",
+   "sidetext": "mm",
+   "mode": "develop",
+   "min": 0.0
+  },
+  "filament_tower_interface_print_temp": {
+   "type": "coInts",
+   "label": "Interface layer print temperature",
+   "tooltip": "Print temperature for prime tower interface layer (where different materials meet). If set to -1, use max recommended nozzle temperature.",
+   "sidetext": "°C",
+   "mode": "develop",
+   "min": -1.0
+  },
+  "filament_tower_interface_purge_volume": {
+   "type": "coFloats",
+   "label": "Interface layer purge length",
+   "tooltip": "Purge length for prime tower interface layer (where different materials meet).",
+   "sidetext": "mm",
+   "mode": "develop",
+   "min": 0.0
+  },
+  "filament_tower_ironing_area": {
+   "type": "coFloats",
+   "label": "Tower ironing area",
+   "tooltip": "Ironing area for prime tower interface layer (where different materials meet).",
+   "sidetext": "mm²",
+   "mode": "develop",
+   "min": 0.0
+  },
+  "filament_type": {
+   "type": "coStrings",
+   "label": "Type",
+   "tooltip": "The material type of filament",
+   "mode": "simple",
+   "choices": [
+    [
+     "PLA",
+     "PLA"
+    ],
+    [
+     "ABS",
+     "ABS"
+    ],
+    [
+     "ASA",
+     "ASA"
+    ],
+    [
+     "ASA-CF",
+     "ASA-CF"
+    ],
+    [
+     "PETG",
+     "PETG"
+    ],
+    [
+     "PCTG",
+     "PCTG"
+    ],
+    [
+     "TPU",
+     "TPU"
+    ],
+    [
+     "TPU-AMS",
+     "TPU-AMS"
+    ],
+    [
+     "PC",
+     "PC"
+    ],
+    [
+     "PA",
+     "PA"
+    ],
+    [
+     "PA-CF",
+     "PA-CF"
+    ],
+    [
+     "PA-GF",
+     "PA-GF"
+    ],
+    [
+     "PA6-CF",
+     "PA6-CF"
+    ],
+    [
+     "PLA-CF",
+     "PLA-CF"
+    ],
+    [
+     "PET-CF",
+     "PET-CF"
+    ],
+    [
+     "PETG-CF",
+     "PETG-CF"
+    ],
+    [
+     "PVA",
+     "PVA"
+    ],
+    [
+     "HIPS",
+     "HIPS"
+    ],
+    [
+     "PLA-AERO",
+     "PLA-AERO"
+    ],
+    [
+     "PPS",
+     "PPS"
+    ],
+    [
+     "PPS-CF",
+     "PPS-CF"
+    ],
+    [
+     "PPA-CF",
+     "PPA-CF"
+    ],
+    [
+     "PPA-GF",
+     "PPA-GF"
+    ],
+    [
+     "ABS-GF",
+     "ABS-GF"
+    ],
+    [
+     "ASA-AERO",
+     "ASA-AERO"
+    ],
+    [
+     "PE",
+     "PE"
+    ],
+    [
+     "PP",
+     "PP"
+    ],
+    [
+     "EVA",
+     "EVA"
+    ],
+    [
+     "PHA",
+     "PHA"
+    ],
+    [
+     "BVOH",
+     "BVOH"
+    ],
+    [
+     "PE-CF",
+     "PE-CF"
+    ],
+    [
+     "PP-CF",
+     "PP-CF"
+    ],
+    [
+     "PP-GF",
+     "PP-GF"
+    ]
+   ]
+  },
+  "filament_velocity_adaptation_factor": {
+   "type": "coFloats",
+   "label": "Velocity Adaptation Factor",
+   "tooltip": "This parameter reflects the speed at which a material transitions from one state to another. It, along with the smooth coefficient, determines the final length of the transition zone. A larger value: requires a shorter transition zone. A smaller value: requires a longer transition zone to avoid flow instability.",
+   "min": 0.0
+  },
+  "filament_vendor": {
+   "type": "coStrings",
+   "label": "Vendor",
+   "tooltip": "Vendor of filament. For show only",
+   "mode": "advanced"
+  },
+  "filename_format": {
+   "type": "coString",
+   "label": "Filename format",
+   "tooltip": "User can self-define the project file name when export",
+   "mode": "develop"
+  },
   "fill_multiline": {
    "type": "coInt",
    "label": "Fill multiline",
@@ -1421,6 +2505,45 @@
    "tooltip": "Filter out gaps smaller than the threshold specified. Gaps smaller than this threshold will be ignored",
    "sidetext": "mm",
    "mode": "develop"
+  },
+  "first_layer_print_sequence": {
+   "type": "coInts",
+   "label": "First layer print sequence",
+   "min": 0.0,
+   "max": 16.0
+  },
+  "first_layer_sequence_choice": {
+   "type": "coEnum",
+   "label": "First layer filament sequence",
+   "category": "Quality",
+   "mode": "simple",
+   "choices": [
+    [
+     "Auto",
+     "Auto"
+    ],
+    [
+     "Customize",
+     "Customize"
+    ]
+   ]
+  },
+  "first_x_layer_fan_speed": {
+   "type": "coFloats",
+   "label": "Fan speed",
+   "tooltip": "Special auxiliary cooling fan speed, effective only for the first x layers",
+   "sidetext": "%",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "first_x_layer_part_fan_speed": {
+   "type": "coInts",
+   "label": "Fan speed",
+   "tooltip": "Part cooling fan speed for the first few layers. Set to 0 to disable the part cooling fan on the initial layers for better bed adhesion",
+   "sidetext": "%",
+   "mode": "simple",
+   "min": 0.0,
+   "max": 100.0
   },
   "flush_into_infill": {
    "type": "coBool",
@@ -1439,6 +2562,13 @@
    "label": "Flush into objects' support",
    "tooltip": "Purging after filament change will be done inside objects' support. This may lower the amount of waste and decrease the print time. It will not take effect, unless the prime tower is enabled.",
    "category": "Flush options"
+  },
+  "full_fan_speed_layer": {
+   "type": "coInts",
+   "label": "Full fan speed at layer",
+   "mode": "simple",
+   "min": 0.0,
+   "max": 100000.0
   },
   "fuzzy_skin": {
    "type": "coEnum",
@@ -1582,6 +2712,35 @@
    "category": "Speed",
    "mode": "advanced",
    "min": 0.0
+  },
+  "gcode_add_line_number": {
+   "type": "coBool",
+   "label": "Add line number",
+   "tooltip": "Enable this to add line number(Nx) at the beginning of each G-Code line",
+   "mode": "develop"
+  },
+  "hot_plate_temp": {
+   "type": "coInts",
+   "label": "Other layers",
+   "full_label": "Bed temperature",
+   "tooltip": "Bed temperature for layers except the initial one. Value 0 means the filament does not support to print on the High Temp Plate",
+   "sidetext": "°C",
+   "min": 0.0,
+   "max": 120.0
+  },
+  "hot_plate_temp_initial_layer": {
+   "type": "coInts",
+   "label": "Initial layer",
+   "full_label": "Initial layer bed temperature",
+   "tooltip": "Bed temperature of the initial layer. Value 0 means the filament does not support to print on the High Temp Plate",
+   "sidetext": "°C",
+   "min": 0.0,
+   "max": 120.0
+  },
+  "impact_strength_z": {
+   "type": "coFloats",
+   "label": "Impact Strength Z",
+   "mode": "develop"
   },
   "independent_support_layer_height": {
    "type": "coBool",
@@ -1897,6 +3056,15 @@
    "min": 0.0,
    "max": 360.0
   },
+  "ironing_fan_speed": {
+   "type": "coInts",
+   "label": "Ironing fan speed",
+   "tooltip": "This part cooling fan speed is applied when ironing. Setting this parameter to a lower than regular speed reduces possible nozzle clogging due to the low volumetric flow rate, making the interface smoother. Set to -1 to disable it.",
+   "sidetext": "%",
+   "mode": "advanced",
+   "min": -1.0,
+   "max": 100.0
+  },
   "ironing_flow": {
    "type": "coPercent",
    "label": "Ironing flow",
@@ -2158,12 +3326,36 @@
     ]
    ]
   },
+  "long_retractions_when_cut": {
+   "type": "coBools",
+   "label": "Long retraction when cut(experimental)",
+   "tooltip": "Experimental feature.Retracting and cutting off the filament at a longer distance during changes to minimize purge.While this reduces flush significantly, it may also raise the risk of nozzle clogs or other printing problems.",
+   "mode": "develop"
+  },
+  "long_retractions_when_ec": {
+   "type": "coBools",
+   "label": "Long retraction when extruder change",
+   "mode": "advanced"
+  },
+  "master_extruder_id": {
+   "type": "coInt",
+   "label": "Master extruder id",
+   "tooltip": "Default extruder id to place filament"
+  },
   "max_bridge_length": {
    "type": "coFloat",
    "label": "Max bridge length",
    "tooltip": "Max length of bridges that don't need support. Set it to 0 if you want all bridges to be supported, and set it to a very large value if you don't want any bridges to be supported.",
    "sidetext": "mm",
    "category": "Support",
+   "mode": "advanced",
+   "min": 0.0
+  },
+  "max_layer_height": {
+   "type": "coFloats",
+   "label": "Max",
+   "tooltip": "The largest printable layer height for extruder. Used to limit the maximum layer height when enable adaptive layer height",
+   "sidetext": "mm",
    "mode": "advanced",
    "min": 0.0
   },
@@ -2194,6 +3386,14 @@
    "mode": "advanced",
    "min": 0.0
   },
+  "min_layer_height": {
+   "type": "coFloats",
+   "label": "Min",
+   "tooltip": "The lowest printable layer height for extruder. Used to limit the minimum layer height when enable adaptive layer height",
+   "sidetext": "mm",
+   "mode": "advanced",
+   "min": 0.0
+  },
   "minimum_sparse_infill_area": {
    "type": "coFloat",
    "label": "Minimum sparse infill threshold",
@@ -2212,6 +3412,13 @@
    "mode": "advanced",
    "min": 0.0
   },
+  "modifier_ignore_infill": {
+   "type": "coBool",
+   "label": "Ignore infill settings",
+   "full_label": "Modifier ignore infill settings",
+   "tooltip": "Do not apply this modifier's infill settings (pattern, density, conformal infill, and related options). Walls and other overrides still apply. Infill is taken from the parent region.",
+   "category": "Others"
+  },
   "monotonic_travel_into_wall": {
    "type": "coPercent",
    "label": "Monotonic line travel extend",
@@ -2222,11 +3429,80 @@
    "min": 0.0,
    "max": 200.0
   },
+  "no_slow_down_for_cooling_on_outwalls": {
+   "type": "coBools",
+   "label": "Don't slow down outer walls",
+   "tooltip": "If enabled, this setting will ensure external perimeters are not slowed down to meet the minimum layer time. This is particularly helpful in the below scenarios:\n1. To avoid changes in shine when printing glossy filaments\n2. To avoid changes in external wall speed which may create slight wall artifacts that appear like Z banding\n3. To avoid printing at speeds which cause VFAs (fine artifacts) on the external walls",
+   "mode": "advanced"
+  },
+  "nozzle_diameter": {
+   "type": "coFloats",
+   "label": "Nozzle diameter",
+   "tooltip": "Diameter of nozzle",
+   "sidetext": "mm",
+   "mode": "advanced",
+   "max": 1.0
+  },
+  "nozzle_temperature": {
+   "type": "coInts",
+   "label": "Other layers",
+   "full_label": "Nozzle temperature",
+   "tooltip": "Nozzle temperature for layers after the initial one",
+   "sidetext": "°C",
+   "min": 0.0
+  },
+  "nozzle_temperature_initial_layer": {
+   "type": "coInts",
+   "label": "Initial layer",
+   "full_label": "Initial layer nozzle temperature",
+   "tooltip": "Nozzle temperature to print initial layer when using this filament",
+   "sidetext": "°C",
+   "min": 0.0
+  },
+  "nozzle_temperature_range_high": {
+   "type": "coInts",
+   "label": "Max",
+   "sidetext": "°C",
+   "min": 0.0
+  },
+  "nozzle_temperature_range_low": {
+   "type": "coInts",
+   "label": "Min",
+   "sidetext": "°C",
+   "min": 0.0
+  },
+  "nozzle_volume_type": {
+   "type": "coEnums",
+   "label": "Nozzle Volume Type",
+   "mode": "simple"
+  },
   "only_one_wall_first_layer": {
    "type": "coBool",
    "label": "Only one wall on first layer",
    "tooltip": "Use only one wall on the first layer of model",
    "category": "Quality"
+  },
+  "other_layers_print_sequence": {
+   "type": "coInts",
+   "label": "Other layers print sequence",
+   "min": 0.0,
+   "max": 16.0
+  },
+  "other_layers_sequence_choice": {
+   "type": "coEnum",
+   "label": "Other layers filament sequence",
+   "category": "Quality",
+   "mode": "simple",
+   "choices": [
+    [
+     "Auto",
+     "Auto"
+    ],
+    [
+     "Customize",
+     "Customize"
+    ]
+   ]
   },
   "outer_wall_acceleration": {
    "type": "coFloats",
@@ -2298,6 +3574,81 @@
    "mode": "advanced",
    "min": 0.0
   },
+  "overhang_fan_speed": {
+   "type": "coInts",
+   "label": "Fan speed for overhang",
+   "tooltip": "Force part cooling fan to be at this speed when printing bridge or overhang wall which has large overhang degree. Forcing cooling for overhang and bridge can get better quality for these part",
+   "sidetext": "%",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 100.0
+  },
+  "overhang_fan_threshold": {
+   "type": "coEnums",
+   "label": "Cooling overhang threshold",
+   "tooltip": "Force cooling fan to be specific speed when overhang degree of printed part exceeds this value. Expressed as percentage which indicides how much width of the line without support from lower layer. 0% means forcing cooling for all outer wall no matter how much overhang degree",
+   "sidetext": "",
+   "mode": "advanced",
+   "choices": [
+    [
+     "0%",
+     "0%"
+    ],
+    [
+     "10%",
+     "10%"
+    ],
+    [
+     "25%",
+     "25%"
+    ],
+    [
+     "50%",
+     "50%"
+    ],
+    [
+     "75%",
+     "75%"
+    ],
+    [
+     "95%",
+     "95%"
+    ]
+   ]
+  },
+  "overhang_threshold_participating_cooling": {
+   "type": "coEnums",
+   "label": "Overhang threshold for participating cooling",
+   "tooltip": "Decide which overhang part join the cooling function to slow down the speed.Expressed as percentage which indicides how much width of the line without support from lower layer. 100% means forcing cooling for all outer wall no matter how much overhang degree",
+   "sidetext": "",
+   "mode": "advanced",
+   "choices": [
+    [
+     "0%",
+     "0%"
+    ],
+    [
+     "10%",
+     "10%"
+    ],
+    [
+     "25%",
+     "25%"
+    ],
+    [
+     "50%",
+     "50%"
+    ],
+    [
+     "75%",
+     "75%"
+    ],
+    [
+     "100%",
+     "100%"
+    ]
+   ]
+  },
   "overhang_totally_speed": {
    "type": "coFloats",
    "label": "100%",
@@ -2315,6 +3666,67 @@
    "category": "Quality",
    "mode": "advanced"
   },
+  "override_process_overhang_speed": {
+   "type": "coBools",
+   "label": "Override overhang speed",
+   "tooltip": "Override the overhang speed in process page",
+   "mode": "advanced"
+  },
+  "pad_around_object": {
+   "type": "coBool",
+   "label": " ",
+   "tooltip": " ",
+   "category": " ",
+   "mode": "simple"
+  },
+  "pad_enable": {
+   "type": "coBool",
+   "label": " ",
+   "tooltip": " ",
+   "category": " ",
+   "mode": "simple"
+  },
+  "periodic_modifier": {
+   "type": "coBool",
+   "label": "Periodic modifier",
+   "tooltip": "Apply this modifier on a repeating layer cycle. On skipped layers it is ignored, as if this modifier were not there.",
+   "category": "Others"
+  },
+  "periodic_modifier_apply_layers": {
+   "type": "coInt",
+   "label": "Apply for",
+   "full_label": "Periodic modifier apply layers",
+   "tooltip": "Number of consecutive layers in each cycle on which this modifier is fully applied. The cycle starts at layer 0: first Apply for, then Skip for.",
+   "sidetext": "layers",
+   "category": "Others",
+   "min": 1.0,
+   "max": 1000.0
+  },
+  "periodic_modifier_skip_layers": {
+   "type": "coInt",
+   "label": "Skip for",
+   "full_label": "Periodic modifier skip layers",
+   "tooltip": "Number of consecutive layers on which this modifier is not applied. 0 means the modifier is applied on every layer.",
+   "sidetext": "layers",
+   "category": "Others",
+   "min": 0.0,
+   "max": 1000.0
+  },
+  "post_process": {
+   "type": "coStrings",
+   "label": "Post-processing Scripts",
+   "tooltip": "If you want to process the output G-code through custom scripts, just list their absolute paths here. Separate multiple scripts with a semicolon. Scripts will be passed the absolute path to the G-code file as the first argument, and variables of settings also can be read",
+   "mode": "advanced"
+  },
+  "pre_start_fan_time": {
+   "type": "coFloats",
+   "label": "Pre start fan time",
+   "tooltip": "Force fan start early(0-5 second) when encountering overhangs. This is because the fan needs time to physically increase its speed.",
+   "sidetext": "s",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 5.0
+  },
   "precise_outer_wall": {
    "type": "coBool",
    "label": "Precise wall",
@@ -2327,6 +3739,13 @@
    "label": "Precise Z height",
    "tooltip": "Enable this to get precise z height of object after slicing. It will get the precise object height by fine-tuning the layer heights of the last few layers. Note that this is an experimental parameter.",
    "mode": "advanced"
+  },
+  "pressure_advance": {
+   "type": "coFloats",
+   "label": "Pressure advance",
+   "tooltip": "Pressure advance(Klipper) AKA Linear advance factor(Marlin). Useless for Bambu Printer",
+   "mode": "advanced",
+   "max": 2.0
   },
   "prime_tower_brim_width": {
    "type": "coFloat",
@@ -2407,6 +3826,23 @@
    "mode": "simple",
    "min": 2.0
   },
+  "prime_volume_mode": {
+   "type": "coEnum",
+   "choices": [
+    [
+     "Default",
+     "Default"
+    ],
+    [
+     "Saving",
+     "Saving"
+    ],
+    [
+     "Fast",
+     "Fast"
+    ]
+   ]
+  },
   "print_flow_ratio": {
    "type": "coFloat",
    "label": "Object flow ratio",
@@ -2431,6 +3867,50 @@
      "By object"
     ]
    ]
+  },
+  "printable_area": {
+   "type": "coPoints",
+   "label": "Printable area",
+   "mode": "advanced"
+  },
+  "printer_model": {
+   "type": "coString",
+   "label": "Printer type",
+   "tooltip": "Type of the printer"
+  },
+  "printer_structure": {
+   "type": "coEnum",
+   "label": "Printer structure",
+   "tooltip": "The physical arrangement and components of a printing device",
+   "mode": "develop",
+   "choices": [
+    [
+     "undefine",
+     "Undefine"
+    ],
+    [
+     "corexy",
+     "CoreXY"
+    ],
+    [
+     "i3",
+     "I3"
+    ],
+    [
+     "hbot",
+     "Hbot"
+    ],
+    [
+     "delta",
+     "Delta"
+    ]
+   ]
+  },
+  "process_notes": {
+   "type": "coString",
+   "label": "Process notes",
+   "tooltip": "You can put your notes regarding the process here.",
+   "mode": "advanced"
   },
   "raft_contact_distance": {
    "type": "coFloat",
@@ -2477,6 +3957,39 @@
    "category": "Quality",
    "mode": "advanced"
   },
+  "reduce_fan_stop_start_freq": {
+   "type": "coBools",
+   "label": "Keep fan always on",
+   "tooltip": "If enable this setting, part cooling fan will never be stopped and will run at least at minimum speed to reduce the frequency of starting and stopping"
+  },
+  "reduce_infill_retraction_mode": {
+   "type": "coEnum",
+   "label": "Reduce infill retraction",
+   "tooltip": "Controls whether retraction is skipped when traveling within the infill area. \"Auto\" enables this optimization for filaments with low metal stickiness (e.g. PLA) and disables it for medium/high metal stickiness filaments (e.g. PETG) to avoid oozing artifacts. \"Enabled\" always skips retraction in infill areas regardless of filament type. \"Disabled\" always retracts normally.",
+   "mode": "advanced",
+   "choices": [
+    [
+     "Disabled",
+     "Disabled"
+    ],
+    [
+     "Auto",
+     "Auto"
+    ],
+    [
+     "Enabled",
+     "Enabled"
+    ]
+   ]
+  },
+  "required_nozzle_HRC": {
+   "type": "coInts",
+   "label": "Required nozzle HRC",
+   "tooltip": "Minimum HRC of nozzle required to print the filament. Zero means no checking of nozzle's HRC.",
+   "mode": "develop",
+   "min": 0.0,
+   "max": 500.0
+  },
   "resolution": {
    "type": "coFloat",
    "label": "Resolution",
@@ -2484,6 +3997,14 @@
    "sidetext": "mm",
    "mode": "advanced",
    "min": 0.0
+  },
+  "retraction_distances_when_ec": {
+   "type": "coFloats",
+   "label": "Retraction distance when extruder change",
+   "sidetext": "mm",
+   "mode": "advanced",
+   "min": 0.0,
+   "max": 10.0
   },
   "role_base_wipe_speed": {
    "type": "coBool",
@@ -2620,6 +4141,10 @@
     ]
    ]
   },
+  "single_extruder_multi_material": {
+   "type": "coBool",
+   "mode": "develop"
+  },
   "skeleton_infill_density": {
    "type": "coPercent",
    "label": "Skeleton infill density",
@@ -2723,6 +4248,28 @@
      "Close holes"
     ]
    ]
+  },
+  "slow_down_for_layer_cooling": {
+   "type": "coBools",
+   "label": "Slow printing down for better layer cooling",
+   "tooltip": "Enable this option to slow printing speed down to make the final layer time not shorter than the layer time threshold in \"Max fan speed threshold\", so that layer can be cooled for a longer time. This can improve the cooling quality for needle and small details"
+  },
+  "slow_down_layer_time": {
+   "type": "coInts",
+   "label": "Layer time",
+   "tooltip": "The printing speed in exported gcode will be slowed down, when the estimated layer time is shorter than this value, to get better cooling for these layers",
+   "sidetext": "s",
+   "mode": "simple",
+   "min": 0.0,
+   "max": 1000.0
+  },
+  "slow_down_min_speed": {
+   "type": "coFloats",
+   "label": "Min print speed",
+   "tooltip": "The minimum printing speed when slow down for cooling",
+   "sidetext": "mm/s",
+   "mode": "advanced",
+   "min": 0.0
   },
   "slowdown_end_acc": {
    "type": "coFloats",
@@ -3105,6 +4652,30 @@
     ]
    ]
   },
+  "supertack_plate_temp": {
+   "type": "coInts",
+   "label": "Other layers",
+   "full_label": "Bed temperature",
+   "tooltip": "Bed temperature for layers except the initial one. Value 0 means the filament does not support to print on the Cool Plate",
+   "sidetext": "°C",
+   "min": 0.0,
+   "max": 120.0
+  },
+  "supertack_plate_temp_initial_layer": {
+   "type": "coInts",
+   "label": "Initial layer",
+   "full_label": "Initial layer bed temperature",
+   "tooltip": "Bed temperature of the initial layer. Value 0 means the filament does not support to print on the Bambu Cool Plate SuperTack",
+   "sidetext": "°C",
+   "min": 0.0,
+   "max": 120.0
+  },
+  "support_air_filtration": {
+   "type": "coBool",
+   "label": "Air filtration enhancement",
+   "tooltip": "Enable this if printer support air filtration enhancement.",
+   "mode": "advanced"
+  },
   "support_angle": {
    "type": "coFloat",
    "label": "Pattern angle",
@@ -3174,6 +4745,19 @@
    "category": "Support",
    "mode": "advanced"
   },
+  "support_buildplate_only": {
+   "type": "coBool",
+   "label": " ",
+   "tooltip": " ",
+   "category": " ",
+   "mode": "simple"
+  },
+  "support_chamber_temp_control": {
+   "type": "coBool",
+   "label": "Support control chamber temperature",
+   "tooltip": "This option is enabled if machine support controlling chamber temperature",
+   "mode": "develop"
+  },
   "support_critical_regions_only": {
    "type": "coBool",
    "label": "Support critical regions only",
@@ -3188,6 +4772,12 @@
    "sidetext": "mm",
    "category": "Support",
    "mode": "advanced"
+  },
+  "support_fast_purge_mode": {
+   "type": "coBool",
+   "label": "Support fast purge mode",
+   "tooltip": "Whether this printer supports fast purge mode with optimized temperature and multiplier.",
+   "mode": "develop"
   },
   "support_filament": {
    "type": "coInt",
@@ -3498,12 +5088,43 @@
     ]
    ]
   },
+  "supports_enable": {
+   "type": "coBool",
+   "label": " ",
+   "tooltip": " ",
+   "category": " ",
+   "mode": "simple"
+  },
   "symmetric_infill_y_axis": {
    "type": "coBool",
    "label": "Symmetric infill y axis",
    "tooltip": "If the model has two parts that are symmetric about the y-axis, and you want these parts to have symmetric textures, please click this option on one of the parts.",
    "category": "Strength",
    "mode": "advanced"
+  },
+  "temperature_vitrification": {
+   "type": "coInts",
+   "label": "Softening temperature",
+   "tooltip": "The material softens at this temperature, so when the bed temperature is equal to or greater than it, it's highly recommended to open the front door and/or remove the upper glass to avoid cloggings.",
+   "mode": "simple"
+  },
+  "textured_plate_temp": {
+   "type": "coInts",
+   "label": "Other layers",
+   "full_label": "Bed temperature",
+   "tooltip": "Bed temperature for layers except the initial one. Value 0 means the filament does not support to print on the Textured PEI Plate",
+   "sidetext": "°C",
+   "min": 0.0,
+   "max": 120.0
+  },
+  "textured_plate_temp_initial_layer": {
+   "type": "coInts",
+   "label": "Initial layer",
+   "full_label": "Initial layer bed temperature",
+   "tooltip": "Bed temperature of the initial layer. Value 0 means the filament does not support to print on the Textured PEI Plate",
+   "sidetext": "°C",
+   "min": 0.0,
+   "max": 120.0
   },
   "thick_bridges": {
    "type": "coBool",
@@ -3774,6 +5395,10 @@
    "category": "Speed",
    "mode": "advanced",
    "min": 0.0
+  },
+  "volumetric_speed_coefficients": {
+   "type": "coStrings",
+   "label": "Max volumetric speed multinomial coefficients"
   },
   "wall_distribution_count": {
    "type": "coInt",

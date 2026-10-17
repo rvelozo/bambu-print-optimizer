@@ -25,8 +25,13 @@ class StubPresets:
     def group(self, key):
         return "process" if key in self.process else ("filament" if key.startswith("filament_") else None)
 
+    filaments = [{"filament_max_volumetric_speed": "16"}, {"filament_max_volumetric_speed": "12"}]
+
     def process_default(self, key):
         return self.process.get(key)
+
+    def filament_default(self, slot, key):
+        return self.filaments[slot].get(key) if slot < len(self.filaments) else None
 
 
 class ProjectTest(unittest.TestCase):
@@ -103,8 +108,12 @@ class ProjectTest(unittest.TestCase):
         changed = Project(self._write(self.pr.build([Change("top_shell_layers", "3")])), presets=StubPresets())
         back = json.loads(entries(changed.build([Change("top_shell_layers", "5")]))[PROJECT_SETTINGS][3])
         self.assertEqual(back["different_settings_to_system"][0], "enable_arc_fitting")
-        self.pr.build([Change("filament_max_volumetric_speed", "20")])
-        self.assertEqual(len(self.pr.notes), 1)
+        # filament settings: one record per filament slot, each against its own system preset
+        raised = json.loads(entries(self.pr.build([Change("filament_max_volumetric_speed", "20")]))[PROJECT_SETTINGS][3])
+        self.assertEqual(raised["different_settings_to_system"][1:3], ["filament_max_volumetric_speed"] * 2)
+        self.assertEqual(self.pr.notes, [])
+        one = json.loads(entries(self.pr.build([Change("filament_max_volumetric_speed", ("16", "20"))]))[PROJECT_SETTINGS][3])
+        self.assertEqual(one["different_settings_to_system"][1:3], ["", "filament_max_volumetric_speed"])
         self.assertTrue(self.pr.is_system_default("top_shell_layers", "5"))
         self.assertFalse(self.pr.is_system_default("top_shell_layers", "3"))
         self.assertIsNone(self.pr.is_system_default("filament_max_volumetric_speed", "16"))

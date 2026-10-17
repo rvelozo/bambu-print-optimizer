@@ -15,9 +15,10 @@ how a print looks. None of them is a measurement of a printed part:
 Slopes and overhangs come from comparing each layer's outer walls with the
 layer below. The offset d between them gives the slope (tan from vertical =
 d / layer step). The part of the wall's width beyond the lower wall, on the
-side away from the part's own material, is the overhang. tests/test_quality.py
-checks both on test shapes: against the analytic step height, and against the
-overhang speeds Bambu Studio itself chose.
+side away from the part's own material, is the overhang, as a share of the
+line's spacing (width - height x (1 - pi/4), how Bambu sizes an extrusion).
+tests/test_quality.py checks both on test shapes: against the analytic step
+height, and against the overhang speeds Bambu Studio itself chose.
 
 Layer thickness comes from gcode.Analysis.layer_heights(), which leaves out the
 bridge lines' own height tag (0.4 mm for a thick bridge in a 0.2 mm layer).
@@ -27,7 +28,7 @@ from __future__ import annotations
 
 import math
 
-VERSION = 3
+VERSION = 4
 CELL = 1.0             # mm, grid cell for finding toolpaths near a point
 SAMPLE = 2.0           # mm between sample points along a wall
 REACH = 3.0            # mm: an outer wall farther than this from the layer below's walls is unmatched
@@ -279,7 +280,7 @@ def measure(a, trace=None) -> dict:
                     # overhang: how much of the width is past the layer below
                     if f in ovh_f:
                         hung = 1.0
-                    elif d is not None and d < OVERHANG * w:
+                    elif d is not None and d < OVERHANG * (w - h * (1 - math.pi / 4)):
                         hung = 0.0
                     else:
                         if not side_done:
@@ -290,7 +291,8 @@ def measure(a, trace=None) -> dict:
                             right = others(L).within(mx - lx * w, my - ly * w, 0.8 * w)
                             out = (-lx, -ly) if left and not right else (lx, ly) if right and not left else None
                         if d is not None and out is not None:
-                            hung = ((px - hit[1]) * out[0] + (py - hit[2]) * out[1]) / w
+                            # as a share of the line's spacing, as Bambu sizes extrusions (Flow::spacing)
+                            hung = ((px - hit[1]) * out[0] + (py - hit[2]) * out[1]) / (w - h * (1 - math.pi / 4))
                         else:
                             # no wall below nearby, or a thin feature with nothing beside it on this
                             # layer: the share of the line's width with nothing printed under it

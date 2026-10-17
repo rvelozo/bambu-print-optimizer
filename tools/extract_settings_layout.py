@@ -2,11 +2,13 @@
 
 Reads two files from the Bambu Studio source at the version the app slices with:
 
-    src/slic3r/GUI/Tab.cpp          TabPrint::build(): pages, sections, settings in order
+    src/slic3r/GUI/Tab.cpp          TabPrint::build() and TabFilament::build(): pages,
+                                    sections, settings in order
     src/libslic3r/PrintConfig.cpp   each setting's label, unit, tooltip, type, choices
 
 and writes slicer_optimizer/settings_layout.json. Every line of the Process tab
-is included, as Bambu Studio shows them with Develop mode on.
+is included, as Bambu Studio shows them with Develop mode on, and the Filament
+tab's lines, to name filament settings.
 
     python3 tools/extract_settings_layout.py Tab.cpp PrintConfig.cpp VERSION > slicer_optimizer/settings_layout.json
 
@@ -46,18 +48,39 @@ def _strip_comments(code: str) -> str:
     return "\n".join(out)
 
 
-def layout(tab_cpp: str) -> list[dict]:
-    """Pages, sections and setting keys of TabPrint::build(), in order."""
-    start = tab_cpp.index("void TabPrint::build()")
-    end = tab_cpp.index("\nvoid TabPrint::", start + 10)
+def layout(tab_cpp: str, tab: str = "TabPrint") -> list[dict]:
+    """Pages, sections and setting keys of a tab's build(), in order."""
+    start = tab_cpp.index(f"void {tab}::build()")
+    end = tab_cpp.index(f"\nvoid {tab}::", start + 10)
     code = _strip_comments(tab_cpp[start:end])
     pages: list[dict] = []
     line_label = None
     token = re.compile(rf'add_options_page\(\s*({TEXT})|new_optgroup\(\s*({TEXT})|'
-                       rf'append_single_option_line\(\s*"([\w]+)"|Line\s+line\s*=\s*\{{\s*({TEXT})|'
-                       rf'line\.append_option\(\s*optgroup->get_option\(\s*"([\w]+)"')
+                       rf'append_single_option_line\(\s*"([\w]+)"|(?:Line\s+)?\bline\s*=\s*\{{\s*({TEXT})|'
+                       rf'line\.append_option\(\s*optgroup->get_option\(\s*"([\w]+)"|'
+                       rf'Option\s+option\s*=\s*optgroup->get_option\(\s*"([\w]+)"|'
+                       rf'auto\s+(\w+)\s*=\s*optgroup->get_option\(\s*"([\w]+)"|'
+                       rf'line\.append_option\(\s*(\w+)\s*\)|'
+                       rf'append_single_option_line\(\s*option\s*[,)]')
+    option_key = None  # Option option = optgroup->get_option("filament_type"); ... append_single_option_line(option)
+    named: dict[str, str] = {}  # auto opt_speed = optgroup->get_option("..."); ... line.append_option(opt_speed)
     for m in token.finditer(code):
-        page, group, single, line, in_line = m.groups()
+        page, group, single, line, in_line, opt_var, var, var_key, var_used = m.groups()
+        if opt_var:
+            option_key = opt_var
+            continue
+        if var:
+            named[var] = var_key
+            continue
+        if var_used:
+            if var_used in named:
+                pages[-1]["groups"][-1]["options"].append({"key": named[var_used], "line": line_label})
+            continue
+        if not any(m.groups()):  # append_single_option_line(option)
+            if option_key and pages and pages[-1]["groups"]:
+                pages[-1]["groups"][-1]["options"].append({"key": option_key})
+            option_key = None
+            continue
         if page:
             pages.append({"title": _text(page), "groups": []})
         elif group:
@@ -70,7 +93,7 @@ def layout(tab_cpp: str) -> list[dict]:
             pages[-1]["groups"][-1]["options"].append({"key": in_line, "line": line_label})
     for p in pages:
         p["groups"] = [g for g in p["groups"] if g["title"] not in SKIP_GROUPS and g["options"]]
-    return pages
+    return [p for p in pages if p["groups"]]
 
 
 def definitions(config_cpp: str) -> dict[str, dict]:
@@ -113,18 +136,26 @@ def definitions(config_cpp: str) -> dict[str, dict]:
 
 
 def main(tab_path: str, config_path: str, version: str) -> None:
-    pages = layout(open(tab_path, encoding="utf-8").read())
+    tab_cpp = open(tab_path, encoding="utf-8").read()
+    pages = layout(tab_cpp)
+    filament_pages = layout(tab_cpp, "TabFilament")
     defs = definitions(open(config_path, encoding="utf-8").read())
-    used = {o["key"] for p in pages for g in p["groups"] for o in g["options"]}
+    keys = lambda ps: {o["key"] for p in ps for g in p["groups"] for o in g["options"]}
+    # filament settings the tab builds outside the page code (the auxiliary fan, the overrides page): named only
+    region = tab_cpp[tab_cpp.index("void TabFilament::"):tab_cpp.index("void TabPrinter::build()")]
+    named = {k for k in re.findall(r'"(\w+)"', _strip_comments(region)) if k in defs}
+    used = keys(pages) | keys(filament_pages) | named
     missing = sorted(k for k in used if k not in defs)
-    json.dump({"bambu_studio": version, "source": "BambuStudio src/slic3r/GUI/Tab.cpp (TabPrint::build) and "
-               "src/libslic3r/PrintConfig.cpp", "pages": pages,
+    json.dump({"bambu_studio": version, "source": "BambuStudio src/slic3r/GUI/Tab.cpp (TabPrint::build, "
+               "TabFilament::build) and src/libslic3r/PrintConfig.cpp", "pages": pages,
+               "filament_pages": filament_pages,
                "settings": {k: defs[k] for k in sorted(used) if k in defs}, "undefined": missing},
               sys.stdout, indent=1, ensure_ascii=False)
     sys.stdout.write("\n")
-    n = len(used)
-    print(f"{len(pages)} pages, {sum(len(p['groups']) for p in pages)} sections, {n} settings, "
-          f"{len(missing)} without a definition", file=sys.stderr)
+    for name, ps in (("Process", pages), ("Filament", filament_pages)):
+        print(f"{name}: {len(ps)} pages, {sum(len(p['groups']) for p in ps)} sections, {len(keys(ps))} settings",
+              file=sys.stderr)
+    print(f"{len(missing)} without a definition", file=sys.stderr)
 
 
 if __name__ == "__main__":

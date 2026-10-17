@@ -20,6 +20,15 @@ Not affiliated with Bambu Lab.
 
 ## What you can do
 
+- **See what a file is tuned for.** Open any Bambu Studio project, for
+  example one downloaded from MakerWorld, and the Overview tab slices it twice:
+  as it is, and with its tuning put back to Bambu's default process for that
+  printer. It tells you what the file is tuned for ("Tuned for speed: 38%
+  faster than 0.20mm Standard @BBL P2S, quality 69% of the default's"), lists
+  every setting it changes from the default (print-wide, per object, in
+  modifier parts, and in the filament), and can measure what each of those
+  settings does on its own. Supports, brim, prime tower and other settings
+  that say how the model has to be printed stay as the file has them.
 - **Optimize** a plate for what matters to you: print time, weight, strength
   (a proxy for flat parts), quality (a proxy from the toolpaths, below),
   filament cost, or headroom below the filament's flow limit. Set how much
@@ -154,6 +163,12 @@ Windows. `SLICER_OPT_DATA`, `SLICER_OPT_CACHE` and `SLICER_OPT_LOG` move them.
   more variants to tell why: another setting blocking it (a minimum shell
   thickness overriding the shell count, for example), Bambu Studio ignoring it
   per object, or no effect on that plate at all.
+- **The default for a printer** is the process preset Bambu Studio picks for
+  it (`default_print_profile` in its printer preset). A file's changes come
+  from Bambu Studio's own record in the project (`different_settings_to_system`),
+  plus per-object and per-part overrides; presets are read from the Bambu
+  Studio app, each inheriting within its vendor's folder, and settings no
+  preset names take Bambu's built-in defaults.
 - **Previews and time per layer** come from the G-code, through a port of Bambu
   Studio's own time estimator. It matches the slicer's totals to within 0.004 %,
   per feature to 0.03 %, on single- and multi-color plates.

@@ -17,6 +17,7 @@ from slicer_optimizer import bambu
 from slicer_optimizer.project3mf import MODEL_SETTINGS, Project
 from slicer_optimizer.rules import Rules, check_settings
 from slicer_optimizer.trial import plan_changes, run_trial, save_variant
+from . import MEASURED_WITH, measured_with_this_bambu
 
 # The reference project (see CLAUDE.md); set these to run the checks, they skip otherwise.
 V6_DIR = Path(os.environ.get("SLICER_OPT_V6_DIR", "/nonexistent"))
@@ -33,6 +34,7 @@ def errors(project):
 
 @unittest.skipUnless(HAVE_CLI and V6.exists(), "needs Bambu Studio and the v6 project")
 class V6Acceptance(unittest.TestCase):
+    @unittest.skipUnless(measured_with_this_bambu(), f"times measured with Bambu Studio {MEASURED_WITH}")
     def test_lid_baseline(self):
         r = bambu.slice_file(V6, 2)
         self.assertAlmostEqual(r.total_s, 8422, delta=1)
@@ -101,6 +103,7 @@ class V7Acceptance(unittest.TestCase):
         self.assertAlmostEqual(t.unblocked.total_s - t.base.total_s, -1179, delta=1)
         self.assertAlmostEqual(t.unblocked.grams - t.base.grams, -25.30, delta=0.01)
 
+    @unittest.skipUnless(measured_with_this_bambu(), f"times measured with Bambu Studio {MEASURED_WITH}")
     def test_lid_and_rails_baseline(self):
         lid = bambu.slice_file(V7, 1)
         self.assertAlmostEqual(lid.total_s, 8671, delta=1)

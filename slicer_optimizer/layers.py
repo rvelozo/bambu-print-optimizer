@@ -22,7 +22,7 @@ from pathlib import Path
 
 from . import gcode, quality
 
-VERSION = 9
+VERSION = 10
 MERGE_WIDTH_MM = 0.02
 MERGE_SPEED_REL = 0.05
 EXT_FIELDS = ["x0", "y0", "x1", "y1", "width", "height", "speed", "flow", "time", "feature"]

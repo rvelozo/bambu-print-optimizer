@@ -6,9 +6,10 @@ and exports a .3mf with Bambu Studio's command line:
 
     python3 tools/make_demo_project.py OUT_FOLDER
 
-The filament preset is resolved through its `inherits` chain first: the CLI
-loads a system filament file without its parents, which leaves the density and
-cost at 0 (so the weight would read 0 g).
+Each preset is resolved through its `inherits` chain first: the CLI loads a
+preset file without its parents, which leaves the rest at Bambu's built-in
+defaults (a filament with no density reads 0 g; the process gets 0.4 mm lines
+and 4 top shells instead of 0.20mm Standard's 0.42 mm and 5).
 """
 
 from __future__ import annotations
@@ -29,15 +30,14 @@ FILAMENT = "Bambu PLA Basic @BBL P2S"
 def main(out_dir: str) -> None:
     out = Path(out_dir).resolve()
     out.mkdir(parents=True, exist_ok=True)
-    profiles = paths.studio_profiles() / "BBL"
     model = paths.studio_app() / "Contents" / "Resources" / "model" / "3DBenchy.stl"
-    filament = {k: v for k, v in presets.resolve("filament", FILAMENT).items() if k != "inherits"}
-    filament.update(name=FILAMENT, type="filament", **{"from": "system", "instantiation": "true"})
-    fil_path = out / "filament-resolved.json"
-    fil_path.write_text(json.dumps(filament, indent=1))
+    files = {}
+    for kind, name in (("machine", MACHINE), ("process", PROCESS), ("filament", FILAMENT)):
+        files[kind] = out / f"{kind}-resolved.json"
+        files[kind].write_text(json.dumps(presets.standalone(kind, name), indent=1))
     cmd = [str(bambu.cli_path()), "--outputdir", str(out),
-           "--load-settings", f"{profiles / 'machine' / (MACHINE + '.json')};{profiles / 'process' / (PROCESS + '.json')}",
-           "--load-filaments", str(fil_path), "--arrange", "1", "--export-3mf", "3DBenchy.3mf", str(model)]
+           "--load-settings", f"{files['machine']};{files['process']}",
+           "--load-filaments", str(files["filament"]), "--arrange", "1", "--export-3mf", "3DBenchy.3mf", str(model)]
     subprocess.run(cmd, cwd=out, check=True, capture_output=True)  # the CLI writes result.json into its folder
     result = out / "3DBenchy.3mf"
     if not result.exists():

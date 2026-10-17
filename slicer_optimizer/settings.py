@@ -30,15 +30,17 @@ def definition(key: str) -> dict | None:
     return layout()["settings"].get(key)
 
 
-@lru_cache(maxsize=1)
-def _names() -> dict[str, str]:
+@lru_cache(maxsize=2)
+def _names(pages: str = "pages") -> dict[str, str]:
     """Bambu's label, plus the section when the label alone repeats ("Outer wall" is in four)."""
     base, section = {}, {}
-    for page in layout()["pages"]:
+    for page in layout().get(pages, []):
         for group in page["groups"]:
             for opt in group["options"]:
                 label = (definition(opt["key"]) or {}).get("label") or opt["key"]
-                base[opt["key"]] = f"{opt['line']} {label}" if opt.get("line") else label
+                if opt.get("line"):  # "Overhang speed 10%"; filament lines read "Linear ramp up (Fan speed)"
+                    label = f"{opt['line']} ({label})" if pages == "filament_pages" else f"{opt['line']} {label}"
+                base[opt["key"]] = label
                 section[opt["key"]] = group["title"]
     count: dict[str, int] = {}
     for name in base.values():
@@ -46,11 +48,34 @@ def _names() -> dict[str, str]:
     return {k: (f"{n} ({section[k]})" if count[n] > 1 else n) for k, n in base.items()}
 
 
+@lru_cache(maxsize=1)
+def _places() -> dict[str, tuple[str, str, str]]:
+    """Where each setting sits in Bambu Studio: (tab, page, section)."""
+    out = {}
+    for tab, pages in (("Filament", layout().get("filament_pages", [])), ("Process", layout()["pages"])):
+        for page in pages:
+            for group in page["groups"]:
+                for opt in group["options"]:
+                    out[opt["key"]] = (tab, page["title"], group["title"])
+    return out
+
+
+def place(key: str) -> tuple[str, str, str] | None:
+    """("Process", "Speed", "Other layers speed") for outer_wall_speed; None if Bambu doesn't show it."""
+    return _places().get(key)
+
+
 def display_name(key: str) -> str:
     """The setting's name outside the picker: "Overhang speed 50%", "Outer wall (Line width)"."""
     if key in _names():
         return _names()[key]
-    return search.KNOBS.get(key, {}).get("label") or key  # not in the Process tab (filament settings)
+    if key in search.KNOBS:
+        return search.KNOBS[key].get("label") or key
+    if key in _names("filament_pages"):
+        return _names("filament_pages")[key]
+    # filament settings outside the tab's pages; per-filament overrides of process settings
+    d = definition(key) or (definition(key[len("filament_"):]) if key.startswith("filament_") else None) or {}
+    return d.get("full_label") or d.get("label") or key
 
 
 def value_text(key: str, value: str | None) -> str:

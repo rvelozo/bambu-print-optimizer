@@ -114,7 +114,6 @@ function start(app) {
   $("opt-maxgrams").oninput = (e) => { ui.limits.max_grams = e.target.value; onPriorities(app); };
   $("opt-form").addEventListener("submit", (e) => { e.preventDefault(); create(app); });
   setInterval(() => { if (app.state.tab === "optimize") refresh(app); }, 2000);
-  app.switchTab("optimize");
 }
 
 async function render(app) {

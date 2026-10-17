@@ -72,11 +72,16 @@ class Change:
     """Set (or with value None, remove) one setting.
 
     object_id None means print-wide; removing a print-wide key is not allowed.
+    A print-wide value may be a list, written as is (one entry per filament slot
+    and extruder variant, for example); a single value fills every entry.
+    With part_id, the change removes an override from that part of the object
+    (setting part overrides isn't supported).
     """
 
     key: str
-    value: str | None
+    value: str | tuple | None
     object_id: str | None = None
+    part_id: str | None = None
 
 
 class Project:
@@ -234,6 +239,11 @@ class Project:
                 if cfg is None:
                     cfg = copy.deepcopy(self.print_settings)
                 _set_print_wide(cfg, ch.key, ch.value, self.presets, self.notes)
+            elif ch.part_id is not None:
+                if ch.value is not None:
+                    raise ProjectError(f"part overrides can only be removed ({ch.key} on part {ch.part_id})")
+                self.object(ch.object_id)
+                xml = _remove_part_setting(xml, ch.object_id, ch.part_id, ch.key)
             else:
                 self.object(ch.object_id)  # raises for an unknown id
                 xml = _set_object_setting(xml, ch.object_id, ch.key, ch.value)
@@ -303,28 +313,67 @@ def _as_list(v) -> list[str]:
     return [str(x) for x in v] if isinstance(v, list) else [str(v)]
 
 
-def _set_print_wide(cfg: dict, key: str, value: str, presets, notes: list[str]) -> None:
+def _set_print_wide(cfg: dict, key: str, value, presets, notes: list[str]) -> None:
     if key not in cfg:
         raise ProjectError(f"unknown setting {key!r}")
     old = cfg[key]
-    new = [value] * len(old) if isinstance(old, list) else value
+    if isinstance(value, (list, tuple)):
+        if not isinstance(old, list) or len(value) != len(old):
+            raise ProjectError(f"{key}: {len(value)} values for a setting with {len(old) if isinstance(old, list) else 1}")
+        new = [str(v) for v in value]
+    else:
+        new = [value] * len(old) if isinstance(old, list) else value
     cfg[key] = new
     # Keep Bambu Studio's own record of which process settings differ from the system preset.
     diff = cfg.get("different_settings_to_system")
     if not isinstance(diff, list) or not diff or old == new:
         return
     group = presets.group(key) if presets is not None else None
-    if group == "process":
-        keys = [k for k in diff[0].split(";") if k]
-        differs = _as_list(new) != _as_list(presets.process_default(key))
+
+    def record(i: int, differs: bool) -> None:
+        keys = [k for k in diff[i].split(";") if k]
         if differs and key not in keys:
             keys.append(key)
         elif not differs and key in keys:
             keys.remove(key)
-        diff[0] = ";".join(sorted(keys))
+        diff[i] = ";".join(sorted(keys))
+
+    names = cfg.get("filament_settings_id") or []
+    if group == "process":
+        record(0, not _same_values(new, presets.process_default(key), key))
+    elif group == "filament" and isinstance(new, list) and names and len(diff) == len(names) + 2:
+        # one entry per filament slot (times extruder variants), each against its own system preset
+        per = len(new) // len(names) if len(new) % len(names) == 0 else 0
+        for slot in range(len(names) if per else 0):
+            system = presets.filament_default(slot, key)
+            if system is not None:
+                record(slot + 1, not _same_values(new[slot * per:(slot + 1) * per], system, key))
     else:
         notes.append(f"{key} is a {group or 'non-system'} setting; Bambu Studio's list of changed "
                      "settings was left as is. Check that it shows as changed when you open the file.")
+
+
+def _same_values(a, b, key: str) -> bool:
+    """Equal as Bambu means it: every entry the same, numbers as numbers, and a percentage the
+    same whether written "100%" or "100" (presets write the latter)."""
+    from .settings import definition  # settings imports this module
+    a, b = _as_list(a), _as_list(b) if b is not None else []
+    if len(b) == 1 and len(a) > 1:
+        b = b * len(a)
+    if len(a) != len(b):
+        return False
+    percent = (definition(key) or {}).get("type") in ("coPercent", "coPercents")
+    for x, y in zip(a, b):
+        x, y = x.strip(), y.strip()
+        if x == y:
+            continue
+        try:
+            if (percent or x.endswith("%") == y.endswith("%")) and float(x.rstrip("%")) == float(y.rstrip("%")):
+                continue
+        except ValueError:
+            pass
+        return False
+    return True
 
 
 _OBJECT_RE = r'(<object id="{id}">)(.*?)(</object>)'
@@ -375,3 +424,25 @@ def _set_object_setting(xml: str, object_id: str, key: str, value: str | None) -
                 head = head[:at] + ("\n" if multiline else "") + indent + elem + head[at:]
     new_body = head + sep + tail
     return xml[: m.start(2)] + new_body + xml[m.end(2):]
+
+
+def _remove_part_setting(xml: str, object_id: str, part_id: str, key: str) -> str:
+    """Remove one override from a part (a modifier, or one volume of the object)."""
+    if key in DESCRIPTIVE_KEYS:
+        raise ProjectError(f"{key!r} is part metadata, not a setting")
+    m = re.search(_OBJECT_RE.format(id=re.escape(object_id)), xml, flags=re.S)
+    if not m:
+        raise ProjectError(f"object {object_id} not found in {MODEL_SETTINGS}")
+    body = m.group(2)
+    p = re.search(r'<part id="{}"[^>]*>(.*?)</part>'.format(re.escape(part_id)), body, flags=re.S)
+    if not p:
+        raise ProjectError(f"object {object_id} has no part {part_id}")
+    inner = p.group(1)
+    multiline = "\n" in inner
+    for e in reversed([e for e in _META_ELEM.finditer(inner) if e.group(2) == key]):
+        a, b = e.span()
+        if multiline and inner[b:b + 1] == "\n":
+            b += 1
+        inner = inner[:a] + inner[b:]
+    body = body[:p.start(1)] + inner + body[p.end(1):]
+    return xml[: m.start(2)] + body + xml[m.end(2):]

@@ -14,7 +14,7 @@ import math
 import subprocess
 from pathlib import Path
 
-from slicer_optimizer import bambu, paths, presets
+from slicer_optimizer import bambu, presets
 
 MACHINE = "Bambu Lab P2S 0.4 nozzle"
 PROCESS = "0.20mm Standard @BBL P2S"
@@ -74,13 +74,11 @@ def project(name: str, tris, folder: Path) -> Path:
     folder = folder.resolve()
     stl = folder / f"{name}.stl"
     write_stl(stl, tris)
-    fil = {k: v for k, v in presets.resolve("filament", FILAMENT).items() if k != "inherits"}
-    fil.update(name=FILAMENT, type="filament", **{"from": "system", "instantiation": "true"})
-    fil_path = folder / "filament.json"
-    fil_path.write_text(json.dumps(fil))
-    profiles = paths.studio_profiles() / "BBL"
-    cmd = [str(bambu.cli_path()), "--outputdir", str(folder), "--load-settings",
-           f"{profiles / 'machine' / (MACHINE + '.json')};{profiles / 'process' / (PROCESS + '.json')}",
-           "--load-filaments", str(fil_path), "--arrange", "1", "--export-3mf", f"{name}.3mf", str(stl)]
+    files = {}
+    for kind, preset in (("machine", MACHINE), ("process", PROCESS), ("filament", FILAMENT)):
+        files[kind] = folder / f"{kind}.json"
+        files[kind].write_text(json.dumps(presets.standalone(kind, preset)))  # the CLI doesn't follow inherits
+    cmd = [str(bambu.cli_path()), "--outputdir", str(folder), "--load-settings", f"{files['machine']};{files['process']}",
+           "--load-filaments", str(files["filament"]), "--arrange", "1", "--export-3mf", f"{name}.3mf", str(stl)]
     subprocess.run(cmd, cwd=folder, check=True, capture_output=True)
     return folder / f"{name}.3mf"
